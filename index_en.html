@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simone | Handcrafted Candles & Custom Decorations</title>
+  <meta name="description" content="Premium catalog of soy wax candles, sachets, wax melts, and personalized favors for weddings, baptisms, and corporate events.">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- SEO Local / Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "Simone",
+    "image": "images/hero.png",
+    "description": "Handcrafted soy candles, decorations, and custom event favors.",
+    "telephone": "+573112547250",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle 6a No 88d 60",
+      "addressLocality": "Bogotá",
+      "addressCountry": "CO"
+    }
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- Floating CTAs -->
+  <div class="floating-ctas">
+    <a href="https://wa.me/573112547250?text=Hello,%20I%20would%20like%20information%20about%20Simone's%20candles%20and%20favors." class="floating-btn wa-primary" id="sticky-whatsapp" target="_blank" aria-label="Write on WhatsApp">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Header & Glassmorphic Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <img src="images/logo_simone_new.jpg" alt="Simone Logo" class="logo-img">
+      </a>
+      
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#catalogo" class="nav-link">Catalog</a></li>
+        <li><a href="#eventos" class="nav-link">Favors & Events</a></li>
+        <li><a href="#galeria" class="nav-link">Inspiration</a></li>
+        <li><a href="#cuidados" class="nav-link">Candle Care</a></li>
+        <li><a href="#contacto" class="nav-link">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Change Theme">🌙</button>
+        <a href="index.html" class="lang-toggle">ES</a>
+        <button class="cart-icon-btn" id="cart-toggle-btn" aria-label="View Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge" id="cart-badge-count">0</span>
+        </button>
+        <button class="menu-toggle" id="menu-toggle-btn" aria-label="Mobile Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Carousel Section -->
+  <section class="hero-carousel" id="home">
+    <div class="carousel-track" id="carousel-track">
+      <!-- Slide 1 -->
+      <div class="carousel-slide active" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/hero.png');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Handcrafted with love 🌿</span>
+          <h2>Light that decorates, <span>scents that embrace.</span></h2>
+          <p>Handcrafted soy wax candles, fragranced with botanical oils to transform your daily corners.</p>
+          <a href="#catalogo" class="btn btn-primary">Explore Catalog</a>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_events.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Unique & memorable details ✨</span>
+          <h2>Favors for <span>Special Occasions</span></h2>
+          <p>Customize the tag, packaging, and scent for your wedding, baptism, or corporate event guests.</p>
+          <a href="#eventos" class="btn btn-primary">Get Favors Quote</a>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_pets.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Your best friend molded in wax 🐾</span>
+          <h2>Customized <span>Pet Candles</span></h2>
+          <p>We mold by hand your dog or cat figure from your favorite photo. A warm and exclusive detail.</p>
+          <a href="#catalogo" class="btn btn-primary">Customize Candle</a>
+        </div>
+      </div>
+      <!-- Slide 4 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_aromas.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Scents that embrace the home 🕯️</span>
+          <h2>Aromatherapy & <span>Wax Melts</span></h2>
+          <p>Ceramic burners and scented wax melts to fill your favorite spaces with fragrance and calm.</p>
+          <a href="#catalogo" class="btn btn-primary">Explore Scents</a>
+        </div>
+      </div>
+      <!-- Slide 5 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_sachets.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Scented air without fire or heat 🌸</span>
+          <h2>Botanical <span>Wax Sachets</span></h2>
+          <p>Decorative soy wax tablets decorated with rose petals and citrus slices, ideal to scent wardrobes and drawers.</p>
+          <a href="#catalogo" class="btn btn-primary">View Sachets</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation Buttons -->
+    <button class="carousel-nav-btn prev" id="carousel-prev-btn" aria-label="Previous">&lt;</button>
+    <button class="carousel-nav-btn next" id="carousel-next-btn" aria-label="Next">&gt;</button>
+    
+    <!-- Slide Indicators (Dots) -->
+    <div class="carousel-dots" id="carousel-dots">
+      <span class="dot active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+      <span class="dot" data-slide="2"></span>
+      <span class="dot" data-slide="3"></span>
+      <span class="dot" data-slide="4"></span>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🌿</div>
+          <div>
+            <h3>Eco-Friendly Materials</h3>
+            <p>We use biodegradable vegetable waxes and phthalate-free botanical fragrances.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✨</div>
+          <div>
+            <h3>Custom Detailing</h3>
+            <p>Each piece is molded by hand, from floral bouquets to pet figures.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💝</div>
+          <div>
+            <h3>Perfect for Events</h3>
+            <p>Delicate packaging and custom tags to gift on your special occasions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog Section -->
+  <section class="section-padding" id="catalogo">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Our Portfolio</h2>
+        <p>Explore our creations designed with attention to the smallest detail.</p>
+        <div style="display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 16px;">
+          <button class="btn btn-outline btn-sm" id="download-pdf-btn" style="gap: 8px; display: inline-flex; align-items: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download Catalog (PDF)
+          </button>
+        </div>
+      </div>
+      
+      <!-- Filter Menu -->
+      <div class="filter-menu">
+        <button class="filter-btn active" data-category="all">See All</button>
+        <button class="filter-btn" data-category="decorativa">Decor Line</button>
+        <button class="filter-btn" data-category="aromatica">Scent Line</button>
+        <button class="filter-btn" data-category="ambiental">Flame-Free Air Scent</button>
+      </div>
+      
+      <!-- Products Grid -->
+      <div class="products-grid" id="products-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Recordatorios e Eventos Especiales Section -->
+  <section class="section-padding events-section" id="eventos">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Favors & Special Events 🌟</h2>
+        <p>Create unforgettable details for your guests. Quote and customize your bulk gifts with volume discounts and exclusive packaging.</p>
+      </div>
+      
+      <div class="events-grid">
+        <!-- Left Side: Interactive Calculator -->
+        <div class="calculator-card">
+          <h3 class="calculator-title">Favors Quote Calculator</h3>
+          <form class="calculator-form" id="event-quote-form">
+            
+            <div class="calc-row">
+              <div class="calc-field">
+                <label for="event-type">Event Type *</label>
+                <select class="calc-select" id="event-type" required>
+                  <!-- Populate dynamically -->
+                </select>
+              </div>
+              
+              <div class="calc-field">
+                <label for="event-qty">Quantity of Candles *</label>
+                <input type="number" class="calc-input" id="event-qty" value="30" min="20" max="500" required>
+              </div>
+            </div>
+            
+            <div class="calc-row">
+              <div class="calc-field">
+                <label for="event-aroma">Candle Scent *</label>
+                <select class="calc-select" id="event-aroma" required>
+                  <!-- Populate dynamically -->
+                </select>
+              </div>
+              
+              <div class="calc-field">
+                <label for="event-packaging">Packaging Type *</label>
+                <select class="calc-select" id="event-packaging" required>
+                  <!-- Populate dynamically -->
+                </select>
+              </div>
+            </div>
+            
+            <div class="calc-field">
+              <label for="event-tag-text">Texto for the Tag (E.g.: "Lucía's Baptism - 09/15/2026")</label>
+              <textarea class="calc-textarea" id="event-tag-text" placeholder="Write names, dates, or special phrases here..."></textarea>
+            </div>
+            
+            <!-- Calculations Breakdown -->
+            <div class="calc-summary-box">
+              <div class="calc-summary-item">
+                <span>Unit price base + packaging:</span>
+                <span id="summary-unit-price">$0.00</span>
+              </div>
+              <div class="calc-summary-item">
+                <span>Discount applied:</span>
+                <span class="discount-percent" id="summary-discount-pct">0%</span>
+              </div>
+              <div class="calc-summary-item total">
+                <span>Estimated Total:</span>
+                <span id="summary-total-price">$0.00</span>
+              </div>
+            </div>
+            
+            <div class="calc-row">
+              <button type="button" class="btn btn-outline" id="add-event-to-cart">Add to Cart</button>
+              <button type="submit" class="btn btn-whatsapp">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                Quote via WhatsApp
+              </button>
+            </div>
+            
+          </form>
+        </div>
+        
+        <!-- Right Side: Packaging Showcase & Discount scales -->
+        <div class="events-info-sidebar">
+          
+          <div class="info-box">
+            <h3>Packaging Showcase</h3>
+            <p>Choose the ideal presentation for your favors. All packaging options include a ribbon or decorative cord.</p>
+            <div class="packaging-grid" id="packaging-showcase">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+          
+          <div class="info-box">
+            <h3>Discount Table</h3>
+            <p>We offer special pricing for your celebrations based on order volume:</p>
+            <table class="discount-table">
+              <thead>
+                <tr>
+                  <th>Quantity</th>
+                  <th>Discount</th>
+                  <th>Additional Benefits</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>20 - 50 units</td>
+                  <td class="highlight">10% OFF</td>
+                  <td>Basic custom tag design</td>
+                </tr>
+                <tr>
+                  <td>51 - 100 units</td>
+                  <td class="highlight">20% OFF</td>
+                  <td>Custom tag design with metallic foil</td>
+                </tr>
+                <tr>
+                  <td>Over 100 units</td>
+                  <td class="highlight">30% OFF</td>
+                  <td>100% free custom design + 1 free sample</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="section-padding" id="galeria">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Inspiration & Spaces</h2>
+        <p>Our pieces integrated into different corners of the home. Created to visually decorate and flood with sensations.</p>
+      </div>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item" data-img="images/gallery_1.png" data-caption="Floral Bouquets on a living room table">
+          <img src="images/gallery_1.png" alt="Floral Bouquets in wax decorating a rustic coffee table">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="gallery-item" data-img="images/gallery_2.png" data-caption="Rose Sachet scenting a wardrobe drawer">
+          <img src="images/gallery_2.png" alt="Botanical wax sachet hanging inside a wooden wardrobe">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="gallery-item" data-img="images/gallery_3.png" data-caption="Ceramic burner and Vanilla Wax Melts">
+          <img src="images/gallery_3.png" alt="Ceramic burner melting a scented wax tablet">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="gallery-item" data-img="images/gallery_4.png" data-caption="Hand-modeled Persian kitten pet candle">
+          <img src="images/gallery_4.png" alt="Wax candle sculpted with the shape of a cute Persian kitten">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Candle Care Guide Section -->
+  <section class="section-padding care-section" id="cuidados">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Candle Care Guide</h2>
+        <p>Handcrafted soy wax candles behave differently than paraffin. Follow these tips to enjoy an optimal clean burn.</p>
+      </div>
+      
+      <div class="care-grid">
+        <div class="care-card">
+          <div class="care-num">01</div>
+          <h3>Keep the Wick Trimmed</h3>
+          <p>Before lighting your candle, trim the wick to about 0.5 cm. This prevents the flame from getting too high, producing black soot, or consuming the wax too quickly.</p>
+        </div>
+        
+        <div class="care-card">
+          <div class="care-num">02</div>
+          <h3>Candle Memory</h3>
+          <p>The first time you light your candle, let it burn for 2 to 3 hours, until the entire top surface of wax melts completely. This prevents 'tunneling'.</p>
+        </div>
+        
+        <div class="care-card">
+          <div class="care-num">03</div>
+          <h3>Safe Extinguishment</h3>
+          <p>Do not blow out your soy candle. Use a metal snuffer or smother the flame by placing the jar's lid. This avoids shifting the wick or producing heavy smoke that ruins the aroma.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Location Section -->
+  <section class="section-padding contact-section" id="contacto">
+    <div class="container contact-grid">
+      <!-- Left side: Contact info -->
+      <div class="contact-info">
+        <h3>Get in touch</h3>
+        <p>Have questions about custom orders, favors for events, or want to visit our showroom? We are here to help you design the perfect gift.</p>
+        
+        <div class="contact-methods">
+          <div class="contact-method-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4>Commercial WhatsApp</h4>
+              <p style="margin-bottom: 4px;"><a href="https://wa.me/573112547250" target="_blank" style="color: inherit; text-decoration: none; font-weight: 600;">+57 311 254 7250</a> (Andrea)</p>
+              <p><a href="https://wa.me/573203702808" target="_blank" style="color: inherit; text-decoration: none; font-weight: 600;">+57 320 370 2808</a> (Leonor)</p>
+            </div>
+          </div>
+          
+          <div class="contact-method-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div>
+              <h4>Email Address</h4>
+              <p>contacto@simonestore.co</p>
+            </div>
+          </div>
+          
+          <div class="contact-method-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <h4>Workshop & Dispatches</h4>
+              <p>Calle 6a No 88d 60, Bogotá, Colombia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right side: Contact Form -->
+      <div class="contact-form-wrapper">
+        <form id="general-contact-form">
+          <div class="form-group">
+            <label for="contact-name">Full Name *</label>
+            <input type="text" class="form-input" id="contact-name" placeholder="Write your name..." required>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Email Address *</label>
+            <input type="email" class="form-input" id="contact-email" placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-phone">Mobile Number *</label>
+            <input type="tel" class="form-input" id="contact-phone" placeholder="300 123 4567" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-message">How can we help you? *</label>
+            <textarea class="form-textarea" id="contact-message" placeholder="Write your inquiry here..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-column">
+        <a href="#" class="footer-logo">
+          <img src="images/logo_simone_new.jpg" alt="Simone Logo" class="logo-img" style="border-radius: 50%; height: 100px; width: 100px; border: 1px solid rgba(255,255,255,0.2); box-shadow: var(--shadow-sm);">
+        </a>
+        <p style="font-size: 0.85rem; margin-top: 10px;">Botanical and decorative creations hand-molded. Bringing warmth and design to your daily spaces and special events.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/simone_velas_y_accesorios" target="_blank" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://facebook.com/simonestore" target="_blank" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="#catalogo">Catalog</a></li>
+          <li><a href="#eventos">Favors & Events</a></li>
+          <li><a href="#galeria">Gallery</a></li>
+          <li><a href="#cuidados">Care Guide</a></li>
+          <li><a href="admin.html">Admin Portal</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Categories</h3>
+        <ul class="footer-links">
+          <li><a href="#catalogo">Decor Line</a></li>
+          <li><a href="#catalogo">Scent Line</a></li>
+          <li><a href="#catalogo">Air Scent</a></li>
+          <li><a href="#eventos">Special Favors</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Customer Support</h3>
+        <p style="font-size: 0.85rem; line-height: 1.8;">
+          <strong>Andrea Ruiz / Leonor Herrera</strong><br>
+          Monday to Saturday: 8:00 AM - 7:00 PM<br>
+          Calle 6a No 88d 60<br>
+          Bogotá, Colombia
+        </p>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Simone. All rights reserved. Designed for cozy moments.</p>
+      <p>Made with 💜 in Bogotá</p>
+    </div>
+  </footer>
+
+  <!-- Shopping Cart Side Drawer -->
+  <div class="cart-drawer-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px;">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        Your Cart
+      </h2>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Close Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Cart Items Container -->
+    <div class="cart-body" id="cart-items-container">
+      <!-- Generated dynamically -->
+    </div>
+    
+    <!-- Cart Footer & Checkout -->
+    <div class="cart-footer">
+      <div class="cart-customer-fields" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+        <input type="text" id="cart-customer-name" class="form-input" placeholder="Your Name *" style="padding: 8px 10px; font-size: 0.85rem;">
+        <input type="tel" id="cart-customer-phone" class="form-input" placeholder="Your Phone / City *" style="padding: 8px 10px; font-size: 0.85rem;">
+      </div>
+      <div class="cart-total-row">
+        <span>Quote Subtotal:</span>
+        <span class="total-val" id="cart-subtotal-val">$0.00</span>
+      </div>
+      <button class="btn btn-whatsapp" id="whatsapp-checkout-btn" style="width: 100%;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        Send Quote via WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- Image Lightbox Modal -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close-btn">&times;</button>
+      <img src="" alt="" class="lightbox-img" id="lightbox-img">
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <!-- Form Success Modal -->
+  <div class="modal-confirm" id="modal-confirm">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 id="modal-title">Request Sent!</h3>
+      <p id="modal-message">We will contact you within the next 24 hours.</p>
+      <button class="btn btn-primary btn-sm" id="modal-close-btn">Got it</button>
+    </div>
+  </div>
+
+  <!-- Welcome Promo Modal -->
+  <div class="promo-modal" id="promo-modal">
+    <div class="promo-box">
+      <button class="promo-close" id="promo-close-btn" aria-label="Close">&times;</button>
+      <div class="promo-grid">
+        <div class="promo-img-side" id="promo-img-side" style="background-image: url('images/promo_amor_amistad.jpg');"></div>
+        <div class="promo-text-side">
+          <span class="promo-subtitle" id="promo-badge-text">Special Season 💝</span>
+          <h2 id="promo-title-text">Celebrate <span>Love & Friendship</span></h2>
+          <p id="promo-desc-text">Fill the hearts of your loved ones with light and aromas. Use coupon code:</p>
+          <div class="promo-coupon" id="promo-coupon-code">SIMONE10</div>
+          <p class="promo-coupon-desc" id="promo-coupon-desc">10% off our entire catalog of candles and sachets.</p>
+          <button class="btn btn-primary" id="promo-cta-btn">Shop Gift Collection</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

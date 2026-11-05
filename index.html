@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simone | Velas Artesanales & Decoraciones Personalizadas</title>
+  <meta name="description" content="Catálogo premium de velas de cera de soja, sachets, wax melts y recordatorios personalizados para bodas, bautizos y eventos corporativos en Bogotá.">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- SEO Local / Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "Simone",
+    "image": "images/hero.png",
+    "description": "Velas de soja artesanales, decoraciones y recuerdos personalizados para eventos.",
+    "telephone": "+573112547250",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle 6a No 88d 60",
+      "addressLocality": "Bogotá",
+      "addressCountry": "CO"
+    }
+  }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- Floating CTAs -->
+  <div class="floating-ctas">
+    <a href="https://wa.me/573112547250?text=Hola,%20quisiera%20asesoría%20sobre%20las%20velas%20y%20decoraciones%20de%20Simone." class="floating-btn wa-primary" id="sticky-whatsapp" target="_blank" aria-label="Escribir por WhatsApp">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Header & Glassmorphic Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <img src="images/logo_simone_new.jpg" alt="Simone Logo" class="logo-img">
+      </a>
+      
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#catalogo" class="nav-link">Catálogo</a></li>
+        <li><a href="#eventos" class="nav-link">Recordatorios & Eventos</a></li>
+        <li><a href="#galeria" class="nav-link">Inspiración</a></li>
+        <li><a href="#cuidados" class="nav-link">Cuidado de Velas</a></li>
+        <li><a href="#contacto" class="nav-link">Contacto</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambiar Tema">🌙</button>
+        <a href="index_en.html" class="lang-toggle">EN</a>
+        <button class="cart-icon-btn" id="cart-toggle-btn" aria-label="Ver Carrito">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge" id="cart-badge-count">0</span>
+        </button>
+        <button class="menu-toggle" id="menu-toggle-btn" aria-label="Menu Móvil">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Carousel Section -->
+  <section class="hero-carousel" id="home">
+    <div class="carousel-track" id="carousel-track">
+      <!-- Slide 1 -->
+      <div class="carousel-slide active" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/hero.png');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Hecho a mano con cera de soja pura 🌿</span>
+          <h2>Luz que decora, <span>aromas que abrazan.</span></h2>
+          <p>Velas de soja artesanales moldeadas a mano, aromatizadas con aceites botánicos para transformar tus rincones cotidianos.</p>
+          <a href="#catalogo" class="btn btn-primary">Explorar Catálogo</a>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_events.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Detalles únicos e inolvidables ✨</span>
+          <h2>Recordatorios para <span>Fechas Especiales</span></h2>
+          <p>Diseña a tu medida la etiqueta, el empaque y la fragancia para tus invitados de bodas, bautizos y eventos corporativos.</p>
+          <a href="#eventos" class="btn btn-primary">Cotizar Recordatorios</a>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_pets.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Tu mejor amigo modelado en cera 🐾</span>
+          <h2>Velas de Mascota <span>Personalizadas</span></h2>
+          <p>Modelamos a mano la figura de tu perro o gato a partir de tu fotografía favorita. Un detalle entrañable y exclusivo.</p>
+          <a href="#catalogo" class="btn btn-primary">Personalizar Vela</a>
+        </div>
+      </div>
+      <!-- Slide 4 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_aromas.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Aromas que abrazan el hogar 🕯️</span>
+          <h2>Aromaterapia & <span>Wax Melts</span></h2>
+          <p>Quemadores de cerámica y pastillas de cera perfumadas para inundar de fragancias y calma tus espacios favoritos.</p>
+          <a href="#catalogo" class="btn btn-primary">Explorar Aromas</a>
+        </div>
+      </div>
+      <!-- Slide 5 -->
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_sachets.jpg');">
+        <div class="carousel-caption">
+          <span class="slide-subtitle">Perfume sutil sin fuego ni calor 🌸</span>
+          <h2>Sachets Botánicos <span>Aromáticos</span></h2>
+          <p>Pastillas decorativas de cera de soja con pétalos de rosas y rodajas de cítricos, ideales para perfumar armarios y cajones.</p>
+          <a href="#catalogo" class="btn btn-primary">Ver Sachets</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation Buttons -->
+    <button class="carousel-nav-btn prev" id="carousel-prev-btn" aria-label="Anterior">&lt;</button>
+    <button class="carousel-nav-btn next" id="carousel-next-btn" aria-label="Siguiente">&gt;</button>
+    
+    <!-- Slide Indicators (Dots) -->
+    <div class="carousel-dots" id="carousel-dots">
+      <span class="dot active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+      <span class="dot" data-slide="2"></span>
+      <span class="dot" data-slide="3"></span>
+      <span class="dot" data-slide="4"></span>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🌿</div>
+          <div>
+            <h3>Materias Primas Ecológicas</h3>
+            <p>Usamos ceras vegetales biodegradables y fragancias botánicas libres de ftalatos.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✨</div>
+          <div>
+            <h3>Detalle Personalizado</h3>
+            <p>Cada pieza se moldea a mano, desde bouquets florales hasta figuras de mascotas.</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💝</div>
+          <div>
+            <h3>Perfecto para Eventos</h3>
+            <p>Empaques delicados y etiquetas a la medida para regalar en tus momentos especiales.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog Section -->
+  <section class="section-padding" id="catalogo">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Nuestro Portafolio</h2>
+        <p>Explora nuestras creaciones diseñadas con atención al más mínimo detalle.</p>
+        <div style="display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 16px;">
+          <button class="btn btn-outline btn-sm" id="download-pdf-btn" style="gap: 8px; display: inline-flex; align-items: center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Descargar Catálogo (PDF)
+          </button>
+        </div>
+      </div>
+      
+      <!-- Filter Menu -->
+      <div class="filter-menu">
+        <button class="filter-btn active" data-category="all">Ver Todos</button>
+        <button class="filter-btn" data-category="decorativa">Línea Decorativa</button>
+        <button class="filter-btn" data-category="aromatica">Línea Aromática</button>
+        <button class="filter-btn" data-category="ambiental">Aroma Ambiental (Sin Fuego)</button>
+      </div>
+      
+      <!-- Products Grid -->
+      <div class="products-grid" id="products-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Recordatorios e Eventos Especiales Section -->
+  <section class="section-padding events-section" id="eventos">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Recordatorios & Eventos Especiales 🌟</h2>
+        <p>Crea detalles inolvidables para tus invitados. Cotiza y personaliza tus obsequios al por mayor con descuentos por volumen y acabados exclusivos.</p>
+      </div>
+      
+      <div class="events-grid">
+        <!-- Left Side: Interactive Calculator -->
+        <div class="calculator-card">
+          <h3 class="calculator-title">Cotizador de Recordatorios</h3>
+          <form class="calculator-form" id="event-quote-form">
+            
+            <div class="calc-row">
+              <div class="calc-field">
+                <label for="event-type">Tipo de Evento *</label>
+                <select class="calc-select" id="event-type" required>
+                  <!-- Populate dynamically -->
+                </select>
+              </div>
+              
+              <div class="calc-field">
+                <label for="event-qty">Cantidad de Velas *</label>
+                <input type="number" class="calc-input" id="event-qty" value="30" min="20" max="500" required>
+              </div>
+            </div>
+            
+            <div class="calc-row">
+              <div class="calc-field">
+                <label for="event-aroma">Aroma de la Vela *</label>
+                <select class="calc-select" id="event-aroma" required>
+                  <!-- Populate dynamically -->
+                </select>
+              </div>
+              
+              <div class="calc-field">
+                <label for="event-packaging">Tipo de Empaque *</label>
+                <select class="calc-select" id="event-packaging" required>
+                  <!-- Populate dynamically -->
+                </select>
+              </div>
+            </div>
+            
+            <div class="calc-field">
+              <label for="event-tag-text">Texto para la Etiqueta (Ej: "Bautizo de Lucía - 15/09/2026")</label>
+              <textarea class="calc-textarea" id="event-tag-text" placeholder="Escribe aquí los nombres, fechas o frases especiales..."></textarea>
+            </div>
+            
+            <!-- Calculations Breakdown -->
+            <div class="calc-summary-box">
+              <div class="calc-summary-item">
+                <span>Precio unitario base + empaque:</span>
+                <span id="summary-unit-price">$0.00</span>
+              </div>
+              <div class="calc-summary-item">
+                <span>Descuento aplicado:</span>
+                <span class="discount-percent" id="summary-discount-pct">0%</span>
+              </div>
+              <div class="calc-summary-item total">
+                <span>Total Estimado:</span>
+                <span id="summary-total-price">$0.00</span>
+              </div>
+            </div>
+            
+            <div class="calc-row">
+              <button type="button" class="btn btn-outline" id="add-event-to-cart">Agregar al Carrito</button>
+              <button type="submit" class="btn btn-whatsapp">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                Cotizar vía WhatsApp
+              </button>
+            </div>
+            
+          </form>
+        </div>
+        
+        <!-- Right Side: Packaging Showcase & Discount scales -->
+        <div class="events-info-sidebar">
+          
+          <div class="info-box">
+            <h3>Muestrario de Empaques</h3>
+            <p>Elige la presentación ideal para tus recordatorios. Todos los empaques incluyen cordón o cinta decorativa.</p>
+            <div class="packaging-grid" id="packaging-showcase">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+          
+          <div class="info-box">
+            <h3>Tabla de Descuentos</h3>
+            <p>Ofrecemos precios especiales para tus celebraciones según el volumen del pedido:</p>
+            <table class="discount-table">
+              <thead>
+                <tr>
+                  <th>Cantidad</th>
+                  <th>Descuento</th>
+                  <th>Beneficios adicionales</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>20 - 50 unidades</td>
+                  <td class="highlight">10% OFF</td>
+                  <td>Etiqueta personalizada básica</td>
+                </tr>
+                <tr>
+                  <td>51 - 100 unidades</td>
+                  <td class="highlight">20% OFF</td>
+                  <td>Etiqueta personalizada con foil metalizado</td>
+                </tr>
+                <tr>
+                  <td>Más de 100 unidades</td>
+                  <td class="highlight">30% OFF</td>
+                  <td>Diseño personalizado 100% libre + 1 muestra gratis</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="section-padding" id="galeria">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Inspiración & Ambientes</h2>
+        <p>Nuestras piezas integradas en diferentes rincones del hogar. Creadas para decorar visualmente e inundar de sensaciones.</p>
+      </div>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item" data-img="images/gallery_1.png" data-caption="Bouquets Florales en mesa de salón">
+          <img src="images/gallery_1.png" alt="Bouquets Florales en cera decorando una mesa rústica">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="gallery-item" data-img="images/gallery_2.png" data-caption="Sachet de Rosas perfumando armario">
+          <img src="images/gallery_2.png" alt="Sachet botánico colgado en un vestidor de madera">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="gallery-item" data-img="images/gallery_3.png" data-caption="Derretidor y Wax Melts de Vainilla">
+          <img src="images/gallery_3.png" alt="Quemador de cerámica derritiendo una pastilla de cera perfumada">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+        <div class="gallery-item" data-img="images/gallery_4.png" data-caption="Detalles en cera de la línea mascotas">
+          <img src="images/gallery_4.png" alt="Vela modelada con la figura de un tierno gatito persa">
+          <div class="gallery-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Candle Care Guide Section -->
+  <section class="section-padding care-section" id="cuidados">
+    <div class="container">
+      <div class="catalog-header text-center">
+        <h2>Guía de Cuidado de tus Velas</h2>
+        <p>Las velas de soja artesanal tienen un comportamiento diferente a la parafina. Sigue estos tips para disfrutar de su quemado óptimo.</p>
+      </div>
+      
+      <div class="care-grid">
+        <div class="care-card">
+          <div class="care-num">01</div>
+          <h3>El Pabilo Siempre Corto</h3>
+          <p>Antes de encender tu vela, recorta el pabilo aproximadamente a 0.5 cm. Esto evita que la llama sea demasiado alta, genere humo negro o consuma la cera demasiado rápido.</p>
+        </div>
+        
+        <div class="care-card">
+          <div class="care-num">02</div>
+          <h3>Memoria de la Vela</h3>
+          <p>La primera vez que enciendas tu vela, déjala prendida de 2 a 3 horas, hasta que toda la superficie de cera se derrita por completo. Esto previene la formación de "túneles".</p>
+        </div>
+        
+        <div class="care-card">
+          <div class="care-num">03</div>
+          <h3>Seguridad al Apagar</h3>
+          <p>No soples tu vela de soja. Utiliza un apagavelas de metal o ahógala colocando la tapa del frasco. Así evitas que el pabilo se desvíe o suelte humo que arruine el aroma.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Location Section -->
+  <section class="section-padding contact-section" id="contacto">
+    <div class="container contact-grid">
+      <!-- Left side: Contact info -->
+      <div class="contact-info">
+        <h3>Ponte en contacto</h3>
+        <p>¿Tienes dudas sobre pedidos personalizados, eventos o quieres visitarnos? Estamos aquí para ayudarte a diseñar el recordatorio ideal.</p>
+        
+        <div class="contact-methods">
+          <div class="contact-method-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
+            <div>
+              <h4>Atención Personalizada</h4>
+              <p>Andrea Ruiz Herrera / Leonor Herrera</p>
+            </div>
+          </div>
+
+          <div class="contact-method-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4>WhatsApp Comercial</h4>
+              <p style="margin-bottom: 4px;"><a href="https://wa.me/573112547250" target="_blank" style="color: inherit; text-decoration: none; font-weight: 600;">+57 311 254 7250</a> (Andrea)</p>
+              <p><a href="https://wa.me/573203702808" target="_blank" style="color: inherit; text-decoration: none; font-weight: 600;">+57 320 370 2808</a> (Leonor)</p>
+            </div>
+          </div>
+          
+          <div class="contact-method-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+            <div>
+              <h4>Correo Electrónico</h4>
+              <p>contacto@simonestore.co</p>
+            </div>
+          </div>
+          
+          <div class="contact-method-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </div>
+            <div>
+              <h4>Taller y Despachos</h4>
+              <p>Calle 6a No 88d 60, Bogotá, Colombia</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right side: Contact Form -->
+      <div class="contact-form-wrapper">
+        <form id="general-contact-form">
+          <div class="form-group">
+            <label for="contact-name">Nombre Completo *</label>
+            <input type="text" class="form-input" id="contact-name" placeholder="Escribe tu nombre..." required>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Correo Electrónico *</label>
+            <input type="email" class="form-input" id="contact-email" placeholder="ejemplo@correo.com" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-phone">Número de Celular *</label>
+            <input type="tel" class="form-input" id="contact-phone" placeholder="300 123 4567" required>
+          </div>
+          <div class="form-group">
+            <label for="contact-message">¿En qué podemos ayudarte? *</label>
+            <textarea class="form-textarea" id="contact-message" placeholder="Escribe tu consulta aquí..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensaje</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-column">
+        <a href="#" class="footer-logo">
+          <img src="images/logo_simone_new.jpg" alt="Simone Logo" class="logo-img" style="border-radius: 50%; height: 100px; width: 100px; border: 1px solid rgba(255,255,255,0.2); box-shadow: var(--shadow-sm);">
+        </a>
+        <p style="font-size: 0.85rem; margin-top: 10px;">Creaciones botánicas y decorativas moldeadas a mano. Llevando calidez y diseño a tus espacios cotidianos y eventos especiales.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com/simone_velas_y_accesorios" target="_blank" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://facebook.com/simonestore" target="_blank" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Enlaces Rápidos</h3>
+        <ul class="footer-links">
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#eventos">Recordatorios & Eventos</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#cuidados">Guía de Cuidados</a></li>
+          <li><a href="admin.html">Acceso Admin</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Categorías</h3>
+        <ul class="footer-links">
+          <li><a href="#catalogo">Línea Decorativa</a></li>
+          <li><a href="#catalogo">Línea Aromática</a></li>
+          <li><a href="#catalogo">Aroma Ambiental</a></li>
+          <li><a href="#eventos">Recordatorios Especiales</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Atención al Cliente</h3>
+        <p style="font-size: 0.85rem; line-height: 1.8;">
+          <strong>Andrea Ruiz / Leonor Herrera</strong><br>
+          Lunes a Sábado: 8:00 AM - 7:00 PM<br>
+          Calle 6a No 88d 60<br>
+          Bogotá, Colombia
+        </p>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Simone. Todos los derechos reservados. Diseñado para momentos acogedores.</p>
+      <p>Hecho con 💜 en Bogotá</p>
+    </div>
+  </footer>
+
+  <!-- Shopping Cart Side Drawer -->
+  <div class="cart-drawer-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="cart-header">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px;">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        Tu Carrito
+      </h2>
+      <button class="cart-close-btn" id="cart-close-btn" aria-label="Cerrar Carrito">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Cart Items Container -->
+    <div class="cart-body" id="cart-items-container">
+      <!-- Generated dynamically -->
+    </div>
+    
+    <!-- Cart Footer & Checkout -->
+    <div class="cart-footer">
+      <div class="cart-customer-fields" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+        <input type="text" id="cart-customer-name" class="form-input" placeholder="Tu Nombre *" style="padding: 8px 10px; font-size: 0.85rem;">
+        <input type="tel" id="cart-customer-phone" class="form-input" placeholder="Tu Celular / Ciudad *" style="padding: 8px 10px; font-size: 0.85rem;">
+      </div>
+      <div class="cart-total-row">
+        <span>Total de la Cotización:</span>
+        <span class="total-val" id="cart-subtotal-val">$0.00</span>
+      </div>
+      <button class="btn btn-whatsapp" id="whatsapp-checkout-btn" style="width: 100%;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        Enviar Pedido por WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- Image Lightbox Modal -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close-btn">&times;</button>
+      <img src="" alt="" class="lightbox-img" id="lightbox-img">
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <!-- Form Success Modal -->
+  <div class="modal-confirm" id="modal-confirm">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h3 id="modal-title">¡Solicitud Enviada!</h3>
+      <p id="modal-message">Nos pondremos en contacto contigo en las próximas 24 horas.</p>
+      <button class="btn btn-primary btn-sm" id="modal-close-btn">Entendido</button>
+    </div>
+  </div>
+
+  <!-- Welcome Promo Modal -->
+  <div class="promo-modal" id="promo-modal">
+    <div class="promo-box">
+      <button class="promo-close" id="promo-close-btn" aria-label="Cerrar">&times;</button>
+      <div class="promo-grid">
+        <div class="promo-img-side" id="promo-img-side" style="background-image: url('images/promo_amor_amistad.jpg');"></div>
+        <div class="promo-text-side">
+          <span class="promo-subtitle" id="promo-badge-text">Temporada Especial 💝</span>
+          <h2 id="promo-title-text">Celebra el <span>Amor & Amistad</span></h2>
+          <p id="promo-desc-text">Llena de luz y aromas el corazón de tus seres queridos. Usa el código de descuento:</p>
+          <div class="promo-coupon" id="promo-coupon-code">SIMONE10</div>
+          <p class="promo-coupon-desc" id="promo-coupon-desc">10% de descuento en todo el catálogo de velas y sachets.</p>
+          <button class="btn btn-primary" id="promo-cta-btn">Explorar Regalos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

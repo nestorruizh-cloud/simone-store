@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+.gemini/
+.wrangler/
+.firebase/
+.firebaserc
+firebase.json
+cloudflared
+compuimpresion-redesign/
+plan_de_pruebas.html
+data/

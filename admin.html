@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simone | Panel de Administración</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/market-radar.css">
+</head>
+<body class="admin-body">
+
+  <!-- 1. Authentication Section -->
+  <section class="auth-wrapper" id="auth-section">
+    <div class="auth-card">
+      <div class="auth-logo" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+        <img src="images/logo_simone_new.jpg" alt="Simone Logo">
+      </div>
+      <h2>Acceso Admin</h2>
+      <p>Ingrese la contraseña del portal de administración para gestionar el catálogo de productos.</p>
+      
+      <form id="login-form">
+        <div class="form-group" style="margin-bottom: 20px; text-align: left;">
+          <label for="admin-password" class="admin-input-label">Contraseña de Administrador *</label>
+          <input type="password" class="admin-form-input" id="admin-password" placeholder="••••••••" required autofocus>
+        </div>
+        <div id="login-error" style="color: #ff4d4d; font-size: 0.85rem; margin-bottom: 16px; display: none;"></div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Ingresar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 2. Administrative Dashboard Section -->
+  <section id="dashboard-section" style="display: none;">
+    <!-- Navigation Header -->
+    <header class="admin-header">
+      <div class="container admin-nav">
+        <a href="index.html" class="logo">
+          <img src="images/logo_simone_new.jpg" alt="Simone Logo" class="logo-img">
+        </a>
+        <div class="admin-nav-actions">
+          <span id="cloud-sync-badge" class="cloud-sync-badge">☁️ Base de Datos Activa</span>
+          <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambiar Tema">🌙</button>
+          <a href="index.html" class="btn btn-outline btn-sm">Ver Tienda 👁️</a>
+          <button id="logout-btn" class="btn btn-secondary btn-sm">Cerrar Sesión 🔓</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="container">
+        <!-- Administrative Module Tabs -->
+        <div class="admin-tabs-bar">
+          <button type="button" class="admin-tab-btn active" data-tab="tab-catalog">
+            📦 Catálogo y Precios
+          </button>
+          <button type="button" class="admin-tab-btn" data-tab="tab-banners">
+            🖼️ Banners y Popup Promocional
+          </button>
+          <button type="button" class="admin-tab-btn" data-tab="tab-orders">
+            🛍️ Pedidos y Notificaciones <span id="orders-new-badge" class="orders-tab-badge" style="display: none;">0</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: CATALOG & PRICES -->
+        <div id="tab-catalog" class="admin-tab-panel active">
+          <!-- Title Row -->
+          <div class="admin-title-row">
+            <div>
+              <h1>Control del Catálogo</h1>
+              <p>Agregue, edite o elimine las velas y decoraciones personalizadas del inventario en tiempo real.</p>
+            </div>
+            <div class="admin-title-actions" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <button id="open-market-radar-btn" class="btn btn-ai-radar" title="Comparar precios y ofertas de competidores con IA">
+                <span class="ai-sparkle-icon">✨</span> Radar de Mercado IA
+              </button>
+              <button id="add-product-btn" class="btn btn-primary">
+                <span>➕</span> Agregar Producto
+              </button>
+            </div>
+          </div>
+
+          <!-- Controls (Search, Filter, Export/Import) -->
+          <div class="admin-controls-card">
+            <div class="search-filter-group">
+              <input type="text" id="admin-search" class="admin-search-input" placeholder="Buscar por nombre, ID o descripción...">
+              <select id="admin-filter-category" class="admin-select-filter">
+                <option value="all">Todas las Líneas</option>
+                <option value="decorativa">Línea Decorativa</option>
+                <option value="aromatica">Línea Aromática</option>
+                <option value="ambiental">Aroma Ambiental</option>
+              </select>
+            </div>
+            
+            <div class="backup-actions-group">
+              <button id="export-db-btn" class="btn btn-outline btn-sm" title="Descargar copia de seguridad en JSON">
+                📥 Exportar Catálogo
+              </button>
+              <button id="import-db-btn" class="btn btn-outline btn-sm" title="Subir copia de seguridad en JSON">
+                📤 Importar Catálogo
+              </button>
+              <input type="file" id="import-file-input" accept=".json" style="display: none;">
+              <button id="reset-db-btn" class="btn btn-secondary btn-sm" title="Restablecer base de datos inicial">
+                🔄 Restablecer Catálogo
+              </button>
+            </div>
+          </div>
+
+          <!-- Responsive Products Table -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Imagen</th>
+                  <th style="width: 120px;">ID</th>
+                  <th>Producto (ES / EN)</th>
+                  <th style="width: 150px;">Categoría</th>
+                  <th style="width: 120px;">Precio</th>
+                  <th style="width: 250px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="admin-table-body">
+                <!-- Rendered dynamically by admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: BANNERS & PROMO POPUP -->
+        <div id="tab-banners" class="admin-tab-panel" style="display: none;">
+          <div class="admin-title-row">
+            <div>
+              <h1>Banners y Popup de Temporada</h1>
+              <p>Modifique las fotos y textos de bienvenida y del carrusel principal sin tocar código.</p>
+            </div>
+            <div class="admin-title-actions" style="display: flex; gap: 12px;">
+              <button type="button" id="reset-banners-btn" class="btn btn-secondary btn-sm">
+                🔄 Restaurar Originales
+              </button>
+              <button type="button" id="save-banners-btn" class="btn btn-primary">
+                💾 Publicar Cambios en la Tienda
+              </button>
+            </div>
+          </div>
+
+          <!-- Promo Popup Editor Card -->
+          <div class="admin-controls-card" style="margin-bottom: 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+              <div>
+                <h3 style="margin: 0; font-size: 1.2rem;">🎁 Popup Promocional de Bienvenida</h3>
+                <p style="margin: 4px 0 0; font-size: 0.85rem; color: var(--text-muted);">Ventana emergente que ven los visitantes al entrar a la página (ej: Navidad, Amor y Amistad, Día de la Madre).</p>
+              </div>
+              <label class="checkbox-label" style="font-weight: 600; background: var(--bg-alt); padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border-color);">
+                <input type="checkbox" id="promo-enabled-toggle" checked>
+                Mostrar Popup al entrar a la tienda
+              </label>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label class="admin-input-label">Subtítulo / Etiqueta Superior (ES)</label>
+                <input type="text" id="promo-edit-badge-es" class="admin-form-input" placeholder="Temporada Especial 💝">
+              </div>
+              <div>
+                <label class="admin-input-label">Título Principal (ES)</label>
+                <input type="text" id="promo-edit-title-es" class="admin-form-input" placeholder="Celebra el Amor & Amistad">
+              </div>
+              <div class="form-group-full">
+                <label class="admin-input-label">Mensaje Descriptivo (ES)</label>
+                <textarea id="promo-edit-desc-es" class="admin-form-textarea" style="min-height: 70px;"></textarea>
+              </div>
+              <div>
+                <label class="admin-input-label">Código de Cupón</label>
+                <input type="text" id="promo-edit-coupon" class="admin-form-input" placeholder="SIMONE10">
+              </div>
+              <div>
+                <label class="admin-input-label">Texto del Descuento (ES)</label>
+                <input type="text" id="promo-edit-coupon-desc-es" class="admin-form-input" placeholder="10% de descuento en todo nuestro catálogo.">
+              </div>
+              <div>
+                <label class="admin-input-label">Texto del Botón (ES)</label>
+                <input type="text" id="promo-edit-cta-es" class="admin-form-input" placeholder="Explorar Regalos">
+              </div>
+              <div>
+                <label class="admin-input-label">Imagen del Popup Promocional</label>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  <img id="promo-edit-img-preview" src="images/promo_amor_amistad.jpg" alt="Promo Preview" style="width: 72px; height: 72px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-color);">
+                  <div>
+                    <button type="button" id="promo-upload-img-btn" class="btn btn-outline btn-sm">📷 Cambiar Foto</button>
+                    <input type="file" id="promo-upload-img-input" accept="image/*" style="display: none;">
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Se optimiza automáticamente para carga rápida.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Carousel Slides Editor -->
+          <div style="margin-bottom: 16px;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 6px;">🎠 Diapositivas del Carrusel Principal (5 Banners)</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Personalice la imagen de fondo, el título y el mensaje de cada una de las 5 diapositivas de la portada.</p>
+          </div>
+          <div id="banners-editor-list" style="display: grid; gap: 20px;">
+            <!-- Rendered dynamically by admin.js -->
+          </div>
+        </div>
+
+        <!-- TAB 3: ORDERS, QUOTES & NOTIFICATIONS -->
+        <div id="tab-orders" class="admin-tab-panel" style="display: none;">
+          <div class="admin-title-row">
+            <div>
+              <h1>Seguimiento de Pedidos y Cotizaciones</h1>
+              <p>Gestione los pedidos recibidos desde el carrito, cotizaciones de eventos y consultas de clientes.</p>
+            </div>
+            <div class="admin-title-actions" style="display: flex; gap: 12px;">
+              <button type="button" id="refresh-orders-btn" class="btn btn-outline btn-sm">
+                🔄 Actualizar Lista
+              </button>
+            </div>
+          </div>
+
+          <!-- Orders KPI Summary Row -->
+          <div class="admin-kpi-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+            <div class="admin-controls-card" style="margin-bottom: 0; padding: 18px;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Total Solicitudes</span>
+              <div id="kpi-orders-total" style="font-size: 1.8rem; font-weight: 700; margin-top: 4px;">0</div>
+            </div>
+            <div class="admin-controls-card" style="margin-bottom: 0; padding: 18px;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Nuevos / Pendientes</span>
+              <div id="kpi-orders-new" style="font-size: 1.8rem; font-weight: 700; color: #d37b5d; margin-top: 4px;">0</div>
+            </div>
+            <div class="admin-controls-card" style="margin-bottom: 0; padding: 18px;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">En Proceso / Despachados</span>
+              <div id="kpi-orders-active" style="font-size: 1.8rem; font-weight: 700; color: #3b82f6; margin-top: 4px;">0</div>
+            </div>
+            <div class="admin-controls-card" style="margin-bottom: 0; padding: 18px;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">Monto Cotizado Acumulado</span>
+              <div id="kpi-orders-revenue" style="font-size: 1.8rem; font-weight: 700; color: #16a34a; margin-top: 4px;">$0.00</div>
+            </div>
+          </div>
+
+          <!-- Orders Filter Controls -->
+          <div class="admin-controls-card">
+            <div class="search-filter-group">
+              <input type="text" id="orders-search-input" class="admin-search-input" placeholder="Buscar por cliente, teléfono, ID o producto...">
+              <select id="orders-status-filter" class="admin-select-filter">
+                <option value="all">Todos los Estados</option>
+                <option value="nuevo">🟢 Nuevos</option>
+                <option value="preparacion">🟡 En Preparación</option>
+                <option value="enviado">🔵 Enviados</option>
+                <option value="entregado">✅ Entregados</option>
+                <option value="cancelado">⚪ Cancelados</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Orders Table -->
+          <div class="table-responsive" style="margin-bottom: 32px;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th style="width: 130px;">ID / Fecha</th>
+                  <th style="width: 130px;">Tipo</th>
+                  <th style="width: 180px;">Cliente / Contacto</th>
+                  <th>Productos / Detalle</th>
+                  <th style="width: 110px;">Total</th>
+                  <th style="width: 160px;">Estado</th>
+                  <th style="width: 160px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body">
+                <!-- Rendered dynamically by admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Notification & Contact Settings Card -->
+          <div class="admin-controls-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+              <div>
+                <h3 style="margin: 0; font-size: 1.15rem;">📲 Configuración de Recepción de Pedidos y Contacto</h3>
+                <p style="margin: 4px 0 0; font-size: 0.85rem; color: var(--text-muted);">Defina a qué número de WhatsApp llegan automáticamente las compras del carrito y cotizaciones de eventos.</p>
+              </div>
+              <button type="button" id="save-notifications-btn" class="btn btn-primary btn-sm">
+                💾 Guardar Contacto
+              </button>
+            </div>
+            <div class="form-grid">
+              <div>
+                <label class="admin-input-label">WhatsApp Principal de Pedidos (Con indicativo país, sin +)</label>
+                <input type="text" id="notif-wa-primary" class="admin-form-input" placeholder="573112547250">
+              </div>
+              <div>
+                <label class="admin-input-label">Nombre Responsable Principal</label>
+                <input type="text" id="notif-wa-primary-name" class="admin-form-input" placeholder="Andrea Ruiz">
+              </div>
+              <div>
+                <label class="admin-input-label">WhatsApp Secundario</label>
+                <input type="text" id="notif-wa-secondary" class="admin-form-input" placeholder="573203702808">
+              </div>
+              <div>
+                <label class="admin-input-label">Correo de Contacto / Notificaciones</label>
+                <input type="email" id="notif-email" class="admin-form-input" placeholder="contacto@simonestore.co">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- 3. Add/Edit Product Modal -->
+  <div class="admin-modal" id="product-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Agregar Producto</h3>
+        <button class="close-modal-btn" id="close-modal">&times;</button>
+      </div>
+      
+      <form id="product-form">
+        <div class="form-grid">
+          <!-- ID -->
+          <div>
+            <label for="prod-id" class="admin-input-label">ID de Producto * (Único, ej: dec-5)</label>
+            <input type="text" id="prod-id" class="admin-form-input" placeholder="dec-5" required pattern="^[a-zA-Z0-9\-_]+$">
+          </div>
+          
+          <!-- Category -->
+          <div>
+            <label for="prod-category" class="admin-input-label">Categoría *</label>
+            <select id="prod-category" class="admin-form-select" required>
+              <option value="decorativa">Línea Decorativa</option>
+              <option value="aromatica">Línea Aromática</option>
+              <option value="ambiental">Aroma Ambiental (Sin Fuego)</option>
+            </select>
+          </div>
+          
+          <!-- Name ES -->
+          <div>
+            <label for="prod-name-es" class="admin-input-label">Nombre (Español) *</label>
+            <input type="text" id="prod-name-es" class="admin-form-input" placeholder="Vela Bouquet Premium" required>
+          </div>
+          
+          <!-- Name EN -->
+          <div>
+            <label for="prod-name-en" class="admin-input-label">Nombre (Inglés) *</label>
+            <input type="text" id="prod-name-en" class="admin-form-input" placeholder="Premium Bouquet Candle" required>
+          </div>
+
+          <!-- Price -->
+          <div>
+            <label for="prod-price" class="admin-input-label">Precio ($ USD) *</label>
+            <input type="number" id="prod-price" class="admin-form-input" placeholder="25.00" min="0.01" step="0.01" required>
+          </div>
+
+          <!-- Aromas List -->
+          <div>
+            <label for="prod-aromas" class="admin-input-label">Aromas Disponibles (Separados por comas)</label>
+            <input type="text" id="prod-aromas" class="admin-form-input" placeholder="Vainilla, Coco, Lavanda & Salvia">
+          </div>
+          
+          <!-- Description ES -->
+          <div class="form-group-full">
+            <label for="prod-desc-es" class="admin-input-label">Descripción (Español) *</label>
+            <textarea id="prod-desc-es" class="admin-form-textarea" placeholder="Breve descripción del producto en español..." required></textarea>
+          </div>
+
+          <!-- Description EN -->
+          <div class="form-group-full">
+            <label for="prod-desc-en" class="admin-input-label">Descripción (Inglés) *</label>
+            <textarea id="prod-desc-en" class="admin-form-textarea" placeholder="Brief English description of the product..." required></textarea>
+          </div>
+
+          <!-- Customization Toggles -->
+          <div class="form-group-full">
+            <label class="admin-input-label">Requerimientos de Personalización para Compra</label>
+            <div class="checkbox-row">
+              <label class="checkbox-label">
+                <input type="checkbox" id="prod-msg-req">
+                Permite mensaje de etiqueta personalizado
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="prod-photo-req">
+                Requiere adjuntar foto de mascota (Foto)
+              </label>
+            </div>
+          </div>
+          
+          <!-- Upload Image -->
+          <div class="form-group-full">
+            <label class="admin-input-label">Imagen del Producto *</label>
+            <div class="image-upload-container" id="image-upload-zone">
+              <div class="upload-icon">📷</div>
+              <p style="font-size: 0.85rem; font-weight: 500;">Arrastre su imagen aquí o haga clic para subir</p>
+              <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">Se redimensionará y comprimirá automáticamente</p>
+              <input type="file" id="prod-image" accept="image/*" style="display: none;">
+              
+              <!-- Preview Wrapper -->
+              <div class="preview-img-wrapper" id="preview-wrapper">
+                <img src="" alt="Previsualización" id="preview-img">
+                <button type="button" class="remove-img-btn" id="remove-img" title="Eliminar imagen">&times;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancel-form-btn">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Market Price Radar & AI Repricing Modal -->
+  <div class="admin-modal market-radar-modal" id="market-radar-modal">
+    <div class="modal-content modal-content-lg">
+      <div class="modal-header modal-header-ai">
+        <div class="modal-title-wrap">
+          <div class="ai-badge-header">
+            <span class="ai-sparkle-icon">✨</span> Módulo de Inteligencia de Mercado & Repricing IA
+          </div>
+          <h3 id="radar-modal-title">Radar de Precios y Competencia en Vivo</h3>
+          <p class="radar-subtitle">Monitoree precios, descuentos y promociones de la competencia en tiempo real para optimizar sus ventas sin llamadas telefónicas.</p>
+        </div>
+        <button class="close-modal-btn" id="close-radar-modal" title="Cerrar ventana">&times;</button>
+      </div>
+
+      <div class="radar-body">
+        <!-- Search and Query Bar -->
+        <div class="radar-search-container">
+          <label class="admin-input-label" for="radar-search-input">
+            <strong>Buscar producto en tiendas competidoras y marketplaces:</strong>
+          </label>
+          <div class="radar-search-input-wrap">
+            <span class="radar-search-icon">🔍</span>
+            <input type="text" id="radar-search-input" class="admin-form-input" placeholder="Ej: Vela bouquet floral 8oz, Vela de soya aromática vainilla, Vela escultórica Venus...">
+            <button id="radar-trigger-search-btn" class="btn btn-ai-radar">
+              <span>⚡</span> Escanear Mercado
+            </button>
+          </div>
+
+          <!-- Quick Suggested Chips -->
+          <div class="radar-quick-chips">
+            <span class="quick-chip-label">Búsquedas rápidas:</span>
+            <button type="button" class="radar-chip" data-query="Bouquet Floral Mediano (8oz)">🌸 Bouquet Floral 8oz</button>
+            <button type="button" class="radar-chip" data-query="Escultura Venus Premium">🏛️ Escultura Venus</button>
+            <button type="button" class="radar-chip" data-query="Vela Latte / Capuchino">☕ Vela Capuchino</button>
+            <button type="button" class="radar-chip" data-query="Difusor Mikado Botánico">🌿 Difusor Mikado</button>
+            <button type="button" class="radar-chip" data-query="Vela con Foto de Mascota">🐾 Vela Personalizada</button>
+          </div>
+        </div>
+
+        <!-- Scanning Loader Animation -->
+        <div id="radar-scanner-loader" class="radar-scanner-box" style="display: none;">
+          <div class="radar-pulse-ring">
+            <div class="radar-pulse-circle"></div>
+            <div class="radar-pulse-icon">🤖</div>
+          </div>
+          <h4 id="radar-scan-status">Conectando con agentes de búsqueda en retail...</h4>
+          <p id="radar-scan-details">Rastreando Mercado Libre, Google Shopping, Amazon Handmade y tiendas especializadas de velas...</p>
+          <div class="radar-progress-bar">
+            <div class="radar-progress-fill" id="radar-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Radar Content Results -->
+        <div id="radar-results-container" style="display: none;">
+          <!-- Benchmark Metric Cards -->
+          <div class="radar-metrics-grid">
+            <div class="radar-metric-card your-price-card">
+              <span class="metric-label">Tu Precio Actual</span>
+              <div class="metric-value" id="metric-your-price">$20.00</div>
+              <span class="metric-badge" id="metric-competitiveness-badge">Posición Competitiva</span>
+            </div>
+
+            <div class="radar-metric-card">
+              <span class="metric-label">Mínimo de Mercado</span>
+              <div class="metric-value color-green" id="metric-min-price">$16.50</div>
+              <span class="metric-footnote" id="metric-min-store">Tienda: VelaCraft</span>
+            </div>
+
+            <div class="radar-metric-card">
+              <span class="metric-label">Promedio de Mercado</span>
+              <div class="metric-value color-blue" id="metric-avg-price">$22.40</div>
+              <span class="metric-footnote" id="metric-competitors-count">5 competidores analizados</span>
+            </div>
+
+            <div class="radar-metric-card">
+              <span class="metric-label">Máximo de Mercado</span>
+              <div class="metric-value color-dark" id="metric-max-price">$28.00</div>
+              <span class="metric-footnote" id="metric-max-store">Tienda: Lumina Luxury</span>
+            </div>
+
+            <div class="radar-metric-card promo-card">
+              <span class="metric-label">Descuento Promedio Rival</span>
+              <div class="metric-value color-purple" id="metric-discount-avg">14% OFF</div>
+              <span class="metric-footnote" id="metric-promo-count">3 tiendas con ofertas</span>
+            </div>
+          </div>
+
+          <!-- AI Strategic Insight Box -->
+          <div class="radar-ai-box">
+            <div class="radar-ai-header">
+              <div class="ai-pill">✨ Recomendación Estratégica Simone IA</div>
+              <span class="ai-model-tag">Análisis Multi-Fuente en Tiempo Real</span>
+            </div>
+            <div class="radar-ai-body" id="radar-ai-insight-text">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Competitor Detailed Comparison Table -->
+          <div class="radar-table-section">
+            <div class="radar-section-title-row">
+              <h4>🏪 Comparativa Detallada de la Competencia</h4>
+              <span class="radar-timestamp" id="radar-timestamp">Escaneo completado</span>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table radar-table">
+                <thead>
+                  <tr>
+                    <th>Tienda / Marketplace</th>
+                    <th>Producto Rival</th>
+                    <th>Precio Regular</th>
+                    <th>Precio Oferta</th>
+                    <th>Promoción Detectada</th>
+                    <th>Comparativa Simone</th>
+                    <th>Verificación</th>
+                  </tr>
+                </thead>
+                <tbody id="radar-competitors-tbody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Quick Repricing & Action Control Box -->
+          <div class="radar-repricing-panel">
+            <div class="repricing-header">
+              <div>
+                <h4>⚡ Configuración Rápida de Precio y Oferta</h4>
+                <p>Ajuste su catálogo inmediatamente con un solo clic. El cambio se reflejará al instante en la tienda.</p>
+              </div>
+              <div class="target-product-pill" id="repricing-target-name">
+                Vela Seleccionada
+              </div>
+            </div>
+
+            <div class="repricing-body">
+              <!-- Preset 1-Click Action Buttons -->
+              <div class="preset-buttons-wrap">
+                <span class="preset-label">Estrategias en 1 Clic:</span>
+                <div class="preset-btn-group">
+                  <button type="button" class="btn btn-outline btn-sm preset-btn" id="preset-suggested-btn">
+                    ✨ Aplicar Sugerencia IA (<span id="btn-suggested-val">$18.50</span>)
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm preset-btn" id="preset-match-min-btn">
+                    🎯 Igualar Mínimo (<span id="btn-min-val">$16.50</span>)
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm preset-btn" id="preset-discount-10-btn">
+                    🏷️ Oferta -10% OFF (<span id="btn-10-val">$18.00</span>)
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm preset-btn" id="preset-discount-15-btn">
+                    🔥 Oferta -15% OFF (<span id="btn-15-val">$17.00</span>)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Form Inputs for custom price/discount -->
+              <div class="repricing-form-grid">
+                <div>
+                  <label class="admin-input-label" for="reprice-new-val">Nuevo Precio de Venta ($ USD) *</label>
+                  <input type="number" id="reprice-new-val" class="admin-form-input" step="0.01" min="0.01">
+                </div>
+
+                <div>
+                  <label class="admin-input-label" for="reprice-badge-val">Etiqueta de Oferta en Tienda (Opcional)</label>
+                  <input type="text" id="reprice-badge-val" class="admin-form-input" placeholder="Ej: 15% OFF, OFERTA FLASH, PRECIO ESPECIAL">
+                </div>
+
+                <div class="repricing-action-wrap">
+                  <button type="button" id="apply-reprice-btn" class="btn btn-ai-radar btn-block">
+                    🚀 Publicar Inmediatamente en Simone Store
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Data and Admin Controller scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/market-radar.js"></script>
+</body>
+</html>

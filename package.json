@@ -1,0 +1,12 @@
+{
+  "name": "simone",
+  "version": "1.0.0",
+  "description": "Sitio web Simone - Velas artesanales y decoraciones personalizadas",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "npx http-server -p 3001 -a 0.0.0.0 -c-1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

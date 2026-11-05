@@ -1,0 +1,10 @@
+name = "simone-store"
+pages_build_output_dir = "."
+compatibility_date = "2026-01-01"
+
+# En dash.cloudflare.com -> Workers & Pages -> simone-store -> Settings -> Bindings:
+# Agrega un D1 Database Binding con Variable name: DB
+[[d1_databases]]
+binding = "DB"
+database_name = "simone-store-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID_IN_CLOUDFLARE"
