@@ -101,17 +101,17 @@ const defaultProducts = [
     id: "dec-deseo",
     category: "decorativa",
     name: {
-      es: "Caja de Deseos Navideña",
-      en: "Christmas Wish Box"
+      es: "Caja de Velas de los Deseos (x10 uds)",
+      en: "Personalized Wish Candles Box (10 pcs)"
     },
     description: {
-      es: "Edición especial de temporada. Vela en caja de madera rústica con un mensaje personalizado impreso en la cera.",
-      en: "Special seasonal edition. Candle in a rustic wooden box with a custom message printed directly on the wax."
+      es: "Caja x 10 velas de deseos personalizadas con nombres, deseos (Amor, Prosperidad, Abundancia) y más de 80 plantillas navideñas a elección.",
+      en: "Box of 10 personalized Christmas wish taper candles with custom names, wishes, and over 80 holiday templates to choose from."
     },
     price: 25.00,
-    image: "images/caja_deseos.png",
+    image: "images/carousel_navidad.jpg",
     options: {
-      aromas: ["Canela & Manzana", "Pino Navideño", "Vainilla & Coco"],
+      aromas: ["Canela & Manzana", "Pino Navideño", "Vainilla & Coco", "Sin Aroma"],
       requiresMessage: true,
       requiresPhoto: false
     }
@@ -343,13 +343,13 @@ const defaultSettings = {
     {
       id: "slide-navidad",
       image: "images/carousel_navidad.jpg",
-      subtitle: { es: "Edición Especial de Temporada 🎄✨", en: "Special Holiday Collection 🎄✨" },
-      title: { es: "Velas Artesanales <span>de Navidad</span>", en: "Handcrafted <span>Christmas Candles</span>" },
+      subtitle: { es: "Más de 80 plantillas · Caja x 10 unidades 🕯️✨", en: "Over 80 templates · Box of 10 units 🕯️✨" },
+      title: { es: "Velas de los Deseos <span>Personalizadas</span>", en: "Personalized <span>Wish Candles</span>" },
       description: {
-        es: "Pinos esculpidos en cera de soja, cajas de deseos y aromas cálidos de canela, manzana y pino navideño para iluminar tus fiestas.",
-        en: "Soy wax sculpted pine trees, wish boxes, and warm scents of cinnamon, apple, and Christmas pine to light up your holidays."
+        es: "¡Haz realidad tus deseos! Personalizamos tus velas con nombres, buenos deseos y motivos navideños para iluminar tu Noche de Velitas y Navidad.",
+        en: "Make your wishes come true! We personalize your candles with family names, wishes, and holiday motifs to light up your Christmas."
       },
-      ctaText: { es: "Ver Velas de Navidad", en: "See Christmas Candles" },
+      ctaText: { es: "Personalizar mis Velas", en: "Customize My Candles" },
       ctaLink: "#catalogo"
     },
     {
