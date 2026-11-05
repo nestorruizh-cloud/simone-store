@@ -917,6 +917,9 @@ function initHeroCarousel() {
   let autoPlayTimer = null;
   const autoPlayInterval = 6000;
 
+  track.style.width = `${slides.length * 100}%`;
+  slides.forEach(s => { s.style.width = `${100 / slides.length}%`; });
+
   function updateSlidePosition() {
     track.style.transform = `translateX(-${(currentIndex * 100) / slides.length}%)`;
     

@@ -304,27 +304,27 @@ const getVolumeDiscount = (quantity) => {
 const defaultSettings = {
   promoPopup: {
     enabled: true,
-    image: "images/promo_amor_amistad.jpg",
+    image: "images/promo_navidad.jpg",
     badge: {
-      es: "Especial de Temporada",
-      en: "Seasonal Special"
+      es: "Edición Especial de Navidad 🎄",
+      en: "Christmas Special Edition 🎄"
     },
     title: {
-      es: "Celebra el Amor y la Amistad",
-      en: "Celebrate Love & Friendship"
+      es: "Magia y Luz en <span>esta Navidad</span>",
+      en: "Magic & Light <span>this Christmas</span>"
     },
     description: {
-      es: "Sorprende a esa persona especial con detalles moldeados a mano que llenan de luz y aroma cada rincón.",
-      en: "Surprise that special someone with handcrafted details that fill every corner with light and scent."
+      es: "Regala calidez artesanal a tus seres queridos con nuestra colección navideña de velas de soja, pino y canela.",
+      en: "Gift handcrafted warmth to your loved ones with our Christmas collection of soy, pine, and cinnamon candles."
     },
-    couponCode: "SIMONE10",
+    couponCode: "NAVIDAD10",
     couponDesc: {
-      es: "10% de descuento en todo nuestro catálogo de velas y sachets.",
-      en: "10% off our entire catalog of candles and sachets."
+      es: "10% de descuento en toda nuestra colección navideña, velas y recordatorios.",
+      en: "10% off our entire Christmas collection, candles, and favors."
     },
     ctaText: {
-      es: "Ver Colección de Regalo",
-      en: "Shop Gift Collection"
+      es: "Ver Colección Navideña",
+      en: "Explore Christmas Collection"
     }
   },
   banners: [
@@ -338,6 +338,18 @@ const defaultSettings = {
         en: "Handcrafted soy wax candles, fragranced with botanical oils to transform your daily corners."
       },
       ctaText: { es: "Explorar Catálogo", en: "Explore Catalog" },
+      ctaLink: "#catalogo"
+    },
+    {
+      id: "slide-navidad",
+      image: "images/carousel_navidad.jpg",
+      subtitle: { es: "Edición Especial de Temporada 🎄✨", en: "Special Holiday Collection 🎄✨" },
+      title: { es: "Velas Artesanales <span>de Navidad</span>", en: "Handcrafted <span>Christmas Candles</span>" },
+      description: {
+        es: "Pinos esculpidos en cera de soja, cajas de deseos y aromas cálidos de canela, manzana y pino navideño para iluminar tus fiestas.",
+        en: "Soy wax sculpted pine trees, wish boxes, and warm scents of cinnamon, apple, and Christmas pine to light up your holidays."
+      },
+      ctaText: { es: "Ver Velas de Navidad", en: "See Christmas Candles" },
       ctaLink: "#catalogo"
     },
     {
