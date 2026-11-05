@@ -14,7 +14,7 @@ const defaultProducts = [
       en: "Artisan candle in a 12oz glass jar featuring a detailed hand-modeled floral arrangement in soy wax."
     },
     price: 28.00,
-    image: "images/bouquet_grande.png",
+    image: "images/bouquet_grande.png?v=4",
     options: {
       aromas: ["Lavanda & Manzanilla", "Vainilla & Coco", "Rosas & Jazmín", "Sin Aroma"],
       requiresMessage: false,
@@ -33,7 +33,7 @@ const defaultProducts = [
       en: "Soy wax floral arrangement in an 8oz glass jar. Perfect for gifts or decorating coffee tables."
     },
     price: 20.00,
-    image: "images/bouquet_mediano.png",
+    image: "images/bouquet_mediano.png?v=4",
     options: {
       aromas: ["Lavanda & Manzanilla", "Vainilla & Coco", "Rosas & Jazmín", "Sin Aroma"],
       requiresMessage: false,
@@ -52,7 +52,7 @@ const defaultProducts = [
       en: "Sculptural candle of the classic Venus figure, hand-poured with pure soy wax and a satin matte finish."
     },
     price: 35.00,
-    image: "images/escultura_venus.png",
+    image: "images/escultura_venus.png?v=4",
     options: {
       aromas: ["Sin Aroma", "Vainilla Suave", "Almizcle Blanco"],
       requiresMessage: false,
@@ -71,7 +71,7 @@ const defaultProducts = [
       en: "Contemporary geometric bubble design. A must-have decorative element for modern spaces."
     },
     price: 15.00,
-    image: "images/cubo_burbujas.png",
+    image: "images/cubo_burbujas.png?v=4",
     options: {
       aromas: ["Sin Aroma", "Lavanda", "Canela & Manzana", "Vainilla & Coco"],
       requiresMessage: false,
@@ -90,7 +90,7 @@ const defaultProducts = [
       en: "Hand-modeled wax figure of your dog or cat based on the photo you attach to your quote request."
     },
     price: 45.00,
-    image: "images/vela_mascota.png",
+    image: "images/vela_mascota.png?v=4",
     options: {
       aromas: ["Sin Aroma", "Vainilla & Coco", "Sándalo"],
       requiresMessage: false,
@@ -130,7 +130,7 @@ const defaultProducts = [
       en: "Pack of 6 soy wax melts for burners. Instant relaxation and calmness."
     },
     price: 8.00,
-    image: "images/melts_lavanda.png",
+    image: "images/melts_lavanda.png?v=4",
     options: {
       aromas: ["Lavanda & Salvia"],
       requiresMessage: false,
@@ -149,7 +149,7 @@ const defaultProducts = [
       en: "Festive, warm and spiced aroma. Pack of 6 units ready to melt in burner."
     },
     price: 8.00,
-    image: "images/melts_canela.png",
+    image: "images/melts_canela.png?v=4",
     options: {
       aromas: ["Canela & Manzana"],
       requiresMessage: false,
@@ -168,7 +168,7 @@ const defaultProducts = [
       en: "Pack of 6 melts with a sweet, creamy and exotic scent that embraces the home."
     },
     price: 8.00,
-    image: "images/melts_vainilla.png",
+    image: "images/melts_vainilla.png?v=4",
     options: {
       aromas: ["Vainilla & Coco"],
       requiresMessage: false,
@@ -189,7 +189,7 @@ const defaultProducts = [
       en: "Soy wax tablet decorated with dried rose petals, ideal for scenting wardrobes and drawers."
     },
     price: 10.00,
-    image: "images/sachet_rosas.png",
+    image: "images/sachet_rosas.png?v=4",
     options: {
       aromas: ["Rosas & Jazmín"],
       requiresMessage: false,
@@ -208,7 +208,7 @@ const defaultProducts = [
       en: "Wax sachet decorated with dehydrated orange slices and cinnamon. Gives energy and freshness without fire."
     },
     price: 10.00,
-    image: "images/sachet_citricos.png",
+    image: "images/sachet_citricos.png?v=4",
     options: {
       aromas: ["Naranja & Canela"],
       requiresMessage: false,
