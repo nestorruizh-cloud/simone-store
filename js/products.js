@@ -1,4 +1,9 @@
-// Database for Simone Products and Customizations
+// Database for Simone Products and Customizations (Moneda: Pesos Colombianos - COP)
+
+function formatCOP(amount) {
+  const num = Math.round(Number(amount) || 0);
+  return '$' + num.toLocaleString('es-CO');
+}
 
 const defaultProducts = [
   // --- LÍNEA DECORATIVA ---
@@ -13,8 +18,8 @@ const defaultProducts = [
       es: "Vela artesanal en frasco de vidrio de 12oz con un detallado arreglo floral modelado a mano en cera de soja.",
       en: "Artisan candle in a 12oz glass jar featuring a detailed hand-modeled floral arrangement in soy wax."
     },
-    price: 28.00,
-    image: "images/bouquet_grande.png?v=4",
+    price: 65000,
+    image: "images/bouquet_grande.png?v=5",
     options: {
       aromas: ["Lavanda & Manzanilla", "Vainilla & Coco", "Rosas & Jazmín", "Sin Aroma"],
       requiresMessage: false,
@@ -32,8 +37,8 @@ const defaultProducts = [
       es: "Arreglo floral en cera de soja en frasco de vidrio de 8oz. Perfecto para regalar u ornamentar mesas de centro.",
       en: "Soy wax floral arrangement in an 8oz glass jar. Perfect for gifts or decorating coffee tables."
     },
-    price: 20.00,
-    image: "images/bouquet_mediano.png?v=4",
+    price: 45000,
+    image: "images/bouquet_mediano.png?v=5",
     options: {
       aromas: ["Lavanda & Manzanilla", "Vainilla & Coco", "Rosas & Jazmín", "Sin Aroma"],
       requiresMessage: false,
@@ -51,8 +56,8 @@ const defaultProducts = [
       es: "Vela escultórica de la figura clásica de Venus, vertida a mano con cera de soja pura y acabado mate satinado.",
       en: "Sculptural candle of the classic Venus figure, hand-poured with pure soy wax and a satin matte finish."
     },
-    price: 35.00,
-    image: "images/escultura_venus.png?v=4",
+    price: 55000,
+    image: "images/escultura_venus.png?v=5",
     options: {
       aromas: ["Sin Aroma", "Vainilla Suave", "Almizcle Blanco"],
       requiresMessage: false,
@@ -70,8 +75,8 @@ const defaultProducts = [
       es: "Diseño contemporáneo de burbujas geométricas. Un elemento decorativo imprescindible para espacios modernos.",
       en: "Contemporary geometric bubble design. A must-have decorative element for modern spaces."
     },
-    price: 15.00,
-    image: "images/cubo_burbujas.png?v=4",
+    price: 28000,
+    image: "images/cubo_burbujas.png?v=5",
     options: {
       aromas: ["Sin Aroma", "Lavanda", "Canela & Manzana", "Vainilla & Coco"],
       requiresMessage: false,
@@ -89,8 +94,8 @@ const defaultProducts = [
       es: "Modelado a mano en cera con la figura de tu perro o gato a partir de la foto que adjuntes en tu cotización.",
       en: "Hand-modeled wax figure of your dog or cat based on the photo you attach to your quote request."
     },
-    price: 45.00,
-    image: "images/vela_mascota.png?v=4",
+    price: 75000,
+    image: "images/vela_mascota.png?v=5",
     options: {
       aromas: ["Sin Aroma", "Vainilla & Coco", "Sándalo"],
       requiresMessage: false,
@@ -108,8 +113,8 @@ const defaultProducts = [
       es: "Caja x 10 velas de deseos personalizadas con nombres, deseos (Amor, Prosperidad, Abundancia) y más de 80 plantillas navideñas a elección.",
       en: "Box of 10 personalized Christmas wish taper candles with custom names, wishes, and over 80 holiday templates to choose from."
     },
-    price: 25.00,
-    image: "images/velas_deseos_navidad.jpg",
+    price: 38000,
+    image: "images/velas_deseos_navidad.jpg?v=5",
     options: {
       aromas: ["Canela & Manzana", "Pino Navideño", "Vainilla & Coco", "Sin Aroma"],
       requiresMessage: true,
@@ -129,8 +134,8 @@ const defaultProducts = [
       es: "Pack de 6 pastillas de cera aromática de soja para derretir en quemador. Relajación y calma instantánea.",
       en: "Pack of 6 soy wax melts for burners. Instant relaxation and calmness."
     },
-    price: 8.00,
-    image: "images/melts_lavanda.png?v=4",
+    price: 22000,
+    image: "images/melts_lavanda.png?v=5",
     options: {
       aromas: ["Lavanda & Salvia"],
       requiresMessage: false,
@@ -148,8 +153,8 @@ const defaultProducts = [
       es: "Aroma festivo, cálido y especiado. Pack de 6 unidades listas para derretir en quemador.",
       en: "Festive, warm and spiced aroma. Pack of 6 units ready to melt in burner."
     },
-    price: 8.00,
-    image: "images/melts_canela.png?v=4",
+    price: 22000,
+    image: "images/melts_canela.png?v=5",
     options: {
       aromas: ["Canela & Manzana"],
       requiresMessage: false,
@@ -167,8 +172,8 @@ const defaultProducts = [
       es: "Pack de 6 pastillas con un aroma dulce, cremoso y exótico que abraza el hogar.",
       en: "Pack of 6 melts with a sweet, creamy and exotic scent that embraces the home."
     },
-    price: 8.00,
-    image: "images/melts_vainilla.png?v=4",
+    price: 22000,
+    image: "images/melts_vainilla.png?v=5",
     options: {
       aromas: ["Vainilla & Coco"],
       requiresMessage: false,
@@ -188,8 +193,8 @@ const defaultProducts = [
       es: "Pastilla de cera de soja decorada con pétalos de rosa secos, ideal para aromatizar armarios y cajones.",
       en: "Soy wax tablet decorated with dried rose petals, ideal for scenting wardrobes and drawers."
     },
-    price: 10.00,
-    image: "images/sachet_rosas.png?v=4",
+    price: 25000,
+    image: "images/sachet_rosas.png?v=5",
     options: {
       aromas: ["Rosas & Jazmín"],
       requiresMessage: false,
@@ -207,8 +212,8 @@ const defaultProducts = [
       es: "Sachet de cera decorado con rodajas de naranja deshidratadas y canela. Aporta energía y frescura sin fuego.",
       en: "Wax sachet decorated with dehydrated orange slices and cinnamon. Gives energy and freshness without fire."
     },
-    price: 10.00,
-    image: "images/sachet_citricos.png?v=4",
+    price: 25000,
+    image: "images/sachet_citricos.png?v=5",
     options: {
       aromas: ["Naranja & Canela"],
       requiresMessage: false,
@@ -222,7 +227,14 @@ try {
   if (typeof window !== 'undefined' && window.localStorage && typeof window.localStorage.getItem === 'function') {
     const storedProducts = window.localStorage.getItem('simone_products');
     if (storedProducts) {
-      products = JSON.parse(storedProducts);
+      const parsed = JSON.parse(storedProducts);
+      const hasLegacyUsd = Array.isArray(parsed) && parsed.some(p => Number(p.price) < 500);
+      if (hasLegacyUsd) {
+        products = defaultProducts;
+        window.localStorage.setItem('simone_products', JSON.stringify(defaultProducts));
+      } else {
+        products = parsed;
+      }
     } else {
       window.localStorage.setItem('simone_products', JSON.stringify(defaultProducts));
     }
@@ -231,7 +243,7 @@ try {
   console.error("Error loading products from localStorage:", e);
 }
 
-// Packaging options for events and records
+// Packaging options for events and records (Precios en COP)
 const packagingOptions = [
   {
     id: "pkg-transparent",
@@ -239,8 +251,8 @@ const packagingOptions = [
       es: "Caja de Acetato Transparente + Lazo",
       en: "Transparent Acetate Box + Ribbon"
     },
-    pricePerUnit: 1.50,
-    image: "images/pkg_transparente.png"
+    pricePerUnit: 3500,
+    image: "images/pkg_transparente.png?v=5"
   },
   {
     id: "pkg-tul",
@@ -248,8 +260,8 @@ const packagingOptions = [
       es: "Bolsa de Tul Delicado",
       en: "Delicate Tulle Bag"
     },
-    pricePerUnit: 0.80,
-    image: "images/pkg_tul.png"
+    pricePerUnit: 2000,
+    image: "images/pkg_tul.png?v=5"
   },
   {
     id: "pkg-yute",
@@ -257,8 +269,8 @@ const packagingOptions = [
       es: "Bolsa de Yute Rústica",
       en: "Rustic Jute Bag"
     },
-    pricePerUnit: 1.20,
-    image: "images/pkg_yute.png"
+    pricePerUnit: 3000,
+    image: "images/pkg_yute.png?v=5"
   },
   {
     id: "pkg-saten",
@@ -266,18 +278,18 @@ const packagingOptions = [
       es: "Lazo de Satén + Etiqueta Personalizada",
       en: "Satin Ribbon + Custom Tag"
     },
-    pricePerUnit: 0.50,
-    image: "images/pkg_saten.png"
+    pricePerUnit: 1500,
+    image: "images/pkg_saten.png?v=5"
   }
 ];
 
-// Event types available for records section
+// Event types available for records section (Precios base unitarios en COP)
 const eventTypes = [
-  { id: "baby-shower", name: { es: "Baby Shower & Revelación de Género", en: "Baby Shower & Gender Reveal" }, basePrice: 4.50 },
-  { id: "comunion-bautizo", name: { es: "Primera Comunión y Bautizos", en: "First Communion & Baptisms" }, basePrice: 4.50 },
-  { id: "matrimonio", name: { es: "Matrimonios / Bodas", en: "Weddings" }, basePrice: 5.00 },
-  { id: "corporativo", name: { es: "Eventos Corporativos", en: "Corporate Events" }, basePrice: 5.50 },
-  { id: "personalizada-total", name: { es: "Velas 100% Personalizadas (Diseño Libre)", en: "100% Custom Candles (Free Design)" }, basePrice: 6.00 }
+  { id: "baby-shower", name: { es: "Baby Shower & Revelación de Género", en: "Baby Shower & Gender Reveal" }, basePrice: 12000 },
+  { id: "comunion-bautizo", name: { es: "Primera Comunión y Bautizos", en: "First Communion & Baptisms" }, basePrice: 12000 },
+  { id: "matrimonio", name: { es: "Matrimonios / Bodas", en: "Weddings" }, basePrice: 14000 },
+  { id: "corporativo", name: { es: "Eventos Corporativos", en: "Corporate Events" }, basePrice: 15000 },
+  { id: "personalizada-total", name: { es: "Velas 100% Personalizadas (Diseño Libre)", en: "100% Custom Candles (Free Design)" }, basePrice: 16000 }
 ];
 
 // Scent options for events
@@ -413,7 +425,8 @@ const defaultSettings = {
 
 // Export to make it available for modules or global access
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { defaultProducts, products, defaultSettings, packagingOptions, eventTypes, eventAromas, getVolumeDiscount };
+  module.exports = { defaultProducts, products, defaultSettings, packagingOptions, eventTypes, eventAromas, getVolumeDiscount, formatCOP };
 } else {
-  window.productsDatabase = { defaultProducts, products, defaultSettings, packagingOptions, eventTypes, eventAromas, getVolumeDiscount };
+  window.formatCOP = formatCOP;
+  window.productsDatabase = { defaultProducts, products, defaultSettings, packagingOptions, eventTypes, eventAromas, getVolumeDiscount, formatCOP };
 }

@@ -19,6 +19,10 @@ let adminOrders = [];
 let currentImageBase64 = null;
 let editingProductId = null; // null if creating, otherwise string ID
 
+function formatAdminCOP(amount) {
+  return '$' + Math.round(Number(amount) || 0).toLocaleString('es-CO');
+}
+
 // Theme toggle helper (independent from app.js in case theme toggle is clicked in admin)
 function initTheme() {
   const themeToggle = document.getElementById('theme-toggle');
@@ -83,7 +87,14 @@ async function loadProductsFromStorage() {
   try {
     const stored = localStorage.getItem('simone_products');
     if (stored) {
-      adminProducts = JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      const hasLegacyUSD = Array.isArray(parsed) && parsed.some(p => p && Number(p.price) < 500);
+      if (!hasLegacyUSD) {
+        adminProducts = parsed;
+      } else if (window.productsDatabase && window.productsDatabase.products) {
+        adminProducts = window.productsDatabase.products;
+        localStorage.setItem('simone_products', JSON.stringify(adminProducts));
+      }
     } else if (window.productsDatabase && window.productsDatabase.products) {
       adminProducts = window.productsDatabase.products;
       localStorage.setItem('simone_products', JSON.stringify(adminProducts));
@@ -107,9 +118,12 @@ async function loadProductsFromStorage() {
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data.products) && data.products.length > 0) {
-        adminProducts = data.products;
-        localStorage.setItem('simone_products', JSON.stringify(adminProducts));
-        renderAdminTable();
+        const hasLegacyUSD = data.products.some(p => p && Number(p.price) < 500);
+        if (!hasLegacyUSD) {
+          adminProducts = data.products;
+          localStorage.setItem('simone_products', JSON.stringify(adminProducts));
+          renderAdminTable();
+        }
       }
       if (data.settings) {
         adminSettings = data.settings;
@@ -334,8 +348,8 @@ function renderAdminTable() {
       </td>
       <td><span class="badge-cat badge-${p.category}">${catLabel}</span></td>
       <td class="table-price">
-        <div style="font-weight: 700; color: var(--primary-deep);">$${p.price.toFixed(2)}</div>
-        ${hasDiscount ? `<div style="text-decoration: line-through; font-size: 0.75rem; color: var(--text-muted);">$${p.originalPrice.toFixed(2)}</div>` : ''}
+        <div style="font-weight: 700; color: var(--primary-deep);">${formatAdminCOP(p.price)}</div>
+        ${hasDiscount ? `<div style="text-decoration: line-through; font-size: 0.75rem; color: var(--text-muted);">${formatAdminCOP(p.originalPrice)}</div>` : ''}
         ${p.discountBadge ? `<span class="badge-promo">${p.discountBadge}</span>` : ''}
       </td>
       <td class="actions-cell">
@@ -831,7 +845,7 @@ function initMarketRadarEvents() {
   if (presetSuggested) {
     presetSuggested.addEventListener('click', () => {
       if (!currentRadarData) return;
-      repriceNewInput.value = currentRadarData.suggestedPrice.toFixed(2);
+      repriceNewInput.value = Math.round(currentRadarData.suggestedPrice);
       repriceBadgeInput.value = currentRadarData.suggestedBadge || 'OFERTA ESPECIAL';
       highlightRepriceInputs();
     });
@@ -840,7 +854,7 @@ function initMarketRadarEvents() {
   if (presetMin) {
     presetMin.addEventListener('click', () => {
       if (!currentRadarData) return;
-      repriceNewInput.value = currentRadarData.minPrice.toFixed(2);
+      repriceNewInput.value = Math.round(currentRadarData.minPrice);
       repriceBadgeInput.value = 'MEJOR PRECIO GARANTIZADO';
       highlightRepriceInputs();
     });
@@ -850,7 +864,7 @@ function initMarketRadarEvents() {
     preset10.addEventListener('click', () => {
       if (!currentRadarData) return;
       const basePrice = currentRadarTarget ? currentRadarTarget.price : currentRadarData.yourPrice;
-      repriceNewInput.value = (basePrice * 0.90).toFixed(2);
+      repriceNewInput.value = Math.round(basePrice * 0.90);
       repriceBadgeInput.value = '10% OFF';
       highlightRepriceInputs();
     });
@@ -860,7 +874,7 @@ function initMarketRadarEvents() {
     preset15.addEventListener('click', () => {
       if (!currentRadarData) return;
       const basePrice = currentRadarTarget ? currentRadarTarget.price : currentRadarData.yourPrice;
-      repriceNewInput.value = (basePrice * 0.85).toFixed(2);
+      repriceNewInput.value = Math.round(basePrice * 0.85);
       repriceBadgeInput.value = '15% OFF';
       highlightRepriceInputs();
     });
@@ -969,24 +983,24 @@ function executeMarketScan(query, productRef = null) {
 function generateCompetitorIntelligence(query, targetProduct) {
   const q = query.toLowerCase();
   
-  // Determine baseline price
-  let basePrice = 20.00;
+  // Determine baseline price in COP
+  let basePrice = 45000;
   if (targetProduct) {
     basePrice = targetProduct.price;
   } else if (q.includes('bouquet') && q.includes('grande')) {
-    basePrice = 28.00;
+    basePrice = 65000;
   } else if (q.includes('bouquet')) {
-    basePrice = 20.00;
+    basePrice = 45000;
   } else if (q.includes('venus') || q.includes('escultura')) {
-    basePrice = 35.00;
+    basePrice = 55000;
   } else if (q.includes('latte') || q.includes('capuchino') || q.includes('cafe')) {
-    basePrice = 16.00;
+    basePrice = 35000;
   } else if (q.includes('mascota') || q.includes('foto')) {
-    basePrice = 24.00;
+    basePrice = 75000;
   } else if (q.includes('mikado') || q.includes('difusor') || q.includes('ambiental')) {
-    basePrice = 18.00;
+    basePrice = 25000;
   } else if (q.includes('burbuja') || q.includes('cubo')) {
-    basePrice = 14.00;
+    basePrice = 28000;
   }
   
   // Target Product Name
@@ -1015,7 +1029,7 @@ function generateCompetitorIntelligence(query, targetProduct) {
         regularPrice: basePrice * 1.20,
         offerPrice: basePrice * 1.08,
         discountPercent: 10,
-        promotionText: "Envío gratis por compras mayores a $30 USD",
+        promotionText: "Envío gratis por compras mayores a $100.000 COP",
         linkText: "mercadolibre.com",
         url: "#"
       },
@@ -1190,8 +1204,8 @@ function generateCompetitorIntelligence(query, targetProduct) {
   
   // Intelligent Suggested Repricing
   // Aim to be in the sweet spot: below average, slightly above absolute bottom, highly competitive
-  let suggestedPrice = parseFloat((avgPrice * 0.92).toFixed(2));
-  if (suggestedPrice < minPrice) suggestedPrice = parseFloat((minPrice * 1.04).toFixed(2));
+  let suggestedPrice = Math.round((avgPrice * 0.92) / 500) * 500;
+  if (suggestedPrice < minPrice) suggestedPrice = Math.round((minPrice * 1.04) / 500) * 500;
   let suggestedBadge = "OFERTA RECOMENDADA";
   
   if (basePrice > suggestedPrice) {
@@ -1205,23 +1219,23 @@ function generateCompetitorIntelligence(query, targetProduct) {
   
   if (priceDiffPercent > 5) {
     aiDiagnostic = `
-      <p><strong>Diagnóstico de Mercado:</strong> Actualmente tu precio (<strong>$${basePrice.toFixed(2)}</strong>) está un <span style="color:#ef4444; font-weight:700;">+${priceDiffPercent}% por encima</span> del promedio del mercado ($${avgPrice.toFixed(2)}). Detectamos que <strong>${promoCount} de ${competitors.length} competidores</strong> están aplicando agresivas promociones activas (descuento promedio de ${avgDiscountPercent}% OFF y cupones de bienvenida).</p>
+      <p><strong>Diagnóstico de Mercado:</strong> Actualmente tu precio (<strong>${formatAdminCOP(basePrice)}</strong>) está un <span style="color:#ef4444; font-weight:700;">+${priceDiffPercent}% por encima</span> del promedio del mercado (${formatAdminCOP(avgPrice)}). Detectamos que <strong>${promoCount} de ${competitors.length} competidores</strong> están aplicando agresivas promociones activas (descuento promedio de ${avgDiscountPercent}% OFF y cupones de bienvenida).</p>
       <div class="ai-recommendation-highlight">
-        🎯 <strong>Estrategia Recomendada Simone IA:</strong> Tu producto tiene un valor diferencial superior por cera de soya 100% pura y acabados artesanales. Para no entrar en una guerra de precios con el mínimo de $${minPrice.toFixed(2)} pero captar las compras indecisas del fin de semana, <strong>te recomendamos ajustar tu precio a $${suggestedPrice.toFixed(2)} con la etiqueta "${suggestedBadge}"</strong>. Esto mantendrá un margen saludable (>48%) y te posicionará en el Top 2 más competitivo.
+        🎯 <strong>Estrategia Recomendada Simone IA:</strong> Tu producto tiene un valor diferencial superior por cera de soya 100% pura y acabados artesanales. Para no entrar en una guerra de precios con el mínimo de ${formatAdminCOP(minPrice)} pero captar las compras indecisas del fin de semana, <strong>te recomendamos ajustar tu precio a ${formatAdminCOP(suggestedPrice)} con la etiqueta "${suggestedBadge}"</strong>. Esto mantendrá un margen saludable (>48%) y te posicionará en el Top 2 más competitivo.
       </div>
     `;
   } else if (priceDiffPercent < -5) {
     aiDiagnostic = `
-      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>$${basePrice.toFixed(2)}</strong>) es sumamente atractivo, situándose un <span style="color:#10b981; font-weight:700;">${Math.abs(priceDiffPercent)}% por debajo</span> del promedio del mercado ($${avgPrice.toFixed(2)}). El competidor más caro vende productos similares a $${maxPrice.toFixed(2)}.</p>
+      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>${formatAdminCOP(basePrice)}</strong>) es sumamente atractivo, situándose un <span style="color:#10b981; font-weight:700;">${Math.abs(priceDiffPercent)}% por debajo</span> del promedio del mercado (${formatAdminCOP(avgPrice)}). El competidor más caro vende productos similares a ${formatAdminCOP(maxPrice)}.</p>
       <div class="ai-recommendation-highlight">
-        💡 <strong>Estrategia Recomendada Simone IA:</strong> Tienes margen para incrementar tus ganancias sin perder volumen. Podrías mantener tu precio actual destacando un distintivo de <em>"Mejor Precio Garantizado"</em> o aplicar un precio optimizado de <strong>$${suggestedPrice.toFixed(2)}</strong> para capturar mayor rentabilidad por unidad.
+        💡 <strong>Estrategia Recomendada Simone IA:</strong> Tienes margen para incrementar tus ganancias sin perder volumen. Podrías mantener tu precio actual destacando un distintivo de <em>"Mejor Precio Garantizado"</em> o aplicar un precio optimizado de <strong>${formatAdminCOP(suggestedPrice)}</strong> para capturar mayor rentabilidad por unidad.
       </div>
     `;
   } else {
     aiDiagnostic = `
-      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>$${basePrice.toFixed(2)}</strong>) está prácticamente en paridad con el promedio de la industria ($${avgPrice.toFixed(2)}). Sin embargo, <strong>${promoCount} competidores</strong> atraen clientes con ganchos comerciales (descuentos del ${avgDiscountPercent}% en transferencias y segundas unidades).</p>
+      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>${formatAdminCOP(basePrice)}</strong>) está prácticamente en paridad con el promedio de la industria (${formatAdminCOP(avgPrice)}). Sin embargo, <strong>${promoCount} competidores</strong> atraen clientes con ganchos comerciales (descuentos del ${avgDiscountPercent}% en transferencias y segundas unidades).</p>
       <div class="ai-recommendation-highlight">
-        ⚡ <strong>Estrategia Recomendada Simone IA:</strong> Para inclinar la balanza a tu favor sin erosionar el valor de tu marca, activa una promoción temporal fijando tu precio en <strong>$${suggestedPrice.toFixed(2)} (${suggestedBadge})</strong> o prueba una oferta de compra en combo.
+        ⚡ <strong>Estrategia Recomendada Simone IA:</strong> Para inclinar la balanza a tu favor sin erosionar el valor de tu marca, activa una promoción temporal fijando tu precio en <strong>${formatAdminCOP(suggestedPrice)} (${suggestedBadge})</strong> o prueba una oferta de compra en combo.
       </div>
     `;
   }
@@ -1258,11 +1272,11 @@ function renderMarketRadarResults(data) {
   const promoAvgEl = document.getElementById('metric-discount-avg');
   const promoCountEl = document.getElementById('metric-promo-count');
   
-  yourPriceEl.textContent = `$${data.yourPrice.toFixed(2)}`;
-  minPriceEl.textContent = `$${data.minPrice.toFixed(2)}`;
+  yourPriceEl.textContent = formatAdminCOP(data.yourPrice);
+  minPriceEl.textContent = formatAdminCOP(data.minPrice);
   minStoreEl.textContent = `Tienda: ${data.minCompetitor.store}`;
-  avgPriceEl.textContent = `$${data.avgPrice.toFixed(2)}`;
-  maxPriceEl.textContent = `$${data.maxPrice.toFixed(2)}`;
+  avgPriceEl.textContent = formatAdminCOP(data.avgPrice);
+  maxPriceEl.textContent = formatAdminCOP(data.maxPrice);
   maxStoreEl.textContent = `Tienda: ${data.maxCompetitor.store}`;
   promoAvgEl.textContent = `${data.avgDiscountPercent}% OFF`;
   promoCountEl.textContent = `${data.promoCount} tiendas con ofertas activas`;
@@ -1289,12 +1303,12 @@ function renderMarketRadarResults(data) {
     const diff = c.offerPrice - data.yourPrice;
     const diffPercent = Math.round((Math.abs(diff) / data.yourPrice) * 100);
     let diffHtml = '';
-    if (Math.abs(diff) < 0.20) {
+    if (Math.abs(diff) < 100) {
       diffHtml = `<span class="diff-tag" style="color:var(--text-muted); font-weight:500;">Mismo precio</span>`;
     } else if (diff < 0) {
-      diffHtml = `<span class="diff-tag diff-cheaper">-$${Math.abs(diff).toFixed(2)} (-${diffPercent}%)</span>`;
+      diffHtml = `<span class="diff-tag diff-cheaper">-${formatAdminCOP(Math.abs(diff))} (-${diffPercent}%)</span>`;
     } else {
-      diffHtml = `<span class="diff-tag diff-expensive">+$${diff.toFixed(2)} (+${diffPercent}%)</span>`;
+      diffHtml = `<span class="diff-tag diff-expensive">+${formatAdminCOP(diff)} (+${diffPercent}%)</span>`;
     }
     
     tr.innerHTML = `
@@ -1304,10 +1318,10 @@ function renderMarketRadarResults(data) {
       </td>
       <td style="max-width: 220px; font-weight: 500;">${c.product}</td>
       <td>
-        ${c.discountPercent > 0 ? `<span class="price-strike">$${c.regularPrice.toFixed(2)}</span>` : `$${c.regularPrice.toFixed(2)}`}
+        ${c.discountPercent > 0 ? `<span class="price-strike">${formatAdminCOP(c.regularPrice)}</span>` : `${formatAdminCOP(c.regularPrice)}`}
       </td>
       <td>
-        <span class="price-final-deal">$${c.offerPrice.toFixed(2)}</span>
+        <span class="price-final-deal">${formatAdminCOP(c.offerPrice)}</span>
         ${c.discountPercent > 0 ? `<span class="badge-discount-tag">${c.discountPercent}% OFF</span>` : ''}
       </td>
       <td>
@@ -1334,13 +1348,13 @@ function renderMarketRadarResults(data) {
   }
   
   // Update Preset Button labels
-  document.getElementById('btn-suggested-val').textContent = `$${data.suggestedPrice.toFixed(2)}`;
-  document.getElementById('btn-min-val').textContent = `$${data.minPrice.toFixed(2)}`;
-  document.getElementById('btn-10-val').textContent = `$${(data.yourPrice * 0.90).toFixed(2)}`;
-  document.getElementById('btn-15-val').textContent = `$${(data.yourPrice * 0.85).toFixed(2)}`;
+  document.getElementById('btn-suggested-val').textContent = formatAdminCOP(data.suggestedPrice);
+  document.getElementById('btn-min-val').textContent = formatAdminCOP(data.minPrice);
+  document.getElementById('btn-10-val').textContent = formatAdminCOP(data.yourPrice * 0.90);
+  document.getElementById('btn-15-val').textContent = formatAdminCOP(data.yourPrice * 0.85);
   
   // Pre-fill Reprice inputs with AI Suggestion
-  document.getElementById('reprice-new-val').value = data.suggestedPrice.toFixed(2);
+  document.getElementById('reprice-new-val').value = Math.round(data.suggestedPrice);
   document.getElementById('reprice-badge-val').value = data.suggestedBadge || '';
 }
 
@@ -1351,7 +1365,7 @@ function applyMarketRepricing() {
   const newPriceInput = document.getElementById('reprice-new-val');
   const newBadgeInput = document.getElementById('reprice-badge-val');
   
-  const newPrice = parseFloat(newPriceInput.value);
+  const newPrice = Math.round(parseFloat(newPriceInput.value));
   const promoBadge = newBadgeInput.value.trim();
   
   if (isNaN(newPrice) || newPrice <= 0) {
@@ -1381,16 +1395,16 @@ function applyMarketRepricing() {
       renderAdminTable();
       
       // Update Radar Modal live display
-      document.getElementById('metric-your-price').textContent = `$${newPrice.toFixed(2)}`;
+      document.getElementById('metric-your-price').textContent = formatAdminCOP(newPrice);
       const badge = document.getElementById('metric-competitiveness-badge');
       badge.textContent = '¡Precio Actualizado Ahora Mismo! ✨';
       badge.className = 'metric-badge badge-lower';
       
-      showToast(`✅ Precio de "${adminProducts[index].name.es}" actualizado a $${newPrice.toFixed(2)} en Simone Store.`);
+      showToast(`✅ Precio de "${adminProducts[index].name.es}" actualizado a ${formatAdminCOP(newPrice)} en Simone Store.`);
     }
   } else {
     // Arbitrary item searched: offer to add to catalog with 1-click
-    const confirmAdd = confirm(`El producto "${currentRadarData.query}" no está en tu catálogo. ¿Deseas agregarlo a Simone Store con el precio de $${newPrice.toFixed(2)}?`);
+    const confirmAdd = confirm(`El producto "${currentRadarData.query}" no está en tu catálogo. ¿Deseas agregarlo a Simone Store con el precio de ${formatAdminCOP(newPrice)}?`);
     if (confirmAdd) {
       closeMarketRadar();
       openProductModal();
@@ -1399,7 +1413,7 @@ function applyMarketRepricing() {
       document.getElementById('prod-id').value = newId;
       document.getElementById('prod-name-es').value = currentRadarData.query;
       document.getElementById('prod-name-en').value = currentRadarData.query;
-      document.getElementById('prod-price').value = newPrice.toFixed(2);
+      document.getElementById('prod-price').value = Math.round(newPrice);
       document.getElementById('prod-desc-es').value = `Producto artesanal de alta calidad elaborado en cera de soja con diseño exclusivo.`;
       document.getElementById('prod-desc-en').value = `High-quality handcrafted soy wax candle with exclusive design.`;
       showToast(`Pre-llenado en formulario de creación de producto.`);
@@ -1650,7 +1664,7 @@ function renderOrdersTable() {
   if (kpiTotal) kpiTotal.textContent = totalCount;
   if (kpiNew) kpiNew.textContent = newCount;
   if (kpiActive) kpiActive.textContent = activeCount;
-  if (kpiRev) kpiRev.textContent = `$${totalRevenue.toFixed(2)}`;
+  if (kpiRev) kpiRev.textContent = formatAdminCOP(totalRevenue);
   if (tabBadge) {
     tabBadge.textContent = newCount;
     tabBadge.style.display = newCount > 0 ? 'inline-block' : 'none';
@@ -1696,7 +1710,7 @@ function renderOrdersTable() {
     }).join('');
 
     const cleanPhone = (order.customerPhone || '').replace(/\D/g, '');
-    const waFollowUpText = `Hola ${order.customerName || ''}, te escribimos de Simone Velas respecto a tu solicitud *${order.id}* por valor de *$${Number(order.total || 0).toFixed(2)}*.`;
+    const waFollowUpText = `Hola ${order.customerName || ''}, te escribimos de Simone Velas respecto a tu solicitud *${order.id}* por valor de *${formatAdminCOP(order.total || 0)}*.`;
     const waHref = cleanPhone.length >= 10
       ? `https://wa.me/${cleanPhone.startsWith('57') ? cleanPhone : '57' + cleanPhone}?text=${encodeURIComponent(waFollowUpText)}`
       : `https://wa.me/?text=${encodeURIComponent(waFollowUpText)}`;
@@ -1718,7 +1732,7 @@ function renderOrdersTable() {
         ${itemsHtml}
         ${order.notes ? `<div style="font-size: 0.78rem; color: var(--brand-primary); margin-top: 4px;">📝 ${order.notes}</div>` : ''}
       </td>
-      <td style="font-weight: 700;">$${Number(order.total || 0).toFixed(2)}</td>
+      <td style="font-weight: 700;">${formatAdminCOP(order.total || 0)}</td>
       <td>
         <select class="order-status-select" data-order-id="${order.id}">
           <option value="nuevo" ${order.status === 'nuevo' ? 'selected' : ''}>🟢 Nuevo</option>

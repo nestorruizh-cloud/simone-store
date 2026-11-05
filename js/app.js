@@ -172,8 +172,18 @@ const dictionary = {
     : "\n\n*⚠️ Por favor, recuerda adjuntar la foto o fotos en este chat después de enviar este mensaje.*"
 };
 
-// Global State
+// Global State (auto-clear legacy USD cart items)
 let cart = JSON.parse(localStorage.getItem('simone_cart')) || JSON.parse(localStorage.getItem('simon_store_cart')) || [];
+if (Array.isArray(cart) && cart.some(item => Number(item.price) > 0 && Number(item.price) < 500)) {
+  cart = [];
+  localStorage.removeItem('simone_cart');
+  localStorage.removeItem('simon_store_cart');
+}
+
+function formatMoney(amount) {
+  if (typeof window.formatCOP === 'function') return window.formatCOP(amount);
+  return '$' + Math.round(Number(amount) || 0).toLocaleString('es-CO');
+}
 
 // --- THEME & NAV INITIALIZATION ---
 function initTheme() {
@@ -286,10 +296,10 @@ function initCatalog() {
       const hasDiscount = product.originalPrice && product.originalPrice > product.price;
       const priceDisplayHtml = hasDiscount
         ? `<div class="product-price-badge discount-active">
-             <span class="price-strikethrough">$${product.originalPrice.toFixed(2)}</span>
-             <span class="price-deal">$${product.price.toFixed(2)}</span>
+             <span class="price-strikethrough">${formatMoney(product.originalPrice)}</span>
+             <span class="price-deal">${formatMoney(product.price)}</span>
            </div>`
-        : `<div class="product-price-badge">$${product.price.toFixed(2)}</div>`;
+        : `<div class="product-price-badge">${formatMoney(product.price)}</div>`;
         
       const cornerBadgeHtml = product.discountBadge
         ? `<div class="product-corner-badge">${product.discountBadge}</div>`
@@ -461,7 +471,7 @@ function initEventCalculator() {
   });
 
   packagingOptions.forEach(pkg => {
-    eventPkgSelect.innerHTML += `<option value="${pkg.id}">${isEnglish ? pkg.name.en : pkg.name.es} (+$${pkg.pricePerUnit.toFixed(2)})</option>`;
+    eventPkgSelect.innerHTML += `<option value="${pkg.id}">${isEnglish ? pkg.name.en : pkg.name.es} (+${formatMoney(pkg.pricePerUnit)})</option>`;
   });
 
   // 2. Populate Packaging Showcase cards on the sidebar
@@ -471,7 +481,7 @@ function initEventCalculator() {
       <div class="pkg-card">
         <img src="${pkg.image}" alt="${isEnglish ? pkg.name.en : pkg.name.es}" class="pkg-img">
         <div class="pkg-name">${isEnglish ? pkg.name.en : pkg.name.es}</div>
-        <div class="pkg-price">+$${pkg.pricePerUnit.toFixed(2)}</div>
+        <div class="pkg-price">+${formatMoney(pkg.pricePerUnit)}</div>
       </div>
     `;
   });
@@ -487,13 +497,13 @@ function initEventCalculator() {
     // Calculate prices
     const basePrice = selectedEvent.basePrice + selectedPkg.pricePerUnit;
     const discount = getVolumeDiscount(qty);
-    const discountedUnitPrice = basePrice * (1 - discount);
+    const discountedUnitPrice = Math.round(basePrice * (1 - discount));
     const subtotal = discountedUnitPrice * qty;
 
     // Render results
-    unitPriceLabel.textContent = `$${discountedUnitPrice.toFixed(2)} / ${dictionary.unit}`;
+    unitPriceLabel.textContent = `${formatMoney(discountedUnitPrice)} / ${dictionary.unit}`;
     discountLabel.textContent = `${(discount * 100).toFixed(0)}% OFF`;
-    totalPriceLabel.textContent = `$${subtotal.toFixed(2)}`;
+    totalPriceLabel.textContent = `${formatMoney(subtotal)}`;
 
     return {
       name: isEnglish ? selectedEvent.name.en : selectedEvent.name.es,
@@ -586,8 +596,8 @@ function initEventCalculator() {
       `• *${isEnglish ? 'Scent:' : 'Aroma:'}* ${calcResult.aromaName}\n` +
       `• *${isEnglish ? 'Packaging:' : 'Empaque:'}* ${calcResult.pkgName}\n` +
       `• *${isEnglish ? 'Custom Label:' : 'Etiqueta:'}* ${tagText || (isEnglish ? 'None' : 'Ninguna')}\n\n` +
-      `• *${isEnglish ? 'Unit Price (Discount applied):' : 'Precio Unitario (Con Desc.):'}* $${calcResult.unitPrice.toFixed(2)}\n` +
-      `• *${isEnglish ? 'Estimated Total:' : 'Total Estimado:'}* $${calcResult.subtotal.toFixed(2)}\n\n` +
+      `• *${isEnglish ? 'Unit Price (Discount applied):' : 'Precio Unitario (Con Desc.):'}* ${formatMoney(calcResult.unitPrice)}\n` +
+      `• *${isEnglish ? 'Estimated Total:' : 'Total Estimado:'}* ${formatMoney(calcResult.subtotal)}\n\n` +
       `${isEnglish ? 'I would like to receive design templates.' : 'Me gustaría recibir las plantillas de diseño para la etiqueta.'}`;
 
     // Save Event Quote in Cloud Orders Database
@@ -700,10 +710,10 @@ function initCart() {
         if (item.customizations.packaging) orderListText += `   - Empaque: ${item.customizations.packaging}\n`;
       }
       
-      orderListText += `   Precio: $${itemPrice.toFixed(2)}\n\n`;
+      orderListText += `   Precio: ${formatMoney(itemPrice)}\n\n`;
     });
 
-    orderListText += `*Total de la Cotización:* $${subtotal.toFixed(2)}`;
+    orderListText += `*Total de la Cotización:* ${formatMoney(subtotal)}`;
 
     if (hasPhotos) {
       orderListText += dictionary.photoReminder;
@@ -755,7 +765,7 @@ function renderCart() {
   
   if (cart.length === 0) {
     container.innerHTML = `<div class="cart-empty-message">${dictionary.cartEmpty}</div>`;
-    subtotalLabel.textContent = '$0.00';
+    subtotalLabel.textContent = '$0';
     return;
   }
 
@@ -795,7 +805,7 @@ function renderCart() {
             <span class="qty-val">${item.qty}</span>
             <button class="qty-btn" data-key="${item.key}" data-action="increase">+</button>
           </div>
-          <span class="cart-item-price">$${itemSubtotal.toFixed(2)}</span>
+          <span class="cart-item-price">${formatMoney(itemSubtotal)}</span>
         </div>
       </div>
       <button class="cart-item-remove" data-key="${item.key}" data-action="remove" aria-label="Remover">
@@ -808,7 +818,7 @@ function renderCart() {
     container.appendChild(div);
   });
 
-  subtotalLabel.textContent = `$${cartSubtotal.toFixed(2)}`;
+  subtotalLabel.textContent = formatMoney(cartSubtotal);
 }
 
 function updateCartBadge() {
@@ -1172,12 +1182,12 @@ function initPdfGenerator() {
 
         const name = typeof prod.name === 'object' ? (isEnglish ? prod.name.en : prod.name.es) : (isEnglish ? (prod.name_en || prod.name) : prod.name);
         const desc = typeof prod.description === 'object' ? (isEnglish ? prod.description.en : prod.description.es) : (isEnglish ? (prod.description_en || prod.description) : prod.description);
-        const price = prod.price.toFixed(2);
+        const price = formatMoney(prod.price);
 
         card.innerHTML = `
           <img src="${imgSrc}" class="pdf-product-image" alt="${name}">
           <div class="pdf-product-name">${name}</div>
-          <div class="pdf-product-price">$${price}</div>
+          <div class="pdf-product-price">${price}</div>
           <div class="pdf-product-desc">${desc}</div>
         `;
         grid.appendChild(card);

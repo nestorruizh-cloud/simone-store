@@ -3,6 +3,10 @@
 let sharedRadarTarget = null;
 let sharedRadarData = null;
 
+function formatRadarCOP(amount) {
+  return '$' + Math.round(Number(amount) || 0).toLocaleString('es-CO');
+}
+
 // Initialize events for Market Radar
 function initMarketRadarModule() {
   const radarModal = document.getElementById('market-radar-modal');
@@ -96,7 +100,7 @@ function initMarketRadarModule() {
   if (presetSuggested) {
     presetSuggested.addEventListener('click', () => {
       if (!sharedRadarData) return;
-      repriceNewInput.value = sharedRadarData.suggestedPrice.toFixed(2);
+      repriceNewInput.value = Math.round(sharedRadarData.suggestedPrice);
       repriceBadgeInput.value = sharedRadarData.suggestedBadge || 'OFERTA ESPECIAL';
       highlightRepriceFields();
     });
@@ -105,7 +109,7 @@ function initMarketRadarModule() {
   if (presetMin) {
     presetMin.addEventListener('click', () => {
       if (!sharedRadarData) return;
-      repriceNewInput.value = sharedRadarData.minPrice.toFixed(2);
+      repriceNewInput.value = Math.round(sharedRadarData.minPrice);
       repriceBadgeInput.value = 'MEJOR PRECIO GARANTIZADO';
       highlightRepriceFields();
     });
@@ -115,7 +119,7 @@ function initMarketRadarModule() {
     preset10.addEventListener('click', () => {
       if (!sharedRadarData) return;
       const basePrice = sharedRadarTarget ? sharedRadarTarget.price : sharedRadarData.yourPrice;
-      repriceNewInput.value = (basePrice * 0.90).toFixed(2);
+      repriceNewInput.value = Math.round(basePrice * 0.90);
       repriceBadgeInput.value = '10% OFF';
       highlightRepriceFields();
     });
@@ -125,7 +129,7 @@ function initMarketRadarModule() {
     preset15.addEventListener('click', () => {
       if (!sharedRadarData) return;
       const basePrice = sharedRadarTarget ? sharedRadarTarget.price : sharedRadarData.yourPrice;
-      repriceNewInput.value = (basePrice * 0.85).toFixed(2);
+      repriceNewInput.value = Math.round(basePrice * 0.85);
       repriceBadgeInput.value = '15% OFF';
       highlightRepriceFields();
     });
@@ -262,24 +266,24 @@ function runMarketRadarScan(query, productRef = null) {
 function calculateCompetitorData(query, targetProduct) {
   const q = query.toLowerCase();
   
-  // Determine baseline price
-  let basePrice = 20.00;
+  // Determine baseline price in COP
+  let basePrice = 45000;
   if (targetProduct && targetProduct.price) {
     basePrice = targetProduct.price;
   } else if (q.includes('bouquet') && q.includes('grande')) {
-    basePrice = 28.00;
+    basePrice = 65000;
   } else if (q.includes('bouquet')) {
-    basePrice = 20.00;
+    basePrice = 45000;
   } else if (q.includes('venus') || q.includes('escultura')) {
-    basePrice = 35.00;
+    basePrice = 55000;
   } else if (q.includes('latte') || q.includes('capuchino') || q.includes('cafe')) {
-    basePrice = 16.00;
+    basePrice = 35000;
   } else if (q.includes('mascota') || q.includes('foto')) {
-    basePrice = 24.00;
+    basePrice = 75000;
   } else if (q.includes('mikado') || q.includes('difusor') || q.includes('ambiental')) {
-    basePrice = 18.00;
+    basePrice = 25000;
   } else if (q.includes('burbuja') || q.includes('cubo')) {
-    basePrice = 14.00;
+    basePrice = 28000;
   }
   
   const productName = targetProduct ? (targetProduct.name.es || targetProduct.name) : query;
@@ -304,7 +308,7 @@ function calculateCompetitorData(query, targetProduct) {
         regularPrice: basePrice * 1.20,
         offerPrice: basePrice * 1.08,
         discountPercent: 10,
-        promotionText: "Envío gratis por compras mayores a $30 USD",
+        promotionText: "Envío gratis por compras mayores a $100.000 COP",
         linkText: "mercadolibre.com"
       },
       {
@@ -462,8 +466,8 @@ function calculateCompetitorData(query, targetProduct) {
   const minCompetitor = competitors.find(c => c.offerPrice === minPrice) || competitors[0];
   const maxCompetitor = competitors.find(c => c.offerPrice === maxPrice) || competitors[2];
   
-  let suggestedPrice = parseFloat((avgPrice * 0.92).toFixed(2));
-  if (suggestedPrice < minPrice) suggestedPrice = parseFloat((minPrice * 1.04).toFixed(2));
+  let suggestedPrice = Math.round((avgPrice * 0.92) / 500) * 500;
+  if (suggestedPrice < minPrice) suggestedPrice = Math.round((minPrice * 1.04) / 500) * 500;
   let suggestedBadge = "OFERTA RECOMENDADA";
   
   if (basePrice > suggestedPrice) {
@@ -477,23 +481,23 @@ function calculateCompetitorData(query, targetProduct) {
   
   if (priceDiffPercent > 5) {
     aiDiagnostic = `
-      <p><strong>Diagnóstico de Mercado:</strong> Actualmente tu precio (<strong>$${basePrice.toFixed(2)}</strong>) está un <span style="color:#ef4444; font-weight:700;">+${priceDiffPercent}% por encima</span> del promedio del mercado ($${avgPrice.toFixed(2)}). Detectamos que <strong>${promoCount} de ${competitors.length} competidores</strong> están aplicando agresivas promociones activas (descuento promedio de ${avgDiscountPercent}% OFF y cupones de bienvenida).</p>
+      <p><strong>Diagnóstico de Mercado:</strong> Actualmente tu precio (<strong>${formatRadarCOP(basePrice)}</strong>) está un <span style="color:#ef4444; font-weight:700;">+${priceDiffPercent}% por encima</span> del promedio del mercado (${formatRadarCOP(avgPrice)}). Detectamos que <strong>${promoCount} de ${competitors.length} competidores</strong> están aplicando agresivas promociones activas (descuento promedio de ${avgDiscountPercent}% OFF y cupones de bienvenida).</p>
       <div class="ai-recommendation-highlight">
-        🎯 <strong>Estrategia Recomendada Simone IA:</strong> Tu producto tiene un valor diferencial superior por cera de soya 100% pura y acabados artesanales. Para no entrar en una guerra de precios con el mínimo de $${minPrice.toFixed(2)} pero captar las compras indecisas del fin de semana, <strong>te recomendamos ajustar tu precio a $${suggestedPrice.toFixed(2)} con la etiqueta "${suggestedBadge}"</strong>. Esto mantendrá un margen saludable (>48%) y te posicionará en el Top 2 más competitivo.
+        🎯 <strong>Estrategia Recomendada Simone IA:</strong> Tu producto tiene un valor diferencial superior por cera de soya 100% pura y acabados artesanales. Para no entrar en una guerra de precios con el mínimo de ${formatRadarCOP(minPrice)} pero captar las compras indecisas del fin de semana, <strong>te recomendamos ajustar tu precio a ${formatRadarCOP(suggestedPrice)} con la etiqueta "${suggestedBadge}"</strong>. Esto mantendrá un margen saludable (>48%) y te posicionará en el Top 2 más competitivo.
       </div>
     `;
   } else if (priceDiffPercent < -5) {
     aiDiagnostic = `
-      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>$${basePrice.toFixed(2)}</strong>) es sumamente atractivo, situándose un <span style="color:#10b981; font-weight:700;">${Math.abs(priceDiffPercent)}% por debajo</span> del promedio del mercado ($${avgPrice.toFixed(2)}). El competidor más caro vende productos similares a $${maxPrice.toFixed(2)}.</p>
+      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>${formatRadarCOP(basePrice)}</strong>) es sumamente atractivo, situándose un <span style="color:#10b981; font-weight:700;">${Math.abs(priceDiffPercent)}% por debajo</span> del promedio del mercado (${formatRadarCOP(avgPrice)}). El competidor más caro vende productos similares a ${formatRadarCOP(maxPrice)}.</p>
       <div class="ai-recommendation-highlight">
-        💡 <strong>Estrategia Recomendada Simone IA:</strong> Tienes margen para incrementar tus ganancias sin perder volumen. Podrías mantener tu precio actual destacando un distintivo de <em>"Mejor Precio Garantizado"</em> o aplicar un precio optimizado de <strong>$${suggestedPrice.toFixed(2)}</strong> para capturar mayor rentabilidad por unidad.
+        💡 <strong>Estrategia Recomendada Simone IA:</strong> Tienes margen para incrementar tus ganancias sin perder volumen. Podrías mantener tu precio actual destacando un distintivo de <em>"Mejor Precio Garantizado"</em> o aplicar un precio optimizado de <strong>${formatRadarCOP(suggestedPrice)}</strong> para capturar mayor rentabilidad por unidad.
       </div>
     `;
   } else {
     aiDiagnostic = `
-      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>$${basePrice.toFixed(2)}</strong>) está prácticamente en paridad con el promedio de la industria ($${avgPrice.toFixed(2)}). Sin embargo, <strong>${promoCount} competidores</strong> atraen clientes con ganchos comerciales (descuentos del ${avgDiscountPercent}% en transferencias y segundas unidades).</p>
+      <p><strong>Diagnóstico de Mercado:</strong> Tu precio actual (<strong>${formatRadarCOP(basePrice)}</strong>) está prácticamente en paridad con el promedio de la industria (${formatRadarCOP(avgPrice)}). Sin embargo, <strong>${promoCount} competidores</strong> atraen clientes con ganchos comerciales (descuentos del ${avgDiscountPercent}% en transferencias y segundas unidades).</p>
       <div class="ai-recommendation-highlight">
-        ⚡ <strong>Estrategia Recomendada Simone IA:</strong> Para inclinar la balanza a tu favor sin erosionar el valor de tu marca, activa una promoción temporal fijando tu precio en <strong>$${suggestedPrice.toFixed(2)} (${suggestedBadge})</strong> o prueba una oferta de compra en combo.
+        ⚡ <strong>Estrategia Recomendada Simone IA:</strong> Para inclinar la balanza a tu favor sin erosionar el valor de tu marca, activa una promoción temporal fijando tu precio en <strong>${formatRadarCOP(suggestedPrice)} (${suggestedBadge})</strong> o prueba una oferta de compra en combo.
       </div>
     `;
   }
@@ -529,11 +533,11 @@ function renderMarketRadarData(data) {
   const promoAvgEl = document.getElementById('metric-discount-avg');
   const promoCountEl = document.getElementById('metric-promo-count');
   
-  if (yourPriceEl) yourPriceEl.textContent = `$${data.yourPrice.toFixed(2)}`;
-  if (minPriceEl) minPriceEl.textContent = `$${data.minPrice.toFixed(2)}`;
+  if (yourPriceEl) yourPriceEl.textContent = formatRadarCOP(data.yourPrice);
+  if (minPriceEl) minPriceEl.textContent = formatRadarCOP(data.minPrice);
   if (minStoreEl) minStoreEl.textContent = `Tienda: ${data.minCompetitor.store}`;
-  if (avgPriceEl) avgPriceEl.textContent = `$${data.avgPrice.toFixed(2)}`;
-  if (maxPriceEl) maxPriceEl.textContent = `$${data.maxPrice.toFixed(2)}`;
+  if (avgPriceEl) avgPriceEl.textContent = formatRadarCOP(data.avgPrice);
+  if (maxPriceEl) maxPriceEl.textContent = formatRadarCOP(data.maxPrice);
   if (maxStoreEl) maxStoreEl.textContent = `Tienda: ${data.maxCompetitor.store}`;
   if (promoAvgEl) promoAvgEl.textContent = `${data.avgDiscountPercent}% OFF`;
   if (promoCountEl) promoCountEl.textContent = `${data.promoCount} tiendas con ofertas activas`;
@@ -562,12 +566,12 @@ function renderMarketRadarData(data) {
       const diff = c.offerPrice - data.yourPrice;
       const diffPercent = Math.round((Math.abs(diff) / data.yourPrice) * 100);
       let diffHtml = '';
-      if (Math.abs(diff) < 0.20) {
+      if (Math.abs(diff) < 100) {
         diffHtml = `<span class="diff-tag" style="color:var(--text-muted); font-weight:500;">Mismo precio</span>`;
       } else if (diff < 0) {
-        diffHtml = `<span class="diff-tag diff-cheaper">-$${Math.abs(diff).toFixed(2)} (-${diffPercent}%)</span>`;
+        diffHtml = `<span class="diff-tag diff-cheaper">-${formatRadarCOP(Math.abs(diff))} (-${diffPercent}%)</span>`;
       } else {
-        diffHtml = `<span class="diff-tag diff-expensive">+$${diff.toFixed(2)} (+${diffPercent}%)</span>`;
+        diffHtml = `<span class="diff-tag diff-expensive">+${formatRadarCOP(diff)} (+${diffPercent}%)</span>`;
       }
       
       tr.innerHTML = `
@@ -577,10 +581,10 @@ function renderMarketRadarData(data) {
         </td>
         <td style="max-width: 220px; font-weight: 500;">${c.product}</td>
         <td>
-          ${c.discountPercent > 0 ? `<span class="price-strike">$${c.regularPrice.toFixed(2)}</span>` : `$${c.regularPrice.toFixed(2)}`}
+          ${c.discountPercent > 0 ? `<span class="price-strike">${formatRadarCOP(c.regularPrice)}</span>` : `${formatRadarCOP(c.regularPrice)}`}
         </td>
         <td>
-          <span class="price-final-deal">$${c.offerPrice.toFixed(2)}</span>
+          <span class="price-final-deal">${formatRadarCOP(c.offerPrice)}</span>
           ${c.discountPercent > 0 ? `<span class="badge-discount-tag">${c.discountPercent}% OFF</span>` : ''}
         </td>
         <td>
@@ -615,15 +619,15 @@ function renderMarketRadarData(data) {
   const btn10 = document.getElementById('btn-10-val');
   const btn15 = document.getElementById('btn-15-val');
   
-  if (btnSug) btnSug.textContent = `$${data.suggestedPrice.toFixed(2)}`;
-  if (btnMin) btnMin.textContent = `$${data.minPrice.toFixed(2)}`;
-  if (btn10) btn10.textContent = `$${(data.yourPrice * 0.90).toFixed(2)}`;
-  if (btn15) btn15.textContent = `$${(data.yourPrice * 0.85).toFixed(2)}`;
+  if (btnSug) btnSug.textContent = formatRadarCOP(data.suggestedPrice);
+  if (btnMin) btnMin.textContent = formatRadarCOP(data.minPrice);
+  if (btn10) btn10.textContent = formatRadarCOP(data.yourPrice * 0.90);
+  if (btn15) btn15.textContent = formatRadarCOP(data.yourPrice * 0.85);
   
   // Pre-fill Reprice inputs with AI Suggestion
   const repriceNewInput = document.getElementById('reprice-new-val');
   const repriceBadgeInput = document.getElementById('reprice-badge-val');
-  if (repriceNewInput) repriceNewInput.value = data.suggestedPrice.toFixed(2);
+  if (repriceNewInput) repriceNewInput.value = Math.round(data.suggestedPrice);
   if (repriceBadgeInput) repriceBadgeInput.value = data.suggestedBadge || '';
 }
 
@@ -634,7 +638,7 @@ function applySharedRepricing() {
   const newPriceInput = document.getElementById('reprice-new-val');
   const newBadgeInput = document.getElementById('reprice-badge-val');
   
-  const newPrice = parseFloat(newPriceInput.value);
+  const newPrice = Math.round(parseFloat(newPriceInput.value));
   const promoBadge = newBadgeInput.value.trim();
   
   if (isNaN(newPrice) || newPrice <= 0) {
@@ -687,7 +691,7 @@ function applySharedRepricing() {
       
       // Update Radar live UI
       const yourPriceEl = document.getElementById('metric-your-price');
-      if (yourPriceEl) yourPriceEl.textContent = `$${newPrice.toFixed(2)}`;
+      if (yourPriceEl) yourPriceEl.textContent = formatRadarCOP(newPrice);
       
       const badge = document.getElementById('metric-competitiveness-badge');
       if (badge) {
@@ -695,11 +699,11 @@ function applySharedRepricing() {
         badge.className = 'metric-badge badge-lower';
       }
       
-      notifyUserToast(`✅ Precio de "${stored[index].name.es}" actualizado a $${newPrice.toFixed(2)} en Simone Store.`);
+      notifyUserToast(`✅ Precio de "${stored[index].name.es}" actualizado a ${formatRadarCOP(newPrice)} en Simone Store.`);
     }
   } else {
     // If arbitrary item
-    const proceed = confirm(`"${sharedRadarData.query}" no está en tu catálogo. ¿Deseas ir al portal de administración para registrarlo con este precio de $${newPrice.toFixed(2)}?`);
+    const proceed = confirm(`"${sharedRadarData.query}" no está en tu catálogo. ¿Deseas ir al portal de administración para registrarlo con este precio de ${formatRadarCOP(newPrice)}?`);
     if (proceed) {
       window.location.href = 'admin.html';
     }
