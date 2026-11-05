@@ -1017,93 +1017,83 @@ function initHeroCarousel() {
   startAutoPlay();
 }
 
-// --- WELCOME PROMO MODAL ---
+// --- WELCOME PROMO MODALS (2 SEPARATE BANNERS WITH 3s DIFFERENCE) ---
 function initPromoModal() {
-  const modal = document.getElementById('promo-modal');
-  const closeBtn = document.getElementById('promo-close-btn');
-  const prevBtn = document.getElementById('promo-prev-btn');
-  const nextBtn = document.getElementById('promo-next-btn');
-  const promoSlides = Array.from(document.querySelectorAll('.promo-slide'));
-  const promoDots = Array.from(document.querySelectorAll('.promo-dot'));
-  const actionBtns = Array.from(document.querySelectorAll('.promo-action-btn'));
-  
-  if (!modal) return;
+  const modal1 = document.getElementById('promo-modal');
+  const closeBtn1 = document.getElementById('promo-close-btn');
+  const ctaBtn1 = document.getElementById('promo-cta-btn');
 
-  let currentPromoIdx = 0;
-  let promoTimer = null;
+  const modal2 = document.getElementById('promo-modal-2');
+  const closeBtn2 = document.getElementById('promo-close-btn-2');
+  const ctaBtn2 = document.getElementById('promo-cta-btn-2');
 
-  function showPromoSlide(idx) {
-    if (promoSlides.length === 0) return;
-    currentPromoIdx = (idx + promoSlides.length) % promoSlides.length;
-    promoSlides.forEach((s, i) => s.classList.toggle('active', i === currentPromoIdx));
-    promoDots.forEach((d, i) => d.classList.toggle('active', i === currentPromoIdx));
+  if (!modal1) return;
+
+  let secondBannerShown = false;
+  let switchTimer = null;
+
+  function showSecondBanner() {
+    if (secondBannerShown || !modal2) return;
+    if (modal1.getAttribute('data-disabled') === 'true') return;
+    secondBannerShown = true;
+    modal1.classList.remove('active');
+    setTimeout(() => {
+      modal2.classList.add('active');
+    }, 350);
   }
 
-  function startPromoAutoPlay() {
-    stopPromoAutoPlay();
-    if (promoSlides.length > 1) {
-      promoTimer = setInterval(() => {
-        showPromoSlide(currentPromoIdx + 1);
-      }, 4200);
-    }
-  }
-
-  function stopPromoAutoPlay() {
-    if (promoTimer) {
-      clearInterval(promoTimer);
-      promoTimer = null;
-    }
-  }
-  
+  // 1. Show first Banner Popup on load
   setTimeout(() => {
-    if (modal.getAttribute('data-disabled') !== 'true') {
-      modal.classList.add('active');
-      startPromoAutoPlay();
+    if (modal1.getAttribute('data-disabled') !== 'true') {
+      modal1.classList.add('active');
+      // 2. Automatically switch to second Banner Popup 3 seconds later
+      switchTimer = setTimeout(() => {
+        showSecondBanner();
+      }, 3000);
     }
-  }, 1200);
+  }, 800);
 
-  function closeModal() {
-    modal.classList.remove('active');
-    stopPromoAutoPlay();
+  function closeModal1() {
+    modal1.classList.remove('active');
+    if (switchTimer) clearTimeout(switchTimer);
+    // If closed manually before 3s, still show the 2nd banner after a brief pause
+    if (!secondBannerShown) {
+      switchTimer = setTimeout(() => {
+        showSecondBanner();
+      }, 3000);
+    }
   }
 
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  function closeModal2() {
+    if (modal2) modal2.classList.remove('active');
+  }
 
-  if (prevBtn) prevBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    showPromoSlide(currentPromoIdx - 1);
-    startPromoAutoPlay();
+  if (closeBtn1) closeBtn1.addEventListener('click', closeModal1);
+  if (closeBtn2) closeBtn2.addEventListener('click', closeModal2);
+
+  if (ctaBtn1) ctaBtn1.addEventListener('click', () => {
+    if (switchTimer) clearTimeout(switchTimer);
+    secondBannerShown = true;
+    modal1.classList.remove('active');
+    const catalog = document.getElementById('catalogo');
+    if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
   });
 
-  if (nextBtn) nextBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    showPromoSlide(currentPromoIdx + 1);
-    startPromoAutoPlay();
+  if (ctaBtn2) ctaBtn2.addEventListener('click', () => {
+    closeModal2();
+    const catalog = document.getElementById('catalogo');
+    if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
   });
 
-  promoDots.forEach((dot, idx) => {
-    dot.addEventListener('click', (e) => {
-      e.stopPropagation();
-      showPromoSlide(idx);
-      startPromoAutoPlay();
+  modal1.addEventListener('click', (e) => {
+    if (e.target === modal1) closeModal1();
+  });
+
+  if (modal2) {
+    modal2.addEventListener('click', (e) => {
+      if (e.target === modal2) closeModal2();
     });
-  });
-  
-  actionBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      closeModal();
-      const catalog = document.getElementById('catalogo');
-      if (catalog) {
-        catalog.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
+  }
 }
 
 // --- DYNAMIC PDF CATALOG GENERATOR ---
