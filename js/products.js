@@ -394,7 +394,7 @@ const defaultSettings = {
     whatsappPrimaryName: "Andrea Ruiz",
     whatsappSecondary: "573203702808",
     whatsappSecondaryName: "Leonor Herrera",
-    email: "contacto@simonestore.co",
+    email: "contacto@simonevelas.com",
     address: "Calle 6a No 88d 60, Bogotá, Colombia"
   }
 };
