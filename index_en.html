@@ -92,7 +92,7 @@
         </div>
       </div>
       <!-- Slide Christmas -->
-      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_navidad.jpg');">
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/velas_deseos_navidad.jpg');">
         <div class="carousel-caption">
           <span class="slide-subtitle">Over 80 templates · Box of 10 units 🕯️✨</span>
           <h2>Personalized <span>Wish Candles</span></h2>
@@ -631,11 +631,15 @@
     </div>
   </div>
 
-  <!-- Welcome Promo Modal -->
+  <!-- Welcome Promo Modal (2 Rotating Christmas Banners on Refresh) -->
   <div class="promo-modal" id="promo-modal">
     <div class="promo-box">
       <button class="promo-close" id="promo-close-btn" aria-label="Close">&times;</button>
-      <div class="promo-grid">
+      <button class="promo-nav-btn prev" id="promo-prev-btn" aria-label="Previous">&#8249;</button>
+      <button class="promo-nav-btn next" id="promo-next-btn" aria-label="Next">&#8250;</button>
+
+      <!-- Promo Slide 1 -->
+      <div class="promo-grid promo-slide active" data-promo-slide="0">
         <div class="promo-img-side" id="promo-img-side" style="background-image: url('images/promo_navidad.jpg');"></div>
         <div class="promo-text-side">
           <span class="promo-subtitle" id="promo-badge-text">Christmas Special Edition 🎄</span>
@@ -643,8 +647,27 @@
           <p id="promo-desc-text">Gift handcrafted warmth to your loved ones with our Christmas collection of soy, pine, and cinnamon candles.</p>
           <div class="promo-coupon" id="promo-coupon-code">NAVIDAD10</div>
           <p class="promo-coupon-desc" id="promo-coupon-desc">10% off our entire Christmas collection, candles, and favors.</p>
-          <button class="btn btn-primary" id="promo-cta-btn">Explore Christmas Collection</button>
+          <button class="btn btn-primary promo-action-btn" id="promo-cta-btn">Explore Christmas Collection</button>
         </div>
+      </div>
+
+      <!-- Promo Slide 2: Personalized Wish Candles (Box of 10) -->
+      <div class="promo-grid promo-slide" data-promo-slide="1">
+        <div class="promo-img-side" id="promo-img-side-2" style="background-image: url('images/velas_deseos_navidad.jpg');"></div>
+        <div class="promo-text-side">
+          <span class="promo-subtitle" id="promo-badge-text-2">Over 80 templates · Box of 10 units 🕯️✨</span>
+          <h2 id="promo-title-text-2">Personalized <span>Wish Candles</span></h2>
+          <p id="promo-desc-text-2">Make your wishes come true with custom candles! Family names, holiday wishes, and exclusive Christmas motifs.</p>
+          <div class="promo-coupon" id="promo-coupon-code-2">BOX OF 10</div>
+          <p class="promo-coupon-desc" id="promo-coupon-desc-2">Give a unique and heartfelt touch to your Christmas candles.</p>
+          <button class="btn btn-primary promo-action-btn" id="promo-cta-btn-2">Customize My Candles</button>
+        </div>
+      </div>
+
+      <!-- Promo Dots -->
+      <div class="promo-dots" id="promo-dots">
+        <span class="promo-dot active" data-promo-dot="0"></span>
+        <span class="promo-dot" data-promo-dot="1"></span>
       </div>
     </div>
   </div>

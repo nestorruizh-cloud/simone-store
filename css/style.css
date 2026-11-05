@@ -1743,6 +1743,78 @@ footer {
   min-height: 400px;
 }
 
+.promo-slide {
+  display: none;
+  animation: promoFadeIn 0.45s ease;
+}
+
+.promo-slide.active {
+  display: grid;
+}
+
+@keyframes promoFadeIn {
+  from { opacity: 0.25; }
+  to { opacity: 1; }
+}
+
+.promo-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border-color);
+  color: var(--primary-deep);
+  font-size: 1.5rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 12;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-smooth);
+}
+
+.promo-nav-btn:hover {
+  background: var(--brand-primary);
+  color: #ffffff;
+  border-color: var(--brand-primary);
+}
+
+.promo-nav-btn.prev {
+  left: 12px;
+}
+
+.promo-nav-btn.next {
+  right: 12px;
+}
+
+.promo-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0 14px;
+  background: var(--card-bg);
+}
+
+.promo-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(211, 123, 93, 0.28);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.promo-dot.active {
+  width: 24px;
+  border-radius: 999px;
+  background: var(--brand-primary);
+}
+
 .promo-img-side {
   background-size: cover;
   background-position: center;
@@ -1813,7 +1885,8 @@ footer {
 
 /* Responsive promo modal styles */
 @media (max-width: 768px) {
-  .promo-grid {
+  .promo-grid,
+  .promo-slide.active {
     grid-template-columns: 1fr;
     min-height: auto;
   }

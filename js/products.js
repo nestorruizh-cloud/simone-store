@@ -109,7 +109,7 @@ const defaultProducts = [
       en: "Box of 10 personalized Christmas wish taper candles with custom names, wishes, and over 80 holiday templates to choose from."
     },
     price: 25.00,
-    image: "images/carousel_navidad.jpg",
+    image: "images/velas_deseos_navidad.jpg",
     options: {
       aromas: ["Canela & Manzana", "Pino Navideño", "Vainilla & Coco", "Sin Aroma"],
       requiresMessage: true,
@@ -342,7 +342,7 @@ const defaultSettings = {
     },
     {
       id: "slide-navidad",
-      image: "images/carousel_navidad.jpg",
+      image: "images/velas_deseos_navidad.jpg",
       subtitle: { es: "Más de 80 plantillas · Caja x 10 unidades 🕯️✨", en: "Over 80 templates · Box of 10 units 🕯️✨" },
       title: { es: "Velas de los Deseos <span>Personalizadas</span>", en: "Personalized <span>Wish Candles</span>" },
       description: {

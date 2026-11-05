@@ -92,7 +92,7 @@
         </div>
       </div>
       <!-- Slide Navidad -->
-      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/carousel_navidad.jpg');">
+      <div class="carousel-slide" style="background-image: linear-gradient(rgba(43, 38, 37, 0.45), rgba(43, 38, 37, 0.6)), url('images/velas_deseos_navidad.jpg');">
         <div class="carousel-caption">
           <span class="slide-subtitle">Más de 80 plantillas · Caja x 10 unidades 🕯️✨</span>
           <h2>Velas de los Deseos <span>Personalizadas</span></h2>
@@ -644,11 +644,15 @@
     </div>
   </div>
 
-  <!-- Welcome Promo Modal -->
+  <!-- Welcome Promo Modal (2 Rotating Christmas Banners on Refresh) -->
   <div class="promo-modal" id="promo-modal">
     <div class="promo-box">
       <button class="promo-close" id="promo-close-btn" aria-label="Cerrar">&times;</button>
-      <div class="promo-grid">
+      <button class="promo-nav-btn prev" id="promo-prev-btn" aria-label="Anterior">&#8249;</button>
+      <button class="promo-nav-btn next" id="promo-next-btn" aria-label="Siguiente">&#8250;</button>
+
+      <!-- Promo Slide 1: Colección Navidad -->
+      <div class="promo-grid promo-slide active" data-promo-slide="0">
         <div class="promo-img-side" id="promo-img-side" style="background-image: url('images/promo_navidad.jpg');"></div>
         <div class="promo-text-side">
           <span class="promo-subtitle" id="promo-badge-text">Edición Especial de Navidad 🎄</span>
@@ -656,8 +660,27 @@
           <p id="promo-desc-text">Regala calidez artesanal a tus seres queridos con nuestra colección navideña de velas de soja, pino y canela.</p>
           <div class="promo-coupon" id="promo-coupon-code">NAVIDAD10</div>
           <p class="promo-coupon-desc" id="promo-coupon-desc">10% de descuento en toda nuestra colección navideña, velas y recordatorios.</p>
-          <button class="btn btn-primary" id="promo-cta-btn">Ver Colección Navideña</button>
+          <button class="btn btn-primary promo-action-btn" id="promo-cta-btn">Ver Colección Navideña</button>
         </div>
+      </div>
+
+      <!-- Promo Slide 2: Velas de los Deseos (Caja x 10 uds) -->
+      <div class="promo-grid promo-slide" data-promo-slide="1">
+        <div class="promo-img-side" id="promo-img-side-2" style="background-image: url('images/velas_deseos_navidad.jpg');"></div>
+        <div class="promo-text-side">
+          <span class="promo-subtitle" id="promo-badge-text-2">Más de 80 plantillas · Caja x 10 unidades 🕯️✨</span>
+          <h2 id="promo-title-text-2">Velas de los Deseos <span>Personalizadas</span></h2>
+          <p id="promo-desc-text-2">¡Haz realidad tus deseos con velas personalizadas! Nombres, buenos deseos y motivos navideños exclusivos.</p>
+          <div class="promo-coupon" id="promo-coupon-code-2">CAJA x 10 UDS</div>
+          <p class="promo-coupon-desc" id="promo-coupon-desc-2">Dale un toque especial y único a tus velas en esta Noche de Velitas y Navidad.</p>
+          <button class="btn btn-primary promo-action-btn" id="promo-cta-btn-2">Personalizar mis Velas</button>
+        </div>
+      </div>
+
+      <!-- Promo Dots -->
+      <div class="promo-dots" id="promo-dots">
+        <span class="promo-dot active" data-promo-dot="0"></span>
+        <span class="promo-dot" data-promo-dot="1"></span>
       </div>
     </div>
   </div>
