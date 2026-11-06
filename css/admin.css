@@ -259,8 +259,21 @@
 }
 
 .actions-cell {
-  display: flex;
-  gap: 8px;
+  display: table-cell;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.actions-cell > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.actions-cell > *:last-child {
+  margin-right: 0;
 }
 
 /* Modals & Forms */
