@@ -656,6 +656,21 @@ function renderMarketRadarData(data) {
         diffHtml = `<span class="diff-tag diff-expensive">+${formatRadarCOP(diff)} (+${diffPercent}%)</span>`;
       }
       
+      // Construir URL real verificable en el marketplace correspondiente en Colombia
+      const searchProductTerm = (c.product || data.query || 'vela artesanal cera de soja').replace(/[()]/g, '').trim();
+      const slugML = encodeURIComponent(searchProductTerm.toLowerCase().replace(/\s+/g, '-'));
+      const storeLower = ((c.store || '') + ' ' + (c.channel || '')).toLowerCase();
+      let targetUrl = `https://listado.mercadolibre.com.co/${slugML}`;
+      if (c.url && c.url.startsWith('https://articulo.mercadolibre.com.co')) {
+        targetUrl = c.url;
+      } else if (storeLower.includes('falabella')) {
+        targetUrl = `https://www.falabella.com.co/falabella-co/search?Ntt=${encodeURIComponent('vela ' + data.query)}`;
+      } else if (storeLower.includes('mercado libre')) {
+        targetUrl = `https://listado.mercadolibre.com.co/${encodeURIComponent('vela ' + data.query)}`;
+      } else {
+        targetUrl = `https://www.google.com/search?tbm=shop&hl=es-419&gl=co&q=${encodeURIComponent('vela artesanal ' + searchProductTerm + ' Colombia')}`;
+      }
+
       tr.innerHTML = `
         <td>
           <span class="competitor-store-badge">${c.store}</span>
@@ -674,7 +689,7 @@ function renderMarketRadarData(data) {
         </td>
         <td>${diffHtml}</td>
         <td>
-          <a href="${c.url || ('https://listado.mercadolibre.com.co/' + encodeURIComponent(c.product || data.query))}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px;">
+          <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px; text-decoration: none; display: inline-block;">
             🌐 Ver
           </a>
         </td>
