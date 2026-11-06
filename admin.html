@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simone | Panel de Administración</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/admin.css">
-  <link rel="stylesheet" href="css/market-radar.css">
+  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/admin.css?v=7">
+  <link rel="stylesheet" href="css/market-radar.css?v=7">
+  <link rel="stylesheet" href="css/accounting.css?v=9">
 </head>
 <body class="admin-body">
 
@@ -59,6 +60,9 @@
           </button>
           <button type="button" class="admin-tab-btn" data-tab="tab-orders">
             🛍️ Pedidos y Notificaciones <span id="orders-new-badge" class="orders-tab-badge" style="display: none;">0</span>
+          </button>
+          <button type="button" class="admin-tab-btn" data-tab="tab-accounting">
+            📊 Contabilidad, Inventario & Costos
           </button>
         </div>
 
@@ -302,6 +306,661 @@
                 <label class="admin-input-label">Correo de Contacto / Notificaciones</label>
                 <input type="email" id="notif-email" class="admin-form-input" placeholder="contacto@simonestore.co">
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: CONTABILIDAD, INVENTARIOS, COSTEO Y CUENTAS (ERP SIMONE) -->
+        <div id="tab-accounting" class="admin-tab-panel" style="display: none;">
+          <div class="admin-title-row">
+            <div>
+              <h1>Contabilidad, Inventarios, Costeo y Cuentas (ERP)</h1>
+              <p>Control financiero 100% formulado en pesos colombianos ($ COP): estimador de costos y precio final, caja general, cartera de clientes, stock valorizado y liquidación de socias (Andrea & Leonor).</p>
+            </div>
+            <div class="admin-title-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button type="button" id="erp-export-csv-btn" class="btn btn-outline btn-sm">
+                📥 Exportar Todo a Excel (CSV)
+              </button>
+            </div>
+          </div>
+
+          <!-- 1. DASHBOARD DE KPIS FINANCIEROS EN TIEMPO REAL -->
+          <div class="erp-kpi-grid">
+            <div class="erp-kpi-card kpi-green">
+              <span class="erp-kpi-label">💰 Saldo en Caja General</span>
+              <div class="erp-kpi-value" id="erp-kpi-caja">$391.300</div>
+              <span class="erp-kpi-sub" id="erp-kpi-caja-sub">Fórmula: Entradas (Debe) - Salidas (Haber)</span>
+            </div>
+
+            <div class="erp-kpi-card kpi-blue">
+              <span class="erp-kpi-label">🛍️ Ventas Registradas</span>
+              <div class="erp-kpi-value" id="erp-kpi-ventas">$0</div>
+              <span class="erp-kpi-sub" id="erp-kpi-ventas-sub">Acumulado libro de ventas</span>
+            </div>
+
+            <div class="erp-kpi-card kpi-rose">
+              <span class="erp-kpi-label">⏳ Cartera por Cobrar (Clientes)</span>
+              <div class="erp-kpi-value" id="erp-kpi-cartera">$239.000</div>
+              <span class="erp-kpi-sub" id="erp-kpi-cartera-sub">Pagos pendientes por recaudar</span>
+            </div>
+
+            <div class="erp-kpi-card kpi-purple">
+              <span class="erp-kpi-label">📦 Inventario Valorizado</span>
+              <div class="erp-kpi-value" id="erp-kpi-inventario">$1.810.000</div>
+              <span class="erp-kpi-sub" id="erp-kpi-inventario-sub">Stock disponible × Precio de venta</span>
+            </div>
+
+            <div class="erp-kpi-card kpi-amber">
+              <span class="erp-kpi-label">👩‍💼 Por Reembolsar a Andrea</span>
+              <div class="erp-kpi-value" id="erp-kpi-andrea">$350.670</div>
+              <span class="erp-kpi-sub" id="erp-kpi-andrea-sub">Compras Andrea - Abonos recibidos</span>
+            </div>
+
+            <div class="erp-kpi-card kpi-amber">
+              <span class="erp-kpi-label">👩‍💼 Por Reembolsar a Leonor</span>
+              <div class="erp-kpi-value" id="erp-kpi-leonor">$442.000</div>
+              <span class="erp-kpi-sub" id="erp-kpi-leonor-sub">Compras Leonor - Abonos recibidos</span>
+            </div>
+          </div>
+
+          <!-- 2. BARRA DE SUB-MÓDULOS DEL ERP -->
+          <div class="erp-subtabs-nav">
+            <button type="button" class="erp-subtab-btn active" data-subtab="subtab-graficas">
+              📈 Gráficas & Analítica Financiera
+            </button>
+            <button type="button" class="erp-subtab-btn" data-subtab="subtab-costeo">
+              🧮 Estimador de Costos & Precio Final
+            </button>
+            <button type="button" class="erp-subtab-btn" data-subtab="subtab-caja">
+              🧾 Libro Mayor / Caja General
+            </button>
+            <button type="button" class="erp-subtab-btn" data-subtab="subtab-ventas">
+              🛍️ Ventas & Cartera por Cobrar
+            </button>
+            <button type="button" class="erp-subtab-btn" data-subtab="subtab-inventario">
+              📦 Inventario Físico & Consignación
+            </button>
+            <button type="button" class="erp-subtab-btn" data-subtab="subtab-socias">
+              🤝 Proveedores & Cuentas Socias (Andrea / Leonor)
+            </button>
+          </div>
+
+          <!-- ===============================================================
+               SUB-MÓDULO 0: DASHBOARD DE GRÁFICAS Y ANALÍTICA FINANCIERA
+               =============================================================== -->
+          <div id="subtab-graficas" class="erp-subpanel active">
+            <div class="erp-charts-grid">
+              <!-- GRÁFICA 1: Flujo de Caja Mensual (Entradas vs Salidas y Saldo) -->
+              <div class="erp-chart-card">
+                <div class="erp-chart-header">
+                  <div>
+                    <h4>📊 Flujo de Caja Mensual (Entradas vs. Salidas)</h4>
+                    <span class="erp-chart-subtitle">Evolución mensual del Libro Mayor (Debe, Haber y Saldo Neto)</span>
+                  </div>
+                  <div class="erp-chart-legend">
+                    <span class="erp-legend-item"><i class="erp-legend-dot" style="background:#059669;"></i> Entradas (Debe)</span>
+                    <span class="erp-legend-item"><i class="erp-legend-dot" style="background:#dc2626;"></i> Salidas (Haber)</span>
+                    <span class="erp-legend-item"><i class="erp-legend-dot" style="background:#0f172a;"></i> Saldo Acumulado</span>
+                  </div>
+                </div>
+                <div id="erp-chart-flujo-caja" style="min-height: 235px; display:flex; align-items:center; justify-content:center;"></div>
+              </div>
+
+              <!-- GRÁFICA 2: Ventas por Medio de Pago y Cartera por Cobrar -->
+              <div class="erp-chart-card">
+                <div class="erp-chart-header">
+                  <div>
+                    <h4>💳 Ventas por Medio de Pago & Estado de Cartera</h4>
+                    <span class="erp-chart-subtitle">Distribución de ingresos por canal (Efectivo, Nequi, Daviplata, Bre-B) y saldo por cobrar</span>
+                  </div>
+                </div>
+                <div id="erp-chart-ventas-medios" style="min-height: 235px;"></div>
+              </div>
+
+              <!-- GRÁFICA 3: Cuentas de Socias (Andrea vs Leonor) y Top Proveedores -->
+              <div class="erp-chart-card">
+                <div class="erp-chart-header">
+                  <div>
+                    <h4>🤝 Balance de Cuentas Socias (Andrea vs. Leonor) & Proveedores</h4>
+                    <span class="erp-chart-subtitle">Comparativo de compras pagadas, reembolsos recibidos y principales proveedores</span>
+                  </div>
+                  <div class="erp-chart-legend">
+                    <span class="erp-legend-item"><i class="erp-legend-dot" style="background:#1e293b;"></i> Compras Insumos</span>
+                    <span class="erp-legend-item"><i class="erp-legend-dot" style="background:#059669;"></i> Abonado</span>
+                    <span class="erp-legend-item"><i class="erp-legend-dot" style="background:#d97706;"></i> Saldo por Reembolsar</span>
+                  </div>
+                </div>
+                <div id="erp-chart-socias-proveedores" style="min-height: 235px;"></div>
+              </div>
+
+              <!-- GRÁFICA 4: Top 8 Referencias de Mayor Valor en Inventario -->
+              <div class="erp-chart-card">
+                <div class="erp-chart-header">
+                  <div>
+                    <h4>📦 Top Referencias de Mayor Valor en Inventario ($ COP)</h4>
+                    <span class="erp-chart-subtitle">Ranking de productos valorizados a precio de venta (Cantidad × P/Venta)</span>
+                  </div>
+                </div>
+                <div id="erp-chart-inventario-top" style="min-height: 235px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===============================================================
+               SUB-MÓDULO 1: ESTIMADOR DE COSTOS Y CALCULADORA DE PRECIO FINAL
+               =============================================================== -->
+          <div id="subtab-costeo" class="erp-subpanel">
+            <div class="cost-estimator-layout">
+              <!-- Panel Izquierdo: Desglose de Costos Unitarios -->
+              <div class="erp-form-box" style="margin-bottom: 0;">
+                <h4>🧪 1. Calculadora de Costos de Producción por Unidad</h4>
+                <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">
+                  Ingresa las cantidades de materia prima, empaque y mano de obra para conocer el costo exacto de fabricar una vela y su precio de venta ideal.
+                </p>
+
+                <div class="form-grid">
+                  <div class="form-group-full">
+                    <label class="admin-input-label">Nombre del Producto / Referencia a Costear</label>
+                    <input type="text" id="est-nombre-producto" class="admin-form-input" value="Perro Mediano Escultórico (Shih Tzu / Beagle / Kiara)">
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Cera Utilizada (Gramos)</label>
+                    <input type="number" id="est-gramos-cera" class="admin-form-input" value="140" min="0" step="5">
+                    <small id="est-sub-cera" style="color: var(--brand-primary); font-weight: 600; font-size: 0.76rem;">Costo cera: $3.500</small>
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Precio Kilo de Cera ($ COP / 1000g)</label>
+                    <input type="number" id="est-costo-kg-cera" class="admin-form-input" value="25000" min="0" step="500">
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Fragancia / Aroma (ml o g)</label>
+                    <input type="number" id="est-ml-aroma" class="admin-form-input" value="8" min="0" step="1">
+                    <small id="est-sub-aroma" style="color: var(--brand-primary); font-weight: 600; font-size: 0.76rem;">Costo fragancia: $1.760</small>
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Costo por ml/g de Fragancia ($ COP)</label>
+                    <input type="number" id="est-costo-ml-aroma" class="admin-form-input" value="220" min="0" step="10">
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Pabilo + Ojalillo + Colorante ($ COP)</label>
+                    <input type="number" id="est-costo-pabilo" class="admin-form-input" value="540" min="0" step="50">
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Frasco / Vaso / Bandeja ($ COP)</label>
+                    <input type="number" id="est-costo-envase" class="admin-form-input" value="0" min="0" step="100">
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Empaque (Caja/Bolsa + Cinta + Etiqueta)</label>
+                    <input type="number" id="est-costo-empaque" class="admin-form-input" value="1200" min="0" step="100">
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Mano de Obra / Servicios por Unidad ($)</label>
+                    <input type="number" id="est-costo-mano-obra" class="admin-form-input" value="1000" min="0" step="100">
+                  </div>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid var(--border-color); margin: 18px 0;">
+
+                <h4>🎯 2. Parámetros para Calcular el Precio Final de Venta</h4>
+                <div class="form-grid" style="margin-bottom: 0;">
+                  <div>
+                    <label class="admin-input-label">Fórmula de Rentabilidad</label>
+                    <select id="est-metodo-precio" class="admin-form-select">
+                      <option value="markup">Multiplicador sobre el Costo (% Markup)</option>
+                      <option value="margen">Margen Bruto sobre el Precio (% Margen)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">% Ganancia Deseada (Ej: 125% = +1.25x costo)</label>
+                    <input type="number" id="est-pct-ganancia" class="admin-form-input" value="125" min="1" max="500" step="5">
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">Redondeo Comercial en Pesos</label>
+                    <select id="est-redondeo" class="admin-form-select">
+                      <option value="1000">Redondear a $1.000 cerrados</option>
+                      <option value="500">Redondear a $500 cerrados</option>
+                      <option value="1">Sin redondeo (Exacto)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="admin-input-label">O Fijar Precio Final Manual ($ COP)</label>
+                    <input type="number" id="est-precio-manual" class="admin-form-input" placeholder="Dejar en 0 para usar automático" value="0" min="0" step="500">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel Derecho: Resultado Formulado + Simulador de Eventos/Lotes -->
+              <div class="cost-results-card">
+                <h3>📊 Resultado de Costeo & Precio Final</h3>
+
+                <div class="cost-highlight-grid">
+                  <div class="cost-highlight-box">
+                    <span class="cost-highlight-label">Costo Total Unitario</span>
+                    <div class="cost-highlight-val" id="est-res-costo-unit">$8.000</div>
+                  </div>
+
+                  <div class="cost-highlight-box primary-price">
+                    <span class="cost-highlight-label">✨ Precio Final de Venta</span>
+                    <div class="cost-highlight-val" id="est-res-precio-final">$18.000</div>
+                  </div>
+
+                  <div class="cost-highlight-box">
+                    <span class="cost-highlight-label">Ganancia Libre por Vela</span>
+                    <div class="cost-highlight-val" id="est-res-ganancia-unit" style="color: #4ade80;">$10.000</div>
+                  </div>
+
+                  <div class="cost-highlight-box">
+                    <span class="cost-highlight-label">Rentabilidad Real</span>
+                    <div class="cost-highlight-val" id="est-res-margen-pct" style="font-size: 1.05rem;">56% Margen</div>
+                  </div>
+                </div>
+
+                <!-- Simulador de Pedidos por Volumen / Eventos -->
+                <div class="cost-batch-box">
+                  <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; color: #f3c8b6;">
+                    📦 Simulador de Cotización por Volumen / Eventos (Ej: 70 o 150 Recordatorios)
+                  </div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div>
+                      <label style="font-size: 0.75rem; color: rgba(255,255,255,0.8); display:block; margin-bottom:4px;">Cantidad de Unidades</label>
+                      <input type="number" id="est-lote-cantidad" class="admin-form-input" value="70" min="1" step="1" style="background: rgba(255,255,255,0.95); color:#2b2625; padding:7px 10px;">
+                    </div>
+                    <div>
+                      <label style="font-size: 0.75rem; color: rgba(255,255,255,0.8); display:block; margin-bottom:4px;">% Descuento al Cliente</label>
+                      <input type="number" id="est-lote-descuento" class="admin-form-input" value="0" min="0" max="80" step="5" style="background: rgba(255,255,255,0.95); color:#2b2625; padding:7px 10px;">
+                    </div>
+                  </div>
+
+                  <div class="cost-batch-row">
+                    <span>Pedido Cotizado:</span>
+                    <strong id="est-batch-qty-label">70 unidades</strong>
+                  </div>
+                  <div class="cost-batch-row">
+                    <span>Precio Unitario con Descuento:</span>
+                    <strong id="est-batch-unit-price">$18.000 c/u</strong>
+                  </div>
+                  <div class="cost-batch-row">
+                    <span>Inversión Total en Insumos (Costo):</span>
+                    <strong id="est-batch-cost-total" style="color: #fca5a5;">$560.000</strong>
+                  </div>
+                  <div class="cost-batch-row">
+                    <span>Valor Total a Cobrar al Cliente:</span>
+                    <strong id="est-batch-sale-total" style="color: #fde047; font-size: 1.05rem;">$1.260.000</strong>
+                  </div>
+                  <div class="cost-batch-row">
+                    <span>Ganancia Libre Total del Pedido:</span>
+                    <strong id="est-batch-profit-total" style="color: #4ade80; font-size: 1.05rem;">$700.000</strong>
+                  </div>
+                  <div class="cost-batch-row">
+                    <span>Reparto 50/50 Socias:</span>
+                    <strong id="est-batch-socias-split">$350.000 Andrea / $350.000 Leonor</strong>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto;">
+                  <button type="button" id="est-save-ficha-btn" class="btn btn-primary" style="flex: 1;">
+                    💾 Guardar en Recetario de Costos
+                  </button>
+                  <button type="button" id="est-send-to-inv-btn" class="btn btn-outline" style="flex: 1; color: #fff; border-color: rgba(255,255,255,0.4);">
+                    📦 Actualizar Precio en Inventario
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recetario de Fichas de Costeo Guardadas -->
+            <div class="erp-form-box">
+              <h4>📋 Recetario de Fichas de Costeo y Precios Sugeridos Simone</h4>
+              <div class="table-responsive">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Producto / Referencia</th>
+                      <th>Resumen de Insumos</th>
+                      <th class="num-col">Costo Unitario</th>
+                      <th class="num-col">Precio Final Venta</th>
+                      <th class="num-col">Ganancia Unitaria</th>
+                      <th style="text-align:center;">Rentabilidad</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="erp-fichas-costeo-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===============================================================
+               SUB-MÓDULO 2: LIBRO MAYOR / FLUJO DE CAJA GENERAL
+               =============================================================== -->
+          <div id="subtab-caja" class="erp-subpanel">
+            <div class="erp-form-box">
+              <h4>➕ Registrar Movimiento en Libro Mayor (Caja General)</h4>
+              <form id="erp-form-add-caja" class="erp-form-row">
+                <div>
+                  <label class="admin-input-label">Fecha *</label>
+                  <input type="date" id="add-caja-fecha" class="admin-form-input" required>
+                </div>
+                <div style="grid-column: span 2;">
+                  <label class="admin-input-label">Descripción / Concepto *</label>
+                  <input type="text" id="add-caja-desc" class="admin-form-input" placeholder="Ej: VENTAS FERIA NAVIDAD / REEMBOLSO INSUMOS..." required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Categoría</label>
+                  <select id="add-caja-cat" class="admin-form-select">
+                    <option value="Ingreso Venta">Ingreso Venta</option>
+                    <option value="Reembolso Socia">Reembolso Socia</option>
+                    <option value="Comisión Socia">Comisión / Ganancia Socia</option>
+                    <option value="Compra Insumos">Compra Insumos / Temu</option>
+                    <option value="Ingreso Rifa">Ingreso Rifa</option>
+                    <option value="Gasto Legal/Operativo">Gasto Legal / Transporte</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="admin-input-label">Tipo de Movimiento *</label>
+                  <select id="add-caja-tipo" class="admin-form-select">
+                    <option value="debe">🟢 DEBE (Entrada de Dinero +)</option>
+                    <option value="haber">🔴 HABER (Salida / Pago -)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="admin-input-label">Valor ($ COP) *</label>
+                  <input type="number" id="add-caja-monto" class="admin-form-input" placeholder="50000" min="100" step="100" required>
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-primary" style="width: 100%;">➕ Agregar a Caja</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="admin-controls-card">
+              <div class="search-filter-group">
+                <input type="text" id="erp-caja-search" class="admin-search-input" placeholder="Buscar movimiento en Caja General por fecha, cliente o concepto...">
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width:110px;">Fecha</th>
+                    <th>Descripción / Concepto</th>
+                    <th style="width:160px;">Categoría</th>
+                    <th class="num-col" style="width:140px;">Debe (Entrada +)</th>
+                    <th class="num-col" style="width:140px;">Haber (Salida -)</th>
+                    <th class="num-col" style="width:150px;">Saldo Acumulado</th>
+                    <th style="width:80px; text-align:center;">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="erp-caja-tbody"></tbody>
+                <tfoot id="erp-caja-tfoot"></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- ===============================================================
+               SUB-MÓDULO 3: VENTAS, CLIENTES Y CARTERA POR COBRAR
+               =============================================================== -->
+          <div id="subtab-ventas" class="erp-subpanel">
+            <div class="erp-form-box">
+              <h4>➕ Registrar Nueva Venta o Pedido de Cliente</h4>
+              <form id="erp-form-add-venta" class="erp-form-row">
+                <div>
+                  <label class="admin-input-label">Fecha *</label>
+                  <input type="date" id="add-venta-fecha" class="admin-form-input" required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Comprador / Cliente *</label>
+                  <input type="text" id="add-venta-comprador" class="admin-form-input" placeholder="Ej: KAREN / MECHAS" required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Producto(s) *</label>
+                  <input type="text" id="add-venta-producto" class="admin-form-input" placeholder="Ej: 2 SHIH TZU + BOUQUET" required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Medio de Pago</label>
+                  <select id="add-venta-medio" class="admin-form-select">
+                    <option value="EFECTIVO">EFECTIVO</option>
+                    <option value="NEQUI">NEQUI</option>
+                    <option value="NEQUI ANDREA">NEQUI ANDREA</option>
+                    <option value="NEQUI LEONOR">NEQUI LEONOR</option>
+                    <option value="DAVIPLATA">DAVIPLATA</option>
+                    <option value="BRE-B">BRE-B</option>
+                    <option value="PENDIENTE">PENDIENTE (A CRÉDITO)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="admin-input-label">Valor Venta Total ($) *</label>
+                  <input type="number" id="add-venta-valor" class="admin-form-input" placeholder="45000" min="100" step="100" required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Costo Insumos ($ Opc.)</label>
+                  <input type="number" id="add-venta-insumos" class="admin-form-input" placeholder="0" value="0" min="0" step="100">
+                </div>
+                <div>
+                  <label class="admin-input-label">Valor Pagado Hoy ($)</label>
+                  <input type="number" id="add-venta-pago" class="admin-form-input" placeholder="Si debe todo pon 0" value="0" min="0" step="100">
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-primary" style="width: 100%;">➕ Guardar Venta</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="admin-controls-card">
+              <div class="search-filter-group">
+                <input type="text" id="erp-ventas-search" class="admin-search-input" placeholder="Buscar por nombre del comprador, producto o medio de pago...">
+                <select id="erp-ventas-filter" class="admin-select-filter">
+                  <option value="all">Todas las Ventas</option>
+                  <option value="pendientes">🔴 Solo con Saldo Pendiente (Cartera por Cobrar)</option>
+                  <option value="pagados">🟢 Solo Ventas Pagadas al 100%</option>
+                  <option value="EFECTIVO">💵 Pagadas en Efectivo</option>
+                  <option value="NEQUI">📲 Pagadas por Nequi</option>
+                  <option value="DAVIPLATA">📲 Pagadas por Daviplata</option>
+                  <option value="BRE-B">⚡ Pagadas por Bre-B</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width:105px;">Fecha</th>
+                    <th>Comprador</th>
+                    <th>Producto</th>
+                    <th>Medio Pago</th>
+                    <th class="num-col">Valor Venta</th>
+                    <th class="num-col">Insumos</th>
+                    <th class="num-col">Pago Recibido</th>
+                    <th class="num-col">Debe (Pendiente)</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="erp-ventas-tbody"></tbody>
+                <tfoot id="erp-ventas-tfoot"></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- ===============================================================
+               SUB-MÓDULO 4: INVENTARIO FÍSICO, VALORIZADO Y CONSIGNACIÓN
+               =============================================================== -->
+          <div id="subtab-inventario" class="erp-subpanel">
+            <div class="erp-form-box">
+              <h4>➕ Agregar Nueva Referencia al Inventario Físico</h4>
+              <form id="erp-form-add-inv" class="erp-form-row">
+                <div style="grid-column: span 2;">
+                  <label class="admin-input-label">Nombre del Producto *</label>
+                  <input type="text" id="add-inv-producto" class="admin-form-input" placeholder="Ej: PERRO POMERANIA / VELA PINO NAVIDAD" required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Cantidad Stock *</label>
+                  <input type="number" id="add-inv-cantidad" class="admin-form-input" value="1" min="0" required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Precio Venta Unit. ($) *</label>
+                  <input type="number" id="add-inv-precio" class="admin-form-input" placeholder="25000" min="100" step="500" required>
+                </div>
+                <div>
+                  <label class="admin-input-label">En Consignación ($)</label>
+                  <input type="number" id="add-inv-consig" class="admin-form-input" value="0" min="0" step="500">
+                </div>
+                <div>
+                  <label class="admin-input-label">Uds Andrea</label>
+                  <input type="number" id="add-inv-andrea" class="admin-form-input" value="0" min="0">
+                </div>
+                <div>
+                  <label class="admin-input-label">Uds Leonor</label>
+                  <input type="number" id="add-inv-leo" class="admin-form-input" value="0" min="0">
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-primary" style="width: 100%;">➕ Agregar Stock</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="admin-controls-card">
+              <div class="search-filter-group">
+                <input type="text" id="erp-inventario-search" class="admin-search-input" placeholder="Buscar producto en el inventario (ej: Schnauzer, Virgen, Bouquet, Pebetero)...">
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Producto / Referencia</th>
+                    <th style="text-align:center; width:130px;">Cantidad (Stock)</th>
+                    <th class="num-col">P/Venta Unitario</th>
+                    <th class="num-col">Total Valorizado</th>
+                    <th class="num-col">En Consignación</th>
+                    <th style="text-align:center;">Andrea</th>
+                    <th style="text-align:center;">Leonor</th>
+                    <th>Estado</th>
+                    <th style="text-align:center;">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="erp-inventario-tbody"></tbody>
+                <tfoot id="erp-inventario-tfoot"></tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- ===============================================================
+               SUB-MÓDULO 5: TABLA UNIFICADA DE PROVEEDORES Y CUENTAS DE SOCIAS
+               =============================================================== -->
+          <div id="subtab-socias" class="erp-subpanel">
+            <!-- Formulario Único para Cuentas de Socias (Andrea / Leonor) y Proveedores -->
+            <div class="erp-form-box">
+              <h4>➕ Registrar Movimiento de Insumos, Proveedor o Reembolso a Socia</h4>
+              <form id="erp-form-add-socia" class="erp-form-row">
+                <div>
+                  <label class="admin-input-label">Cuenta / Responsable *</label>
+                  <select id="add-socia-quien" class="admin-form-select">
+                    <option value="cuentaAndrea">👩‍💼 Socia: Andrea Ruiz</option>
+                    <option value="cuentaLeonor">👩‍💼 Socia: Leonor Herrera</option>
+                    <option value="proveedores">🏭 Proveedor / General</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="admin-input-label">Fecha *</label>
+                  <input type="date" id="add-socia-fecha" class="admin-form-input" required>
+                </div>
+                <div style="grid-column: span 2;">
+                  <label class="admin-input-label">Proveedor / Concepto *</label>
+                  <input type="text" id="add-socia-concepto" class="admin-form-input" placeholder="Ej: VELA BELLA / TEMU MOLDES / 360 COMERCIAL / ABONO REEMBOLSO..." required>
+                </div>
+                <div>
+                  <label class="admin-input-label">Tipo de Movimiento *</label>
+                  <select id="add-socia-tipo" class="admin-form-select">
+                    <option value="compra">🛒 Compra Insumos / Gasto (+)</option>
+                    <option value="abono">💸 Abono / Reembolso (-)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="admin-input-label">Monto ($ COP) *</label>
+                  <input type="number" id="add-socia-monto" class="admin-form-input" placeholder="80000" min="100" step="100" required>
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-primary" style="width: 100%;">💾 Registrar Movimiento</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Barra de Filtros y Saldos Rápidos Unificados -->
+            <div class="admin-controls-card">
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #cbd5e1;">
+                <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+                  <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #475569; margin-right: 4px;">Vista Rápida:</span>
+                  <button type="button" class="btn btn-outline btn-sm erp-quick-socia-filter" data-filter="all">
+                    📋 Todo Incluido
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm erp-quick-socia-filter" data-filter="cuentaAndrea">
+                    👩‍💼 Andrea Ruiz (<span id="erp-andrea-badge-saldo">$350.670</span>)
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm erp-quick-socia-filter" data-filter="cuentaLeonor">
+                    👩‍💼 Leonor Herrera (<span id="erp-leonor-badge-saldo">$442.000</span>)
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm erp-quick-socia-filter" data-filter="socias">
+                    🤝 Solo Socias (Andrea + Leonor)
+                  </button>
+                  <button type="button" class="btn btn-outline btn-sm erp-quick-socia-filter" data-filter="proveedores">
+                    🏭 Facturas Proveedores
+                  </button>
+                </div>
+                <div id="erp-socias-summary-pill" style="font-size: 0.78rem; font-weight: 700; color: #0f172a; background: #e2e8f0; border: 1px solid #94a3b8; padding: 4px 10px; border-radius: 5px;">
+                  Mostrando todos los registros
+                </div>
+              </div>
+
+              <div class="search-filter-group">
+                <input type="text" id="erp-socias-search" class="admin-search-input" placeholder="Buscar por proveedor, concepto, fecha o socia (ej: Vela Bella, Temu, 360 Comercial, Transporte)...">
+                <select id="erp-socias-filter-quien" class="admin-select-filter">
+                  <option value="all">📋 Todas las Cuentas (Andrea + Leonor + Proveedores)</option>
+                  <option value="cuentaAndrea">👩‍💼 Cuenta Socia: Andrea Ruiz</option>
+                  <option value="cuentaLeonor">👩‍💼 Cuenta Socia: Leonor Herrera</option>
+                  <option value="socias">🤝 Ambas Socias (Andrea + Leonor)</option>
+                  <option value="proveedores">🏭 Historial Proveedores Generales</option>
+                </select>
+                <select id="erp-socias-filter-tipo" class="admin-select-filter">
+                  <option value="all">🔄 Todos los Tipos (Compras + Abonos)</option>
+                  <option value="compra">🛒 Solo Compras de Insumos (+)</option>
+                  <option value="abono">💸 Solo Abonos / Reembolsos (-)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tabla Única Consolidada -->
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width: 105px;">Fecha</th>
+                    <th style="width: 175px;">Cuenta / Responsable</th>
+                    <th>Proveedor / Concepto</th>
+                    <th style="width: 165px;">Tipo Movimiento</th>
+                    <th class="num-col" style="width: 135px;">Compra / Cargo (+)</th>
+                    <th class="num-col" style="width: 135px;">Abono / Reembolso (-)</th>
+                    <th class="num-col" style="width: 145px;">Saldo Acumulado</th>
+                    <th style="width: 70px; text-align:center;">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="erp-socias-unified-tbody"></tbody>
+                <tfoot id="erp-socias-unified-tfoot"></tfoot>
+              </table>
             </div>
           </div>
         </div>
@@ -594,8 +1253,9 @@
   </div>
 
   <!-- Load Data and Admin Controller scripts -->
-  <script src="js/products.js?v=5"></script>
-  <script src="js/admin.js?v=5"></script>
-  <script src="js/market-radar.js?v=5"></script>
+  <script src="js/products.js?v=6"></script>
+  <script src="js/admin.js?v=6"></script>
+  <script src="js/market-radar.js?v=6"></script>
+  <script src="js/accounting.js?v=10"></script>
 </body>
 </html>

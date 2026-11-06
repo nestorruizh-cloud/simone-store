@@ -1,0 +1,900 @@
+/* =========================================================================
+   SIMONE STORE — SISTEMA ERP CORPORATIVO (PALETA SLATE / NAVY EJECUTIVA)
+   Bordes definidos, colores sobrios bancarios/contables y tablas con grilla
+   ========================================================================= */
+
+:root {
+  --erp-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --erp-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --erp-surface: #ffffff;
+  --erp-bg-subtle: #f1f5f9;
+  --erp-bg-muted: #e2e8f0;
+  --erp-border: #cbd5e1;
+  --erp-border-strong: #94a3b8;
+  --erp-text-primary: #0f172a;
+  --erp-text-secondary: #334155;
+  --erp-text-muted: #64748b;
+  --erp-navy: #0f172a;
+  --erp-navy-hover: #1e293b;
+  --erp-blue: #1e3a8a;
+  --erp-emerald: #065f46;
+  --erp-slate: #334155;
+  --erp-crimson: #991b1b;
+  --erp-radius-sm: 6px;
+  --erp-radius-md: 8px;
+  --erp-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --erp-shadow-sm: 0 2px 5px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="dark"] {
+  --erp-surface: #1e293b;
+  --erp-bg-subtle: #0f172a;
+  --erp-bg-muted: #1e293b;
+  --erp-border: #334155;
+  --erp-border-strong: #475569;
+  --erp-text-primary: #f8fafc;
+  --erp-text-secondary: #cbd5e1;
+  --erp-text-muted: #94a3b8;
+  --erp-navy: #2563eb;
+  --erp-navy-hover: #1d4ed8;
+}
+
+/* 1. Normalización General del Portal Admin */
+.admin-body {
+  font-family: var(--erp-font-sans);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--erp-text-primary);
+  background-color: var(--erp-bg-subtle);
+  -webkit-font-smoothing: antialiased;
+}
+
+.admin-body h1,
+.admin-body h2,
+.admin-body h3,
+.admin-body h4 {
+  font-family: var(--erp-font-sans);
+  letter-spacing: -0.02em;
+  color: var(--erp-text-primary);
+}
+
+.admin-header {
+  padding: 10px 0;
+  background: #0f172a;
+  border-bottom: 1px solid #1e293b;
+}
+
+.admin-header .logo-img {
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 50%;
+  border: 1px solid #475569;
+}
+
+.admin-header .btn-outline {
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+.admin-header .btn-outline:hover {
+  background: #1e293b !important;
+}
+
+.admin-main {
+  padding: 22px 0 48px 0;
+}
+
+.admin-main .container {
+  max-width: 1400px;
+  padding: 0 24px;
+}
+
+/* Cabeceras de sección */
+.admin-title-row {
+  margin-bottom: 18px;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--erp-border);
+}
+
+.admin-title-row h1 {
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 3px 0;
+  color: var(--erp-text-primary);
+}
+
+.admin-title-row p {
+  font-size: 0.8125rem !important;
+  color: var(--erp-text-muted);
+  margin: 0;
+}
+
+/* Pestañas Principales del Admin con Bordes Sobrios */
+.admin-tabs-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 6px;
+  background: var(--erp-bg-muted);
+  border: 1px solid var(--erp-border);
+  border-radius: var(--erp-radius-md);
+}
+
+.admin-tab-btn {
+  padding: 8px 16px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: var(--erp-radius-sm);
+  border: 1px solid var(--erp-border);
+  background: var(--erp-surface);
+  color: var(--erp-text-secondary);
+  box-shadow: var(--erp-shadow-xs);
+  transition: all 0.15s ease;
+}
+
+.admin-tab-btn:hover {
+  background: #f8fafc;
+  color: var(--erp-text-primary);
+  border-color: var(--erp-border-strong);
+}
+
+.admin-tab-btn.active {
+  background: var(--erp-navy) !important;
+  color: #ffffff !important;
+  border-color: var(--erp-navy) !important;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.2);
+}
+
+/* Botones Corporativos Sobrios */
+.admin-body .btn {
+  font-family: var(--erp-font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: var(--erp-radius-sm);
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+}
+
+.admin-body .btn-primary {
+  background-color: var(--erp-navy) !important;
+  border: 1px solid var(--erp-navy) !important;
+  color: #ffffff !important;
+}
+
+.admin-body .btn-primary:hover {
+  background-color: var(--erp-navy-hover) !important;
+  border-color: var(--erp-navy-hover) !important;
+}
+
+.admin-body .btn-outline {
+  border: 1px solid var(--erp-border-strong);
+  background: var(--erp-surface);
+  color: var(--erp-text-primary);
+}
+
+.admin-body .btn-outline:hover {
+  background: var(--erp-bg-subtle);
+  border-color: var(--erp-text-primary);
+}
+
+.admin-body .btn-sm {
+  font-size: 0.74rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Controles de Búsqueda e Inputs con Borde Definido */
+.admin-controls-card {
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  border-radius: var(--erp-radius-md);
+  border: 1px solid var(--erp-border);
+  background: var(--erp-surface);
+  box-shadow: var(--erp-shadow-xs);
+  gap: 12px;
+}
+
+.admin-search-input,
+.admin-select-filter,
+.admin-form-input,
+.admin-form-select {
+  font-family: var(--erp-font-sans);
+  font-size: 0.8125rem !important;
+  padding: 7px 11px !important;
+  height: 35px;
+  border-radius: var(--erp-radius-sm) !important;
+  border: 1px solid var(--erp-border-strong) !important;
+  background-color: var(--erp-surface) !important;
+  color: var(--erp-text-primary) !important;
+}
+
+.admin-form-textarea {
+  font-family: var(--erp-font-sans);
+  font-size: 0.8125rem !important;
+  padding: 8px 11px !important;
+  border-radius: var(--erp-radius-sm) !important;
+  border: 1px solid var(--erp-border-strong) !important;
+  background-color: var(--erp-surface) !important;
+}
+
+.admin-search-input:focus,
+.admin-select-filter:focus,
+.admin-form-input:focus,
+.admin-form-select:focus,
+.admin-form-textarea:focus {
+  border-color: var(--erp-blue) !important;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.14) !important;
+}
+
+.admin-input-label {
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: var(--erp-text-secondary) !important;
+  margin-bottom: 4px !important;
+}
+
+/* =========================================================================
+   2. KPIS FINANCIEROS (TARJETAS CON BORDE DEFINIDO Y TONOS INSTITUCIONALES)
+   ========================================================================= */
+.erp-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 1200px) {
+  .erp-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .erp-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.erp-kpi-card {
+  background: var(--erp-surface);
+  border: 1px solid var(--erp-border-strong);
+  border-radius: var(--erp-radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--erp-shadow-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.erp-kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--erp-navy);
+}
+
+.erp-kpi-card.kpi-green::before { background: #0f766e; }  /* Verde Petróleo Serio */
+.erp-kpi-card.kpi-blue::before { background: #1e3a8a; }   /* Azul Institucional */
+.erp-kpi-card.kpi-rose::before { background: #991b1b; }   /* Rojo Cartera Sobrio */
+.erp-kpi-card.kpi-purple::before { background: #1e293b; } /* Gris Pizarra Profundo */
+.erp-kpi-card.kpi-amber::before { background: #334155; }  /* Acero Corporativo */
+
+.erp-kpi-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--erp-text-secondary);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.erp-kpi-value {
+  font-family: var(--erp-font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--erp-text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.erp-kpi-sub {
+  font-size: 0.69rem;
+  color: var(--erp-text-muted);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================================
+   3. BARRA DE SUB-MÓDULOS CON BORDES DEFINIDOS Y COLORES EJECUTIVOS
+   ========================================================================= */
+.erp-subtabs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #e2e8f0;
+  padding: 8px;
+  border-radius: var(--erp-radius-md);
+  border: 1px solid #94a3b8;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+[data-theme="dark"] .erp-subtabs-nav {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+.erp-subtab-btn {
+  border: 1px solid #94a3b8;
+  background: #ffffff;
+  color: #1e293b;
+  padding: 8px 15px;
+  border-radius: var(--erp-radius-sm);
+  font-family: var(--erp-font-sans);
+  font-size: 0.79rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+[data-theme="dark"] .erp-subtab-btn {
+  background: #1e293b;
+  color: #cbd5e1;
+  border-color: #475569;
+}
+
+.erp-subtab-btn:hover {
+  background: #f8fafc;
+  border-color: #0f172a;
+  color: #0f172a;
+}
+
+.erp-subtab-btn.active {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #0f172a !important;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.25);
+}
+
+.erp-subpanel {
+  display: none;
+}
+
+.erp-subpanel.active {
+  display: block;
+}
+
+/* =========================================================================
+   4. CAJAS DE FORMULARIO Y TARJETAS CONTABLES CON BORDE ESTRUCTURAL
+   ========================================================================= */
+.erp-form-box {
+  background: var(--erp-surface);
+  border: 1px solid var(--erp-border-strong);
+  border-radius: var(--erp-radius-md);
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--erp-shadow-xs);
+}
+
+.erp-form-box h4 {
+  margin: 0 0 12px 0;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  color: var(--erp-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--erp-border);
+}
+
+.erp-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.form-grid {
+  gap: 12px !important;
+  margin-bottom: 14px !important;
+}
+
+/* =========================================================================
+   5. TABLAS FINANCIERAS CON GRILLA VISIBLE (ESTILO LIBRO CONTABLE)
+   ========================================================================= */
+.table-responsive {
+  border-radius: var(--erp-radius-md);
+  border: 1px solid var(--erp-border-strong);
+  background: var(--erp-surface);
+  box-shadow: var(--erp-shadow-xs);
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.79rem;
+}
+
+.admin-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #1e293b;
+  color: #f8fafc;
+  font-family: var(--erp-font-sans);
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+  padding: 10px 12px;
+  border-bottom: 2px solid #0f172a;
+  border-right: 1px solid #334155;
+  white-space: nowrap;
+}
+
+.admin-table thead th:last-child {
+  border-right: none;
+}
+
+.admin-table tbody td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--erp-border);
+  border-right: 1px solid #e2e8f0;
+  color: var(--erp-text-primary);
+  font-size: 0.79rem;
+  line-height: 1.35;
+}
+
+.admin-table tbody td:last-child {
+  border-right: none;
+}
+
+.admin-table tbody tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+[data-theme="dark"] .admin-table tbody tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.admin-table tbody tr:hover td {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .admin-table tbody tr:hover td {
+  background-color: #334155 !important;
+}
+
+.num-col {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+  font-family: var(--erp-font-mono);
+  font-size: 0.78rem !important;
+  letter-spacing: -0.02em;
+}
+
+.val-positive {
+  color: #065f46 !important;
+  font-weight: 700;
+}
+
+.val-negative {
+  color: #991b1b !important;
+  font-weight: 700;
+}
+
+.val-balance {
+  color: #0f172a !important;
+  font-weight: 700;
+  background: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .val-balance {
+  color: #f8fafc !important;
+  background: #334155 !important;
+}
+
+.erp-tfoot-totals td {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  background: #e2e8f0 !important;
+  font-weight: 700;
+  border-top: 2px solid #0f172a !important;
+  border-right: 1px solid #cbd5e1;
+  padding: 10px 12px !important;
+  font-size: 0.79rem !important;
+  color: #0f172a;
+}
+
+[data-theme="dark"] .erp-tfoot-totals td {
+  background: #0f172a !important;
+  color: #f8fafc;
+}
+
+/* Etiquetas de estado sobrias */
+.erp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.erp-badge-paid {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.erp-badge-pending {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.erp-badge-warn {
+  background: #e2e8f0;
+  color: #1e293b;
+  border: 1px solid #94a3b8;
+}
+
+.erp-badge-neutral {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+/* Control + / - de Stock */
+.stock-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f1f5f9;
+  padding: 2px 4px;
+  border-radius: 5px;
+  border: 1px solid #94a3b8;
+}
+
+.stock-step-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+}
+
+.stock-step-btn:hover {
+  background: #0f172a;
+  color: #ffffff;
+  border-color: #0f172a;
+}
+
+/* =========================================================================
+   6. CUENTAS DE SOCIAS (ANDREA & LEONOR)
+   ========================================================================= */
+.erp-socias-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 960px) {
+  .erp-socias-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.erp-socia-card {
+  background: var(--erp-surface);
+  border: 1px solid var(--erp-border-strong);
+  border-radius: var(--erp-radius-md);
+  padding: 15px 16px;
+  box-shadow: var(--erp-shadow-xs);
+}
+
+.erp-socia-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--erp-border);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.erp-socia-header h3 {
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+}
+
+/* =========================================================================
+   7. ESTIMADOR DE COSTOS Y CALCULADORA DE PRECIO FINAL (AZUL NAVY EJECUTIVO)
+   ========================================================================= */
+.cost-estimator-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .cost-estimator-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cost-results-card {
+  background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+  color: #f8fafc;
+  border-radius: var(--erp-radius-md);
+  padding: 18px 20px;
+  box-shadow: var(--erp-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid #334155;
+}
+
+.cost-results-card h3 {
+  color: #f8fafc !important;
+  margin: 0;
+  font-size: 0.92rem !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 10px;
+}
+
+.cost-highlight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.cost-highlight-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #475569;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.cost-highlight-box.primary-price {
+  background: rgba(30, 58, 138, 0.45);
+  border: 1px solid #60a5fa;
+}
+
+.cost-highlight-label {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #cbd5e1;
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.cost-highlight-val {
+  font-family: var(--erp-font-mono);
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.cost-batch-box {
+  background: rgba(15, 23, 42, 0.55);
+  border-radius: 6px;
+  padding: 12px 14px;
+  border: 1px solid #475569;
+}
+
+.cost-batch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 0.78rem;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cost-batch-row strong {
+  font-family: var(--erp-font-mono);
+  font-size: 0.8rem;
+}
+
+.cost-batch-row:last-child {
+  border-bottom: none;
+}
+
+/* =========================================================================
+   8. DASHBOARD DE GRÁFICAS FINANCIERAS EJECUTIVAS (ERP ANALYTICS)
+   ========================================================================= */
+.erp-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+@media (max-width: 1024px) {
+  .erp-charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.erp-chart-card {
+  background: var(--erp-surface);
+  border: 1.5px solid var(--erp-border-strong);
+  border-radius: var(--erp-radius-md);
+  padding: 16px 18px;
+  box-shadow: var(--erp-shadow-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.erp-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--erp-border);
+  padding-bottom: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.erp-chart-header h4 {
+  margin: 0 !important;
+  font-size: 0.88rem !important;
+  font-weight: 800 !important;
+  color: var(--erp-text-main);
+  letter-spacing: -0.01em;
+}
+
+.erp-chart-subtitle {
+  font-size: 0.72rem;
+  color: var(--erp-text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+.erp-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--erp-text-secondary);
+}
+
+.erp-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.erp-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  display: inline-block;
+}
+
+/* Barras Horizontales para Ranking de Inventario y Medios de Pago */
+.erp-hbar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.erp-hbar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.erp-hbar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+}
+
+.erp-hbar-label {
+  font-weight: 700;
+  color: var(--erp-text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 65%;
+}
+
+.erp-hbar-val {
+  font-family: var(--erp-font-mono);
+  font-weight: 700;
+  color: var(--erp-text-secondary);
+  font-size: 0.75rem;
+}
+
+.erp-hbar-track {
+  width: 100%;
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+}
+
+.erp-hbar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.35s ease;
+}
+
+/* Dona + Leyenda Lateral para Ventas por Medio de Pago */
+.erp-donut-layout {
+  display: grid;
+  grid-template-columns: 185px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .erp-donut-layout {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
+
+.erp-Socias-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.erp-socia-mini-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+[data-theme="dark"] .erp-socia-mini-box {
+  background: #0f172a;
+  border-color: #334155;
+}

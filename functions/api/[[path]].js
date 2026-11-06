@@ -210,6 +210,37 @@ export async function onRequest(context) {
       return jsonResponse({ ok: true, id: subId });
     }
 
+    // 8. GET /api/accounting -> returns ERP accounting & inventory database (Admin only)
+    if (route === 'accounting' && request.method === 'GET') {
+      if (!isAuthorized(request, env)) {
+        return jsonResponse({ error: 'No autorizado' }, 401);
+      }
+      if (!db) {
+        return jsonResponse({ accounting: null, cloudActive: false });
+      }
+      const accRow = await db.prepare('SELECT value FROM store_kv WHERE key = ?').bind('accounting').first();
+      return jsonResponse({
+        accounting: accRow ? JSON.parse(accRow.value) : null,
+        cloudActive: true
+      });
+    }
+
+    // 9. PUT /api/accounting -> saves ERP accounting & inventory database to D1 (Admin only)
+    if (route === 'accounting' && request.method === 'PUT') {
+      if (!isAuthorized(request, env)) {
+        return jsonResponse({ error: 'No autorizado' }, 401);
+      }
+      const accountingData = await request.json();
+      if (db) {
+        await db.prepare(`
+          INSERT INTO store_kv (key, value, updated_at)
+          VALUES ('accounting', ?, datetime('now'))
+          ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = datetime('now')
+        `).bind(JSON.stringify(accountingData)).run();
+      }
+      return jsonResponse({ ok: true, cloudActive: Boolean(db) });
+    }
+
     return jsonResponse({ error: 'Endpoint no encontrado' }, 404);
   } catch (err) {
     return jsonResponse({ error: err.message || 'Error interno del servidor' }, 500);
