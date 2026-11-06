@@ -846,9 +846,9 @@ function renderProveedoresYSocias() {
   // Marcar botón rápido activo
   document.querySelectorAll('.erp-quick-socia-filter').forEach(btn => {
     const isAct = btn.getAttribute('data-filter') === filterQuien;
-    btn.style.background = isAct ? '#0f172a' : '#ffffff';
-    btn.style.color = isAct ? '#ffffff' : '#1e293b';
-    btn.style.borderColor = isAct ? '#0f172a' : '#94a3b8';
+    btn.style.background = isAct ? '#2B2625' : '#FFFFFF';
+    btn.style.color = isAct ? '#FAF6F0' : '#2B2625';
+    btn.style.borderColor = isAct ? '#2B2625' : '#C9BCAE';
   });
 
   // Consolidar todos los movimientos de las 3 fuentes en una sola lista unificada
@@ -1561,11 +1561,11 @@ function renderChartInventarioTop() {
 
   const rowsHtml = ranked.map((r, idx) => {
     const pct = Math.round((r.totalVal / maxVal) * 100);
-    const color = idx === 0 ? '#0f172a' : idx < 3 ? '#1e3a8a' : '#334155';
+    const color = idx === 0 ? '#2B2625' : idx < 3 ? '#D37B5D' : '#726563';
     return `
       <div class="erp-hbar-row">
         <div class="erp-hbar-top">
-          <span class="erp-hbar-label">${idx + 1}. ${r.producto} <small style="color:#64748b;">(${r.cantidad} uds)</small></span>
+          <span class="erp-hbar-label">${idx + 1}. ${r.producto} <small style="color:#726563;">(${r.cantidad} uds)</small></span>
           <span class="erp-hbar-val">${fmtCOP(r.totalVal)}</span>
         </div>
         <div class="erp-hbar-track" style="height:9px;">
