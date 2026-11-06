@@ -8,3 +8,7 @@ compatibility_date = "2026-01-01"
 binding = "DB"
 database_name = "simone-store-db"
 database_id = "1c81f371-ddfd-46f5-bf3a-ee6e0d4177c1"
+
+# Cloudflare Workers AI Binding (Plan Gratuito: 10.000 neuronas/día)
+[ai]
+binding = "AI"

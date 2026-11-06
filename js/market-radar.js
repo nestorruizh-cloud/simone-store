@@ -209,8 +209,8 @@ function closeMarketRadarPopup() {
   if (modal) modal.classList.remove('active');
 }
 
-// Execute Live AI Scan with animated step simulation
-function runMarketRadarScan(query, productRef = null) {
+// Execute Live AI Scan connected to /api/radar (Cloudflare Workers AI + Mercado Libre MCO)
+async function runMarketRadarScan(query, productRef = null) {
   const loader = document.getElementById('radar-scanner-loader');
   const resultsContainer = document.getElementById('radar-results-container');
   const statusEl = document.getElementById('radar-scan-status');
@@ -231,35 +231,117 @@ function runMarketRadarScan(query, productRef = null) {
   // Show loader and animate
   resultsContainer.style.display = 'none';
   loader.style.display = 'block';
-  progressFill.style.width = '20%';
-  statusEl.textContent = 'Conectando con agentes de búsqueda en retail...';
-  detailsEl.textContent = 'Rastreando Mercado Libre, Google Shopping, Amazon Handmade y tiendas especializadas de velas...';
-  
-  setTimeout(() => {
-    progressFill.style.width = '55%';
-    statusEl.textContent = 'Normalizando catálogos y emparejando atributos...';
-    detailsEl.textContent = `Filtrando resultados para "${query}" por tamaño, cera de soja 100% y acabados botánicos...`;
-  }, 350);
-  
-  setTimeout(() => {
-    progressFill.style.width = '85%';
-    statusEl.textContent = 'Extrayendo promociones activas y descuentos reales...';
-    detailsEl.textContent = 'Identificando cupones, promociones 2x1, descuentos por volumen y costos de envío de la competencia...';
-  }, 750);
-  
-  setTimeout(() => {
-    progressFill.style.width = '100%';
-    statusEl.textContent = '¡Análisis de mercado y estrategia IA completados!';
-    
-    // Generate intelligent competitor data
-    sharedRadarData = calculateCompetitorData(query, sharedRadarTarget);
-    
-    // Render Results
-    renderMarketRadarData(sharedRadarData);
-    
-    loader.style.display = 'none';
-    resultsContainer.style.display = 'block';
-  }, 1150);
+  progressFill.style.width = '25%';
+  statusEl.textContent = 'Conectando con Mercado Libre Colombia (MCO) y Modelo de IA...';
+  detailsEl.textContent = `Consultando precios reales en Colombia y ejecutando inferencia IA para "${query}"...`;
+
+  // Base fallback data
+  const baseData = calculateCompetitorData(query, sharedRadarTarget);
+
+  const stepTimer = setTimeout(() => {
+    progressFill.style.width = '75%';
+    statusEl.textContent = 'Analizando elasticidad de precios y promociones con IA...';
+    detailsEl.textContent = 'Procesando comparativa de mercado colombiano en pesos ($ COP)...';
+  }, 450);
+
+  try {
+    const apiRes = await fetch('/api/radar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query,
+        yourPrice: baseData.yourPrice,
+        productName: baseData.productName
+      })
+    });
+
+    if (apiRes.ok) {
+      const cloudPayload = await apiRes.json();
+      const ai = cloudPayload.aiResult;
+      const realListings = Array.isArray(cloudPayload.realListings) ? cloudPayload.realListings : [];
+      const modelLabel = cloudPayload.modelUsed || 'IA Generativa Activa';
+
+      // Prefer real listings from Mercado Libre MCO or AI-generated Colombian competitors
+      let finalCompetitors = baseData.competitors;
+      if (realListings.length >= 3) {
+        finalCompetitors = realListings;
+      } else if (ai && Array.isArray(ai.competitors) && ai.competitors.length >= 3) {
+        finalCompetitors = ai.competitors.map(c => {
+          const offer = Math.round(Number(c.offerPrice) || baseData.yourPrice);
+          const reg = Math.round(Number(c.regularPrice) || offer);
+          const disc = reg > offer ? Math.round(((reg - offer) / reg) * 100) : (Number(c.discountPercent) || 0);
+          return {
+            store: c.store || 'Tienda Velas Colombia',
+            channel: c.channel || 'E-Commerce Colombia',
+            product: c.product || query,
+            regularPrice: reg,
+            offerPrice: offer,
+            discountPercent: disc,
+            promotionText: c.promotionText || 'Envío nacional disponible',
+            url: c.url || `https://listado.mercadolibre.com.co/${encodeURIComponent('vela ' + query)}`
+          };
+        });
+      }
+
+      const finalPrices = finalCompetitors.map(c => Number(c.offerPrice) || baseData.yourPrice);
+      const minPrice = Math.min(...finalPrices);
+      const maxPrice = Math.max(...finalPrices);
+      const avgPrice = Math.round(finalPrices.reduce((a, b) => a + b, 0) / finalPrices.length);
+      const promoComps = finalCompetitors.filter(c => (Number(c.discountPercent) || 0) > 0);
+      const promoCount = promoComps.length;
+      const avgDiscountPercent = promoCount > 0
+        ? Math.round(promoComps.reduce((a, c) => a + (Number(c.discountPercent) || 0), 0) / promoCount)
+        : 10;
+
+      const minCompetitor = finalCompetitors.find(c => Number(c.offerPrice) === minPrice) || finalCompetitors[0];
+      const maxCompetitor = finalCompetitors.find(c => Number(c.offerPrice) === maxPrice) || finalCompetitors[finalCompetitors.length - 1];
+
+      const suggestedPrice = (ai && Number(ai.suggestedPrice) > 1000)
+        ? Math.round(Number(ai.suggestedPrice) / 500) * 500
+        : baseData.suggestedPrice;
+      const suggestedBadge = (ai && ai.suggestedBadge) ? ai.suggestedBadge : baseData.suggestedBadge;
+
+      const aiDiagnostic = (ai && (ai.diagnosticSummary || ai.strategyRecommendation))
+        ? `
+          <div style="margin-bottom:8px;">
+            <span style="display:inline-block; background:#0f172a; color:#f8fafc; font-size:0.72rem; font-weight:700; padding:3px 9px; border-radius:4px; margin-bottom:6px;">
+              🤖 Modelo Conectado: ${modelLabel} ${realListings.length > 0 ? '· Datos MCO En Vivo' : ''}
+            </span>
+          </div>
+          <p><strong>Diagnóstico IA en Tiempo Real:</strong> ${ai.diagnosticSummary || ''}</p>
+          <div class="ai-recommendation-highlight">
+            🎯 <strong>Estrategia Recomendada por IA:</strong> ${ai.strategyRecommendation || `Ajustar a ${formatRadarCOP(suggestedPrice)} (${suggestedBadge}).`}
+          </div>
+        `
+        : baseData.aiDiagnostic;
+
+      sharedRadarData = {
+        ...baseData,
+        competitors: finalCompetitors,
+        minPrice,
+        maxPrice,
+        avgPrice,
+        promoCount,
+        avgDiscountPercent,
+        minCompetitor,
+        maxCompetitor,
+        suggestedPrice,
+        suggestedBadge,
+        aiDiagnostic
+      };
+    } else {
+      sharedRadarData = baseData;
+    }
+  } catch (_) {
+    sharedRadarData = baseData;
+  }
+
+  clearTimeout(stepTimer);
+  progressFill.style.width = '100%';
+  statusEl.textContent = '¡Análisis de mercado con IA completado!';
+  renderMarketRadarData(sharedRadarData);
+  loader.style.display = 'none';
+  resultsContainer.style.display = 'block';
 }
 
 // Generate rich, realistic competitor data dynamically
@@ -592,7 +674,7 @@ function renderMarketRadarData(data) {
         </td>
         <td>${diffHtml}</td>
         <td>
-          <a href="javascript:void(0)" onclick="notifyUserToast('Verificando listado en ${c.store} (Simulado en vivo)...')" class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px;">
+          <a href="${c.url || ('https://listado.mercadolibre.com.co/' + encodeURIComponent(c.product || data.query))}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px;">
             🌐 Ver
           </a>
         </td>
