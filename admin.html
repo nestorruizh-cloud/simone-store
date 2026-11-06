@@ -453,15 +453,23 @@
             <div class="cost-estimator-layout">
               <!-- Panel Izquierdo: Desglose de Costos Unitarios -->
               <div class="erp-form-box" style="margin-bottom: 0;">
-                <h4>🧪 1. Calculadora de Costos de Producción por Unidad</h4>
-                <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">
-                  Ingresa las cantidades de materia prima, empaque y mano de obra para conocer el costo exacto de fabricar una vela y su precio de venta ideal.
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <h4 style="border: none; padding: 0; margin: 0;">🧪 1. Calculadora de Costos por Unidad</h4>
+                    <span id="est-mode-badge" class="erp-badge erp-badge-paid">✨ Modo: Crear o Editar</span>
+                  </div>
+                  <button type="button" id="est-new-calc-btn" class="btn btn-primary btn-sm" style="background: #0f172a; color: #ffffff; border: 1px solid #0f172a;">
+                    ➕ Nuevo Cálculo desde Cero
+                  </button>
+                </div>
+                <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 14px;">
+                  Haz clic en <strong>"➕ Nuevo Cálculo desde Cero"</strong> para limpiar los campos y cotizar un producto nuevo, o selecciona una ficha abajo para cargarla.
                 </p>
 
                 <div class="form-grid">
                   <div class="form-group-full">
-                    <label class="admin-input-label">Nombre del Producto / Referencia a Costear</label>
-                    <input type="text" id="est-nombre-producto" class="admin-form-input" value="Perro Mediano Escultórico (Shih Tzu / Beagle / Kiara)">
+                    <label class="admin-input-label">Nombre del Producto / Referencia a Costear *</label>
+                    <input type="text" id="est-nombre-producto" class="admin-form-input" placeholder="Escribe aquí el nombre de la nueva vela o recordatorio..." value="Perro Mediano Escultórico (Shih Tzu / Beagle / Kiara)">
                   </div>
 
                   <div>
@@ -609,10 +617,10 @@
                 </div>
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto;">
-                  <button type="button" id="est-save-ficha-btn" class="btn btn-primary" style="flex: 1;">
+                  <button type="button" id="est-save-ficha-btn" class="btn btn-primary" style="flex: 1; background: #2563eb !important; border-color: #60a5fa !important; color: #ffffff !important;">
                     💾 Guardar en Recetario de Costos
                   </button>
-                  <button type="button" id="est-send-to-inv-btn" class="btn btn-outline" style="flex: 1; color: #fff; border-color: rgba(255,255,255,0.4);">
+                  <button type="button" id="est-send-to-inv-btn" class="btn btn-outline" style="flex: 1; background: #ffffff !important; color: #0f172a !important; border: 1.5px solid #cbd5e1 !important; font-weight: 700 !important;">
                     📦 Actualizar Precio en Inventario
                   </button>
                 </div>
@@ -621,7 +629,12 @@
 
             <!-- Recetario de Fichas de Costeo Guardadas -->
             <div class="erp-form-box">
-              <h4>📋 Recetario de Fichas de Costeo y Precios Sugeridos Simone</h4>
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; margin-bottom: 12px;">
+                <h4 style="border: none; padding: 0; margin: 0;">📋 Recetario de Fichas de Costeo y Precios Sugeridos Simone</h4>
+                <button type="button" id="est-new-calc-btn-bottom" class="btn btn-outline btn-sm">
+                  ➕ Crear Nueva Ficha desde Cero
+                </button>
+              </div>
               <div class="table-responsive">
                 <table class="admin-table">
                   <thead>
@@ -1256,6 +1269,6 @@
   <script src="js/products.js?v=11"></script>
   <script src="js/admin.js?v=11"></script>
   <script src="js/market-radar.js?v=11"></script>
-  <script src="js/accounting.js?v=11"></script>
+  <script src="js/accounting.js?v=12"></script>
 </body>
 </html>

@@ -1137,7 +1137,13 @@ function renderFichasCosteoTable() {
       document.getElementById('est-costo-mano-obra').value = f.costoManoObra;
       document.getElementById('est-pct-ganancia').value = f.markupPct || 120;
       document.getElementById('est-precio-manual').value = f.precioVentaFinal;
+      const modeBadge = document.getElementById('est-mode-badge');
+      if (modeBadge) {
+        modeBadge.textContent = `🔵 Editando: ${f.nombre}`;
+        modeBadge.className = 'erp-badge erp-badge-warn';
+      }
       calculateLiveCostEstimator();
+      document.getElementById('est-nombre-producto')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       if (typeof showToast === 'function') showToast(`📐 Ficha "${f.nombre}" cargada en la calculadora.`);
     });
   });
@@ -1773,6 +1779,37 @@ function initERPAccountingModule() {
     }
   });
 
+  // Botones para Limpiar y Crear un Nuevo Cálculo desde Cero
+  const resetToNewCalculation = () => {
+    const nameInput = document.getElementById('est-nombre-producto');
+    if (nameInput) nameInput.value = '';
+    document.getElementById('est-gramos-cera').value = 0;
+    document.getElementById('est-costo-kg-cera').value = 25000;
+    document.getElementById('est-ml-aroma').value = 0;
+    document.getElementById('est-costo-ml-aroma').value = 220;
+    document.getElementById('est-costo-pabilo').value = 0;
+    document.getElementById('est-costo-envase').value = 0;
+    document.getElementById('est-costo-empaque').value = 0;
+    document.getElementById('est-costo-mano-obra').value = 0;
+    document.getElementById('est-pct-ganancia').value = 120;
+    document.getElementById('est-precio-manual').value = 0;
+
+    const modeBadge = document.getElementById('est-mode-badge');
+    if (modeBadge) {
+      modeBadge.textContent = '🟢 Nuevo Cálculo desde Cero';
+      modeBadge.className = 'erp-badge erp-badge-paid';
+    }
+    calculateLiveCostEstimator();
+    if (nameInput) {
+      nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      nameInput.focus();
+    }
+    if (typeof showToast === 'function') showToast('✨ Calculadora limpia. Ingresa el nombre y los gramos de tu nueva vela.');
+  };
+
+  document.getElementById('est-new-calc-btn')?.addEventListener('click', resetToNewCalculation);
+  document.getElementById('est-new-calc-btn-bottom')?.addEventListener('click', resetToNewCalculation);
+
   // Botón Guardar Ficha de Costeo en el Recetario
   const btnSaveFicha = document.getElementById('est-save-ficha-btn');
   if (btnSaveFicha) {
@@ -1784,7 +1821,7 @@ function initERPAccountingModule() {
         return;
       }
       const calc = calculateLiveCostEstimator();
-      erpState.fichasCosteo.unshift({
+      const newFichaData = {
         id: 'fc-' + Date.now(),
         nombre,
         gramosCera: parseFloat(document.getElementById('est-gramos-cera')?.value) || 0,
@@ -1797,7 +1834,16 @@ function initERPAccountingModule() {
         costoManoObra: parseFloat(document.getElementById('est-costo-mano-obra')?.value) || 0,
         markupPct: parseFloat(document.getElementById('est-pct-ganancia')?.value) || 100,
         precioVentaFinal: calc.precioFinalUnitario
-      });
+      };
+
+      const existingIdx = erpState.fichasCosteo.findIndex(f => f.nombre.toLowerCase() === nombre.toLowerCase());
+      if (existingIdx !== -1) {
+        newFichaData.id = erpState.fichasCosteo[existingIdx].id;
+        erpState.fichasCosteo[existingIdx] = newFichaData;
+      } else {
+        erpState.fichasCosteo.unshift(newFichaData);
+      }
+
       saveERPDatabase();
       renderFichasCosteoTable();
       if (typeof showToast === 'function') showToast(`💾 Ficha "${nombre}" guardada con Precio Final ${fmtCOP(calc.precioFinalUnitario)}.`);
